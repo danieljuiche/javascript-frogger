@@ -12,7 +12,7 @@ var Enemy = function() {
     this.sprite = 'images/enemy-bug-red.png';
     this.x = -101;
     this.y = 61 + Math.floor(Math.random()*3)*83;
-    this.speed = (Math.random() * 350) + (30 * score);
+    this.speed = (Math.random() * 350) + (30 * score / 100);
 };
 
 // Update the enemy's position, required method for game
@@ -83,12 +83,13 @@ Player.prototype.handleInput = function (allowedKeys) {
         default:
     }
 
+    // Resets the player once he/she reaches the water and updates the score, scoreboard and generates a new bug if required
     if (this.y === -11) {
-
         this.resetPosition();
-        score += 1;
-        bugGenerator(score);
-        console.log("CURRENT SCORE = " + score);
+        score += 100;
+        levelcounter += 1;
+        bugGenerator(levelcounter);
+        updateScoreboard(score,lives,level);
     }
 }
 
@@ -105,41 +106,74 @@ var allEnemies = [];
 allEnemies.push(new Enemy);
 var player = new Player;
 var score = 0;
+var level = 1;
+var lives = 3;
+var levelcounter = 0;
 
-var bugGenerator = function (score) {
-    console.log(score);
-    if (score % 3 === 0) {
-        var test = new Enemy;
-        allEnemies.push(test);
-    }
-}
 
-// This listens for key presses and sends the keys to your
-// Player.handleInput() method. You don't need to modify this.
-document.addEventListener('keyup', function(e) {
-    var allowedKeys = {
-        37: 'left',
-        38: 'up',
-        39: 'right',
-        40: 'down'
-    };
 
-    player.handleInput(allowedKeys[e.keyCode]);
-});
+// This listens for key presses and sends the keys to the Player.handleInput() method.
+    document.addEventListener('keyup', function(e) {
+        var allowedKeys = {
+            37: 'left',
+            38: 'up',
+            39: 'right',
+            40: 'down'
+        };
+
+        player.handleInput(allowedKeys[e.keyCode]);
+    });
+
 
 var checkCollisions = function () {
     forEach(allEnemies, function (bug) {
         if (bug.y + 11 === player.y && bug.x + 83 > player.x && bug.x < player.x + 83) {
             player.resetPosition();
-            score = 0;
+            lives -= 1;
+            levelcounter = 0;
+            updateScoreboard(score,lives,level);
+            if (lives === 0) {
+                alert("Game Over!");
+                resetGame();
+            }
             allEnemies = [];
             allEnemies.push(new Enemy);
         }
     });
 };
 
+// Generates a bug when the player reaches the water enough times
+var bugGenerator = function (counter) {
+    if (counter === 3) {
+        var addBug = new Enemy;
+        allEnemies.push(addBug);
+        levelcounter = 0;
+        level += 1;
+    }
+}
+
+// Higher order helper functions
 var forEach = function (collection,callback) {
     for (var i = 0; i < collection.length; i++) {
         callback(collection[i]);
     }
 };
+
+// Function which updates the player scoreboard
+var updateScoreboard = function (score, lives, level) {
+    var currentScore = document.getElementById("score");
+    var currentLives = document.getElementById("lives");
+    var currentLevel = document.getElementById("level");
+    currentLives.innerHTML = "Lives: " + lives;
+    currentScore.innerHTML = "Score: " + score;
+    currentLevel.innerHTML = "Level: " + level;
+};
+
+// Resets the game and updates the scoreboard
+var resetGame = function() {
+    score = 0;
+    level = 1;
+    levelcounter = 0;
+    lives = 3;
+    updateScoreboard(score,lives,level);
+}
