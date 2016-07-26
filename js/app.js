@@ -1,15 +1,16 @@
 // Constants which can be tweaked
-var bugsOnNextLevel = 3;
-var startingLives = 3;
-var maximumLives = 5;
-var minBugSpeed = 50;
-var standardBugSpeed = 300;
-var speedIncrease = 30;
+var TO_NEXT_LEVEL = 3; // Determines how soon the next level is reached
+var STARTING_LIVES = 3; // Starting player lives
+var MAXIMUM_LIVES = 5; // Maximum lives a player can have
+var MIN_BUG_SPEED = 50; // Minimum starting bug speed
+var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
+var SPEED_INCREASE = 30;  // Speed increase per level
+var BLUE_GEM_CHANCE = 100; // Percent chance to spawn a blue gem
 
 // Initial settings for the game
 var score = 0;
-var level = 1;
-var lives = startingLives;
+var level = 0;
+var lives = STARTING_LIVES;
 var levelCounter = 0;
 
 // Enemies our player must avoid
@@ -23,7 +24,7 @@ var Enemy = function() {
 
     // Speed at which bug moves is a formula based on the sum of variables.
     // A minimum bug speed, a random number, and the current level.
-    this.speed = minBugSpeed + Math.floor((Math.random() * standardBugSpeed)) + (30 * level);
+    this.speed = MIN_BUG_SPEED + Math.floor((Math.random() * STANDARD_BUG_SPEED)) + (30 * level);
 };
 
 // Update the enemy's position, required method for game
@@ -36,7 +37,7 @@ Enemy.prototype.update = function(dt) {
 
     // Removes the bug once it has crossed the screen and generates a new bug
     if (this.x > 606) {
-        allEnemies.splice(allEnemies.indexOf(this),1);;
+        allEnemies.splice(allEnemies.indexOf(this),1);
         var addBug = new Enemy;
         allEnemies.push(addBug);
     }
@@ -47,10 +48,7 @@ Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Now write your own player class
-// This class requires an render() and
-// a handleInput() method.
-
+// Player constructor
 var Player = function() {
     // The image/sprite for our player
     this.sprite = 'images/char-boy.png';
@@ -59,12 +57,14 @@ var Player = function() {
     this.resetPosition();
 };
 
+// Player render method
 Player.prototype.render = function (){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Method to move the player
 Player.prototype.handleInput = function (allowedKeys) {
-    // Checkes which key was pressed and moves the player in that direction
+    // Checks which key was pressed and moves the player in that direction
     switch (allowedKeys) {
         case ("left"):
             if (this.x > 0) {            
@@ -96,9 +96,12 @@ Player.prototype.handleInput = function (allowedKeys) {
         score += 100;
         levelCounter += 1;
         // Checks if the next level has been reached. If it has, calls the levelGenerator function.
-        if (levelCounter === bugsOnNextLevel) {
+        if (levelCounter === TO_NEXT_LEVEL) {
             levelGenerator();
             levelCounter = 0;
+        }
+        else {
+            collectibleSpawn();
         }
         // Update the scoreboard.
         updateScoreboard(score,lives,level);
@@ -111,13 +114,43 @@ Player.prototype.resetPosition = function() {
     this.y = 404;
 }
 
-// Instantiates our enemy and player objects
+// Collectible constructor
+var Collectible = function () {
+    this.x = columnGenerator();
+    this.y = rowGenerator();
+};
+
+// Method to draw items
+Collectible.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Subclass of Collectible
+var BlueGem = function () {
+    Collectible.call(this);
+    this.sprite = 'images/gem-blue.png';
+}
+
+BlueGem.prototype = Object.create(Collectible.prototype);
+BlueGem.prototype.constructor = Collectible;
+BlueGem.prototype.effect = function () {
+    score += 1000;
+}
+
+/* UNDER CONSTRUCTION
+BlueGem.prototype.freezeEffect = function () {
+    forEach(allEnemies, function (bug) {
+        this.speed -= 100;
+    });
+};
+Future versions: Add a powerup effect.. to slowdown all bugs perhaps */
+
+// Declare array containers to store instances of enemies and powerups
 var allEnemies = [];
-allEnemies.push(new Enemy);
-var player = new Player;
+var allPowerUps = [];
 
 // This function is called by main (our game loop).
-// It checks to see if any part of the player sprite overlaps with a enemy bug
+// It checks to see if any part of the player sprite overlaps with a enemy bug or powerup
 var checkCollisions = function () {
     forEach(allEnemies, function (bug) {
         if (bug.y + 11 === player.y && bug.x + 83 > player.x && bug.x < player.x + 83) {
@@ -139,6 +172,14 @@ var checkCollisions = function () {
             }
         }
     });
+
+    forEach(allPowerUps, function (collectibles) {
+        if (collectibles.y + 11 === player.y && collectibles.x + 83 > player.x && collectibles.x < player.x + 83) {
+            collectibles.effect();
+            updateScoreboard(score,lives,level);
+            allPowerUps.splice(allPowerUps.indexOf(this),1);
+        }
+    });
 };
 
 // Generates a bug when the player reaches the water enough times
@@ -146,11 +187,19 @@ var levelGenerator = function () {
     // Create a new instance of an enemy
     var addBug = new Enemy;
     allEnemies.push(addBug);
-
+    collectibleSpawn();
     // Increases the level
     level += 1;
 }
 
+// Spawns a collectible
+var collectibleSpawn = function () {
+    var collectibleSpawn = Math.floor(Math.random()*100);
+    if (collectibleSpawn < BLUE_GEM_CHANCE) {
+        var addItem = new BlueGem;
+        allPowerUps.push(addItem);
+    }
+}
 // Higher order helper functions
 var forEach = function (collection,callback) {
     for (var i = 0; i < collection.length; i++) {
@@ -177,6 +226,16 @@ var resetGame = function() {
     updateScoreboard(score,lives,level);
 }
 
+// Helper function to help randomly place objects on different rows
+var rowGenerator = function() {
+    return 61 + Math.floor(Math.random()*3)*83;
+};
+
+// Helper function to help randomly place objects on different columns
+var columnGenerator = function() {
+    return Math.floor(Math.random()*5)*101;
+};
+
 // This listens for key presses and sends the keys to the Player.handleInput() method.
 // This continues to run even after an 'event' has occurred
 document.addEventListener('keyup', function(e) {
@@ -189,3 +248,9 @@ document.addEventListener('keyup', function(e) {
 
     player.handleInput(allowedKeys[e.keyCode]);
 });
+
+// Loads up the first level
+levelGenerator();
+
+// Instantiates our player
+var player = new Player;
