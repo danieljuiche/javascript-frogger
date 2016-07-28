@@ -129,6 +129,7 @@ Collectible.prototype.render = function() {
 var BlueGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-blue.png';
+    this.name = 'bluegem';
 }
 
 BlueGem.prototype = Object.create(Collectible.prototype);
@@ -177,7 +178,7 @@ var checkCollisions = function () {
         if (collectibles.y + 11 === player.y && collectibles.x + 83 > player.x && collectibles.x < player.x + 83) {
             collectibles.effect();
             updateScoreboard(score,lives,level);
-            allPowerUps.splice(allPowerUps.indexOf(this),1);
+            allPowerUps.splice(allPowerUps.indexOf(collectibles),1);
         }
     });
 };
@@ -197,7 +198,19 @@ var collectibleSpawn = function () {
     var collectibleSpawn = Math.floor(Math.random()*100);
     if (collectibleSpawn < BLUE_GEM_CHANCE) {
         var addItem = new BlueGem;
-        allPowerUps.push(addItem);
+        var addItemFlag = true;
+
+        // Sets item flag to false if a collectible already exists or if spawn location is occupied already
+        forEach(allPowerUps, function(powerup) {
+            if (powerup.constructor === addItem.constructor || addItem.x === powerup.x && addItem.y === powerup.y) {
+                addItemFlag = false;
+            }
+        });
+
+        // Adds the instance of the collectible
+        if (addItemFlag) {
+            allPowerUps.push(addItem);
+        }
     }
 }
 // Higher order helper functions
