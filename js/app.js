@@ -5,7 +5,9 @@ var MAXIMUM_LIVES = 5; // Maximum lives a player can have
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 100; // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 30;  // Percent chance to spawn a blue gem
+var ORANGE_GEM_CHANCE = 30; // Percent chance to spawn a orange gem
+var GREEN_GEM_CHANCE = 30; // Percent chance to spawn a green gem
 
 // Initial settings for the game
 var score = 0;
@@ -135,8 +137,34 @@ var BlueGem = function () {
 BlueGem.prototype = Object.create(Collectible.prototype);
 BlueGem.prototype.constructor = Collectible;
 BlueGem.prototype.effect = function () {
-    score += 1000;
+    score += 100;
+};
+
+// Subclass of Collectible
+var GreenGem = function () {
+    Collectible.call(this);
+    this.sprite = 'images/gem-green.png';
+    this.name = 'greengem';
 }
+
+GreenGem.prototype = Object.create(Collectible.prototype);
+GreenGem.prototype.constructor = Collectible;
+GreenGem.prototype.effect = function () {
+    score += 250;
+};
+
+// Subclass of Collectible
+var OrangeGem = function () {
+    Collectible.call(this);
+    this.sprite = 'images/gem-orange.png';
+    this.name = 'orangegem';
+}
+
+OrangeGem.prototype = Object.create(Collectible.prototype);
+OrangeGem.prototype.constructor = Collectible;
+OrangeGem.prototype.effect = function () {
+    score += 500;
+};
 
 /* UNDER CONSTRUCTION
 BlueGem.prototype.freezeEffect = function () {
@@ -195,24 +223,55 @@ var levelGenerator = function () {
 
 // Spawns a collectible
 var collectibleSpawn = function () {
-    var collectibleSpawn = Math.floor(Math.random()*100);
-    if (collectibleSpawn < BLUE_GEM_CHANCE) {
-        var addItem = new BlueGem;
-        var addItemFlag = true;
-
-        // Sets item flag to false if a collectible already exists or if spawn location is occupied already
-        forEach(allPowerUps, function(powerup) {
-            if (powerup.constructor === addItem.constructor || addItem.x === powerup.x && addItem.y === powerup.y) {
-                addItemFlag = false;
+    var collectibleSpawnCollection = [
+            {
+                "Name": "BlueGem",
+                "Rate": BLUE_GEM_CHANCE
+            },
+            {
+                "Name": "GreenGem",
+                "Rate": GREEN_GEM_CHANCE
+            },
+            {
+                "Name": "OrangeGem",
+                "Rate": ORANGE_GEM_CHANCE
             }
-        });
+        ];
 
-        // Adds the instance of the collectible
-        if (addItemFlag) {
-            allPowerUps.push(addItem);
+    // Checks to see if a collectible will spawn
+    forEach(collectibleSpawnCollection, function (gemtype) {
+        var collectibleSpawn = Math.floor(Math.random()*100);
+        if (collectibleSpawn < gemtype["Rate"]) {
+            //
+            switch(gemtype["Name"]) {
+                case "BlueGem":
+                    var addItem = new BlueGem;
+                    break;
+                case "GreenGem":
+                    var addItem = new GreenGem;
+                    break;
+                case "OrangeGem":
+                    var addItem = new OrangeGem;
+                    break;
+                default:
+            }
+            var addItemFlag = true;
+
+            // Sets item flag to false if a collectible already exists or if spawn location is occupied already
+            forEach(allPowerUps, function(powerup) {
+                if (powerup.name === addItem.name || addItem.x === powerup.x && addItem.y === powerup.y) {
+                    addItemFlag = false;
+                }
+            });
+
+            // Adds the instance of the collectible
+            if (addItemFlag) {
+                allPowerUps.push(addItem);
+            }
         }
-    }
-}
+    });
+};
+
 // Higher order helper functions
 var forEach = function (collection,callback) {
     for (var i = 0; i < collection.length; i++) {
@@ -237,7 +296,7 @@ var resetGame = function() {
     levelCounter = 0;
     lives = 3;
     updateScoreboard(score,lives,level);
-}
+};
 
 // Helper function to help randomly place objects on different rows
 var rowGenerator = function() {
