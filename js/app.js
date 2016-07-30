@@ -5,9 +5,11 @@ var MAXIMUM_LIVES = 5; // Maximum lives a player can have
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 30;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
+var BLUE_GEM_SLOW = 100; // Set enemy slow speed upon picking up a blue gem. Value should not be greater than MIN_BUG_SPEED + SPEED_INCREASE
 var ORANGE_GEM_CHANCE = 30; // Percent chance to spawn a orange gem
-var GREEN_GEM_CHANCE = 30; // Percent chance to spawn a green gem
+var GREEN_GEM_CHANCE = 30;  // Percent chance to spawn a green gem
+var HEART_CHANCE = 100; // Percent chance to spawn an extra life
 
 // Initial settings for the game
 var score = 0;
@@ -26,7 +28,7 @@ var Enemy = function() {
 
     // Speed at which bug moves is a formula based on the sum of variables.
     // A minimum bug speed, a random number, and the current level.
-    this.speed = MIN_BUG_SPEED + Math.floor((Math.random() * STANDARD_BUG_SPEED)) + (30 * level);
+    this.speed = MIN_BUG_SPEED + Math.floor((Math.random() * STANDARD_BUG_SPEED)) + (SPEED_INCREASE * level);
 };
 
 // Update the enemy's position, required method for game
@@ -36,6 +38,7 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
+    var testVar = this.speed;
 
     // Removes the bug once it has crossed the screen and generates a new bug
     if (this.x > 606) {
@@ -43,6 +46,10 @@ Enemy.prototype.update = function(dt) {
         var addBug = new Enemy;
         allEnemies.push(addBug);
     }
+};
+
+var removeSlow = function () {
+    this.speed += BLUE_GEM_SLOW;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -137,7 +144,12 @@ var BlueGem = function () {
 BlueGem.prototype = Object.create(Collectible.prototype);
 BlueGem.prototype.constructor = Collectible;
 BlueGem.prototype.effect = function () {
-    score += 100;
+    forEach(allEnemies, function (bug) {
+        if (bug.speed - BLUE_GEM_SLOW > 0) {
+            bug.speed -= BLUE_GEM_SLOW;
+            setTimeout(removeSlow.bind(bug), 3000);
+        }
+    });
 };
 
 // Subclass of Collectible
@@ -166,13 +178,20 @@ OrangeGem.prototype.effect = function () {
     score += 500;
 };
 
-/* UNDER CONSTRUCTION
-BlueGem.prototype.freezeEffect = function () {
-    forEach(allEnemies, function (bug) {
-        this.speed -= 100;
-    });
+// Subclass of Collectible
+var Heart = function () {
+    Collectible.call(this);
+    this.sprite = 'images/heart.png';
+    this.name = 'heart';
+}
+ 
+Heart.prototype = Object.create(Collectible.prototype);
+Heart.prototype.constructor = Collectible;
+Heart.prototype.effect = function () {
+    if (lives < MAXIMUM_LIVES) {
+        lives += 1;    
+    }
 };
-Future versions: Add a powerup effect.. to slowdown all bugs perhaps */
 
 // Declare array containers to store instances of enemies and powerups
 var allEnemies = [];
@@ -235,6 +254,10 @@ var collectibleSpawn = function () {
             {
                 "Name": "OrangeGem",
                 "Rate": ORANGE_GEM_CHANCE
+            },
+            {
+                "Name": "Heart",
+                "Rate": HEART_CHANCE
             }
         ];
 
@@ -253,6 +276,8 @@ var collectibleSpawn = function () {
                 case "OrangeGem":
                     var addItem = new OrangeGem;
                     break;
+                case "Heart":
+                    var addItem = new Heart;
                 default:
             }
             var addItemFlag = true;
