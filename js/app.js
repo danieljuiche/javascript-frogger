@@ -181,7 +181,7 @@ OrangeGem.prototype.effect = function () {
 // Subclass of Collectible
 var Heart = function () {
     Collectible.call(this);
-    this.sprite = 'images/heart.png';
+    this.sprite = 'images/red-heart.png';
     this.name = 'heart';
 }
  
