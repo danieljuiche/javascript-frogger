@@ -5,11 +5,11 @@ var MAXIMUM_LIVES = 5; // Maximum lives a player can have
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 10;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 100; // Set enemy slow speed upon picking up a blue gem. Value should not be greater than MIN_BUG_SPEED + SPEED_INCREASE
-var ORANGE_GEM_CHANCE = 30; // Percent chance to spawn a orange gem
-var GREEN_GEM_CHANCE = 30;  // Percent chance to spawn a green gem
-var HEART_CHANCE = 100; // Percent chance to spawn an extra life
+var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
+var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
+var HEART_CHANCE = 10; // Percent chance to spawn an extra life
 
 // Initial settings for the game
 var score = 0;
@@ -38,7 +38,6 @@ Enemy.prototype.update = function(dt) {
     // which will ensure the game runs at the same speed for
     // all computers.
     this.x += this.speed * dt;
-    var testVar = this.speed;
 
     // Removes the bug once it has crossed the screen and generates a new bug
     if (this.x > 606) {
@@ -221,6 +220,8 @@ var checkCollisions = function () {
         }
     });
 
+    // Checks to see if player has touched a collectible
+    // Activates any collectible effedts, and updates the scoreboard if required
     forEach(allPowerUps, function (collectibles) {
         if (collectibles.y + 11 === player.y && collectibles.x + 83 > player.x && collectibles.x < player.x + 83) {
             collectibles.effect();
@@ -235,13 +236,17 @@ var levelGenerator = function () {
     // Create a new instance of an enemy
     var addBug = new Enemy;
     allEnemies.push(addBug);
+
+    // Spawns collectibles
     collectibleSpawn();
+
     // Increases the level
     level += 1;
 }
 
 // Spawns a collectible
 var collectibleSpawn = function () {
+    // Array container for possible powerups
     var collectibleSpawnCollection = [
             {
                 "Name": "BlueGem",
@@ -259,14 +264,13 @@ var collectibleSpawn = function () {
                 "Name": "Heart",
                 "Rate": HEART_CHANCE
             }
-        ];
+         ];
 
     // Checks to see if a collectible will spawn
-    forEach(collectibleSpawnCollection, function (gemtype) {
+    forEach(collectibleSpawnCollection, function (collectible) {
         var collectibleSpawn = Math.floor(Math.random()*100);
-        if (collectibleSpawn < gemtype["Rate"]) {
-            //
-            switch(gemtype["Name"]) {
+        if (collectibleSpawn < collectible["Rate"]) {
+            switch(collectible["Name"]) {
                 case "BlueGem":
                     var addItem = new BlueGem;
                     break;
@@ -278,12 +282,19 @@ var collectibleSpawn = function () {
                     break;
                 case "Heart":
                     var addItem = new Heart;
+                    break;
                 default:
             }
+
             var addItemFlag = true;
 
+            // Prevents additional hearts from spawning if player already has the maximum allowed lives
+            if (collectible["Name"] === "Heart" && lives === MAXIMUM_LIVES) {
+                addItemFlag = false;
+            }
+
             // Sets item flag to false if a collectible already exists or if spawn location is occupied already
-            forEach(allPowerUps, function(powerup) {
+            forEach(allPowerUps, function (powerup) {
                 if (powerup.name === addItem.name || addItem.x === powerup.x && addItem.y === powerup.y) {
                     addItemFlag = false;
                 }
