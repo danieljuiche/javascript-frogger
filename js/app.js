@@ -22,8 +22,8 @@ var levelCounter = 0;
 var slowingEffectFlag = false;
 var slowingEffectTimer = 0;
 
-// Developers playground
-var GOD_MODE = true;
+// Developers playground options
+var GOD_MODE = false;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -248,7 +248,6 @@ var checkStatusEffects = function () {
         slowingEffectFlag = false;
         testFunction = setInterval( function() {
             slowingEffectTimer -= 1000;
-            console.log(slowingEffectTimer);
         }, 1000);
     }
 
