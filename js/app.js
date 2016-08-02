@@ -9,7 +9,7 @@ var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
 var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
-var SLOW_TIMER = 2000; // Milliseconds to slow
+var SLOW_TIMER = 3000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
@@ -19,6 +19,11 @@ var score = 0;
 var level = 0;
 var lives = STARTING_LIVES;
 var levelCounter = 0;
+var slowingEffectFlag = false;
+var slowingEffectTimer = 0;
+
+// Developers playground
+var GOD_MODE = true;
 
 // Enemies our player must avoid
 var Enemy = function() {
@@ -41,13 +46,16 @@ var Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // You should multiply any movement by the dt parameter
-    // which will ensure the game runs at the same speed for
-    // all computers.
-    this.x += this.speed * dt;
+    // Reduces enemy movement if being slowed
+    if (slowingEffectTimer > 0) {
+        this.x += this.speed * dt * (100 - BLUE_GEM_SLOW) / 100;
+    }
+    else {
+        this.x += this.speed * dt;
+    }
 
     // Removes the bug once it has crossed the screen and generates a new bug
-    if (this.x > 606) {
+    if (this.x > 808) {
         allEnemies.splice(allEnemies.indexOf(this),1);
         var addBug = new Enemy;
         allEnemies.push(addBug);
@@ -88,7 +96,7 @@ Player.prototype.handleInput = function (allowedKeys) {
             }
             break;
         case ("right"):
-            if (this.x < 404) {            
+            if (this.x < 707) {            
                 this.x += 101;
             }
             break;
@@ -121,7 +129,7 @@ Player.prototype.handleInput = function (allowedKeys) {
 
 // Function which resets the player to the starting position
 Player.prototype.resetPosition = function() {
-    this.x = 202;
+    this.x = Math.floor((Math.random() * 7)) * 101;
     this.y = 404;
 }
 
@@ -146,11 +154,11 @@ var BlueGem = function () {
 BlueGem.prototype = Object.create(Collectible.prototype);
 BlueGem.prototype.constructor = Collectible;
 BlueGem.prototype.effect = function () {
-    forEach(allEnemies, function (bug) {
-        bug.speed = bug.resetSpeed * (100 - BLUE_GEM_SLOW)/100;
-    });
+    if (slowingEffectTimer === 0) {
+        slowingEffectFlag = true;  
+    }
+    slowingEffectTimer += SLOW_TIMER;
 };
-
 
 // Subclass of Collectible
 var GreenGem = function () {
@@ -197,10 +205,11 @@ Heart.prototype.effect = function () {
 var allEnemies = [];
 var allPowerUps = [];
 
-// This function is called by main (our game loop).
+// This function is called by main
 // It checks to see if any part of the player sprite overlaps with a enemy bug or powerup
 var checkCollisions = function () {
-    /*forEach(allEnemies, function (bug) {
+    if (!GOD_MODE) {
+        forEach(allEnemies, function (bug) {
         if (bug.y + 11 === player.y && bug.x + 83 > player.x && bug.x < player.x + 83) {
             // Resets player position, applies appropriate penalties and updates the scoreboard
             player.resetPosition();
@@ -219,7 +228,8 @@ var checkCollisions = function () {
                 allEnemies.push(new Enemy);
             }
         }
-    });*/
+        });
+    }
 
     // Checks to see if player has touched a collectible
     // Activates any collectible effedts, and updates the scoreboard if required
@@ -231,6 +241,24 @@ var checkCollisions = function () {
         }
     });
 };
+
+// This function is called by main and determines if a global slowing effect is being applied
+var checkStatusEffects = function () {
+    if (slowingEffectFlag) {
+        slowingEffectFlag = false;
+        testFunction = setInterval( function() {
+            slowingEffectTimer -= 1000;
+            console.log(slowingEffectTimer);
+        }, 1000);
+    }
+
+    if (slowingEffectTimer === 0) {
+        clearInterval(testFunction);
+    }
+};
+
+var testFunction;
+
 
 // Generates a bug when the player reaches the water enough times
 var levelGenerator = function () {
