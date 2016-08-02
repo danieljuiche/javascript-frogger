@@ -2,11 +2,14 @@
 var TO_NEXT_LEVEL = 3; // Determines how soon the next level is reached
 var STARTING_LIVES = 3; // Starting player lives
 var MAXIMUM_LIVES = 5; // Maximum lives a player can have
+var MAXIMUM_ENEMIES = 5; // Maximum enemies on the screen
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
+var MAX_BUG_SPEED = 500; // Maximum bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 10;  // Percent chance to spawn a blue gem
-var BLUE_GEM_SLOW = 100; // Set enemy slow speed upon picking up a blue gem. Value should not be greater than MIN_BUG_SPEED + SPEED_INCREASE
+var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
+var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
+var SLOW_TIMER = 2000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
@@ -27,8 +30,12 @@ var Enemy = function() {
     this.y = 61 + Math.floor(Math.random()*3)*83;
 
     // Speed at which bug moves is a formula based on the sum of variables.
-    // A minimum bug speed, a random number, and the current level.
+    // A minimum bug speed, a random number, and the current level.    
     this.speed = MIN_BUG_SPEED + Math.floor((Math.random() * STANDARD_BUG_SPEED)) + (SPEED_INCREASE * level);
+    if (this.speed >= MAX_BUG_SPEED) {
+        this.speed = MAX_BUG_SPEED;
+    }
+    this.resetSpeed = this.speed;
 };
 
 // Update the enemy's position, required method for game
@@ -45,10 +52,6 @@ Enemy.prototype.update = function(dt) {
         var addBug = new Enemy;
         allEnemies.push(addBug);
     }
-};
-
-var removeSlow = function () {
-    this.speed += BLUE_GEM_SLOW;
 };
 
 // Draw the enemy on the screen, required method for game
@@ -144,12 +147,10 @@ BlueGem.prototype = Object.create(Collectible.prototype);
 BlueGem.prototype.constructor = Collectible;
 BlueGem.prototype.effect = function () {
     forEach(allEnemies, function (bug) {
-        if (bug.speed - BLUE_GEM_SLOW > 0) {
-            bug.speed -= BLUE_GEM_SLOW;
-            setTimeout(removeSlow.bind(bug), 3000);
-        }
+        bug.speed = bug.resetSpeed * (100 - BLUE_GEM_SLOW)/100;
     });
 };
+
 
 // Subclass of Collectible
 var GreenGem = function () {
@@ -199,7 +200,7 @@ var allPowerUps = [];
 // This function is called by main (our game loop).
 // It checks to see if any part of the player sprite overlaps with a enemy bug or powerup
 var checkCollisions = function () {
-    forEach(allEnemies, function (bug) {
+    /*forEach(allEnemies, function (bug) {
         if (bug.y + 11 === player.y && bug.x + 83 > player.x && bug.x < player.x + 83) {
             // Resets player position, applies appropriate penalties and updates the scoreboard
             player.resetPosition();
@@ -218,7 +219,7 @@ var checkCollisions = function () {
                 allEnemies.push(new Enemy);
             }
         }
-    });
+    });*/
 
     // Checks to see if player has touched a collectible
     // Activates any collectible effedts, and updates the scoreboard if required
@@ -234,8 +235,10 @@ var checkCollisions = function () {
 // Generates a bug when the player reaches the water enough times
 var levelGenerator = function () {
     // Create a new instance of an enemy
-    var addBug = new Enemy;
-    allEnemies.push(addBug);
+    if (allEnemies.length < MAXIMUM_ENEMIES) {
+        var addBug = new Enemy;
+        allEnemies.push(addBug);  
+    }
 
     // Spawns collectibles
     collectibleSpawn();
