@@ -49,24 +49,31 @@ var Enemy = function() {
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
     // Reduces enemy movement if being slowed
-    if (slowingEffectTimer > 0) {
-        this.x += this.speed * dt * (100 - BLUE_GEM_SLOW) / 100;
-    }
-    else {
-        this.x += this.speed * dt;
-    }
-
+    horizontalMovement.call(this,dt);
     // Removes the bug once it has crossed the screen and generates a new bug
-    if (this.x > 808) {
-        allEnemies.splice(allEnemies.indexOf(this),1);
-        var addBug = new Enemy;
-        allEnemies.push(addBug);
-    }
+    enemyRefresh.call(this);
 };
 
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Subclass of Enemy
+var GreenBug = function () {
+    Enemy.call(this);
+    this.sprite = 'images/enemy-bug-green.png';
+    this.verticalFlag = 1;
+};
+GreenBug.prototype = Object.create(Enemy.prototype);
+GreenBug.prototype.constructor = Enemy;
+GreenBug.prototype.update = function (dt) {
+    horizontalMovement.call(this,dt);
+
+    verticalMovement.call(this,dt)
+
+    // Removes the bug once it has crossed the screen and generates a new bug
+    enemyRefresh.call(this);
 };
 
 // Player constructor
@@ -263,6 +270,8 @@ var checkCollisions = function () {
     });
 };
 
+// Delares a variable to store status effect timer
+var slowTimer;
 // This function is called by main and determines if a global slowing effect is being applied
 var checkStatusEffects = function () {
     if (slowingEffectFlag) {
@@ -277,14 +286,11 @@ var checkStatusEffects = function () {
     }
 };
 
-var slowTimer;
-
-
 // Generates a bug when the player reaches the water enough times
 var levelGenerator = function () {
     // Create a new instance of an enemy
     if (allEnemies.length < MAXIMUM_ENEMIES) {
-        var addBug = new Enemy;
+        var addBug = new GreenBug;
         allEnemies.push(addBug);  
     }
 
@@ -295,7 +301,7 @@ var levelGenerator = function () {
     level += 1;
 };
 
-// Accepts
+// Function to respawn enemies, accepts boolean for argument. True for instant respawn of bugs.
 var respawnEnemies = function (instant) {
     allEnemies = [];
     var spawnTimer = 0;
@@ -305,7 +311,7 @@ var respawnEnemies = function (instant) {
 
     setTimeout(function () {
         for (var i = 0; i < level; i++) {
-            allEnemies.push(new Enemy);
+            allEnemies.push(new GreenBug);
         }
     }, spawnTimer);
 };
@@ -417,6 +423,33 @@ var resetGame = function() {
     levelCounter = 0;
     lives = 3;
     updateScoreboard(score,lives,level);
+};
+
+// Function to remove the bug once it has crossed the screen and generates a new bug
+var enemyRefresh = function () {
+    if (this.x > 808) {
+        allEnemies.splice(allEnemies.indexOf(this),1);
+        var addBug = new GreenBug;
+        allEnemies.push(addBug);
+    }
+};
+
+// Updates the horizontal movement of enemies if required
+var horizontalMovement = function (dt) {
+    if (slowingEffectTimer > 0) {
+        this.x += this.speed * dt * (100 - BLUE_GEM_SLOW) / 100;
+    }
+    else {
+        this.x += this.speed * dt;
+    }
+};
+
+// Updates vertical movement of enemies if required
+var verticalMovement = function (dt) {
+    if (this.y < 61 || this.y > 227) {
+        this.verticalFlag = this.verticalFlag * -1;
+    }
+    this.y += 50 * 0.017 * this.verticalFlag;
 };
 
 // Helper function to help randomly place objects on different rows
