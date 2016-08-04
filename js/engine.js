@@ -24,7 +24,7 @@ var Engine = (function(global) {
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
         lastTime;
-    canvas.width = 808;
+    canvas.width = 707;
     canvas.height = 606;
     doc.body.appendChild(canvas);
 
@@ -115,7 +115,7 @@ var Engine = (function(global) {
                 'images/grass-block.png'    // Row 2 of 2 of grass
             ],
             numRows = 6,
-            numCols = 8,
+            numCols = 7,
             row, col;
 
         /* Loop through the number of rows and columns we've defined above
@@ -176,7 +176,8 @@ var Engine = (function(global) {
         'images/gem-blue.png',
         'images/gem-green.png',
         'images/gem-orange.png',
-        'images/red-heart.png'      
+        'images/red-heart.png',
+        'images/gem-ruby.png'   
     ]);
     Resources.onReady(init);
 

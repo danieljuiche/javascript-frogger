@@ -6,7 +6,7 @@ ul {
 }
 
 li {
-		border-radius: 10px;
+	border-radius: 10px;
     float: left;
     display: block;
     color: white;
@@ -16,7 +16,7 @@ li {
     margin-right: 1.5%;
     text-decoration: none;
     font-size: 15px;
-    width: 30.33%;
+    width: 22%;
 }
 
 
@@ -31,6 +31,10 @@ li {
 	background-color: #d9534f;
 }
 
+#bugsplat {
+    background-color: #f0ad4e;
+}
+
 body {
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -38,7 +42,7 @@ body {
 }
 
 canvas {
-		margin-top: -25px;
+	margin-top: -25px;
     margin-left: auto;
     margin-right: auto;
     display: block;
@@ -48,12 +52,12 @@ canvas {
 .scoreboard {
 	display: inline-block;
 	margin: auto;
-	width: 505px;
+	width: 707px;
 }
 
 .header-container {
 	margin: auto;
 	display: inline-block;
 	height: auto;
-	width: 505px
+	width: 707px
 }

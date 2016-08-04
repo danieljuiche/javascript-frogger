@@ -12,6 +12,8 @@ var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
+var RUBY_GEM_CHANCE = 100; // Percent chance to spawn a ruby gem
+var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
 
 // Initial settings for the game
@@ -21,13 +23,13 @@ var lives = STARTING_LIVES;
 var levelCounter = 0;
 var slowingEffectFlag = false;
 var slowingEffectTimer = 0;
+var collected = [];
 
 // Developers playground options
 var GOD_MODE = false;
 
 // Enemies our player must avoid
 var Enemy = function() {
-    // The image/sprite for our enemies
     this.sprite = 'images/enemy-bug-red.png';
 
     // This randomly generates the starting row of the bug sets the initial position
@@ -83,7 +85,7 @@ Player.prototype.render = function (){
 
 // Method to move the player
 Player.prototype.handleInput = function (allowedKeys) {
-    // Checks which key was pressed and moves the player in that direction
+    // Checks which key was pressed and performs action
     switch (allowedKeys) {
         case ("left"):
             if (this.x > 0) {            
@@ -103,6 +105,12 @@ Player.prototype.handleInput = function (allowedKeys) {
         case ("up"):
             if (this.y > 0) {
                 this.y -= 83;
+            }
+            break;
+        case ("space"):
+            if (collected.includes("rubygem")) {
+                respawnEnemies(true);
+                collected.splice(collected.indexOf("rubygem"),1);
             }
             break;
         default:
@@ -129,7 +137,7 @@ Player.prototype.handleInput = function (allowedKeys) {
 
 // Function which resets the player to the starting position
 Player.prototype.resetPosition = function() {
-    this.x = Math.floor((Math.random() * 7)) * 101;
+    this.x = 303;
     this.y = 404;
 }
 
@@ -144,7 +152,7 @@ Collectible.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
-// Subclass of Collectible
+// Subclass of collectible
 var BlueGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-blue.png';
@@ -160,7 +168,7 @@ BlueGem.prototype.effect = function () {
     slowingEffectTimer += SLOW_TIMER;
 };
 
-// Subclass of Collectible
+// Subclass of collectible
 var GreenGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-green.png';
@@ -173,7 +181,7 @@ GreenGem.prototype.effect = function () {
     score += 250;
 };
 
-// Subclass of Collectible
+// Subclass of collectible
 var OrangeGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-orange.png';
@@ -186,13 +194,29 @@ OrangeGem.prototype.effect = function () {
     score += 500;
 };
 
-// Subclass of Collectible
+// Subclass of collectible
+var RubyGem = function () {
+    Collectible.call(this);
+    this.sprite = 'images/gem-ruby.png';
+    this.name = 'rubygem';
+}
+
+RubyGem.prototype = Object.create(Collectible.prototype);
+RubyGem.prototype.constructor = Collectible;
+RubyGem.prototype.effect = function () {
+    if (countArray(collected,this["name"]) < 3) {
+        collected.push(this["name"]); 
+    }    
+}
+
+// Subclass of collectible
 var Heart = function () {
     Collectible.call(this);
     this.sprite = 'images/red-heart.png';
     this.name = 'heart';
 }
- 
+
+// Subclass of collectible
 Heart.prototype = Object.create(Collectible.prototype);
 Heart.prototype.constructor = Collectible;
 Heart.prototype.effect = function () {
@@ -223,10 +247,7 @@ var checkCollisions = function () {
             }
 
             // Reinstantiates the number of enemies based on the current level
-            allEnemies = [];
-            for (var i = 0; i < level; i++) {
-                allEnemies.push(new Enemy);
-            }
+            respawnEnemies(false);
         }
         });
     }
@@ -246,17 +267,17 @@ var checkCollisions = function () {
 var checkStatusEffects = function () {
     if (slowingEffectFlag) {
         slowingEffectFlag = false;
-        testFunction = setInterval( function() {
+        slowTimer = setInterval( function() {
             slowingEffectTimer -= 1000;
         }, 1000);
     }
 
     if (slowingEffectTimer === 0) {
-        clearInterval(testFunction);
+        clearInterval(slowTimer);
     }
 };
 
-var testFunction;
+var slowTimer;
 
 
 // Generates a bug when the player reaches the water enough times
@@ -272,7 +293,22 @@ var levelGenerator = function () {
 
     // Increases the level
     level += 1;
-}
+};
+
+// Accepts
+var respawnEnemies = function (instant) {
+    allEnemies = [];
+    var spawnTimer = 0;
+    if (instant) {
+        spawnTimer = CLEAR_TIMER;
+    }
+
+    setTimeout(function () {
+        for (var i = 0; i < level; i++) {
+            allEnemies.push(new Enemy);
+        }
+    }, spawnTimer);
+};
 
 // Spawns a collectible
 var collectibleSpawn = function () {
@@ -289,6 +325,10 @@ var collectibleSpawn = function () {
             {
                 "Name": "OrangeGem",
                 "Rate": ORANGE_GEM_CHANCE
+            },
+            {
+                "Name": "RubyGem",
+                "Rate": RUBY_GEM_CHANCE
             },
             {
                 "Name": "Heart",
@@ -309,6 +349,9 @@ var collectibleSpawn = function () {
                     break;
                 case "OrangeGem":
                     var addItem = new OrangeGem;
+                    break;
+                case "RubyGem":
+                    var addItem = new RubyGem;
                     break;
                 case "Heart":
                     var addItem = new Heart;
@@ -338,21 +381,33 @@ var collectibleSpawn = function () {
     });
 };
 
-// Higher order helper functions
+// Helper functions
 var forEach = function (collection,callback) {
     for (var i = 0; i < collection.length; i++) {
         callback(collection[i]);
     }
 };
 
+var countArray = function (array, exists) {
+    var counter = 0;
+    forEach(array, function (element) {
+        if (element === exists) {
+            counter += 1;
+        }
+    });
+    return counter;
+}
+
 // Function which updates the player scoreboard
 var updateScoreboard = function (score, lives, level) {
     var currentScore = document.getElementById("score");
     var currentLives = document.getElementById("lives");
     var currentLevel = document.getElementById("level");
+    var curretBugSplat = document.getElementById("bugsplat");
     currentLives.innerHTML = "Lives: " + lives;
     currentScore.innerHTML = "Score: " + score;
     currentLevel.innerHTML = "Level: " + level;
+    curretBugSplat.innerHTML = "Bug Splat: " + countArray (collected, "rubygem");
 };
 
 // Resets the game and updates the scoreboard
@@ -381,7 +436,8 @@ document.addEventListener('keyup', function(e) {
         37: 'left',
         38: 'up',
         39: 'right',
-        40: 'down'
+        40: 'down',
+        32: 'space'
     };
 
     player.handleInput(allowedKeys[e.keyCode]);
