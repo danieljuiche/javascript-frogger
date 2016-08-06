@@ -312,7 +312,9 @@ var respawnEnemies = function (instant) {
 
     setTimeout(function () {
         for (var i = 0; i < level; i++) {
-            allEnemies.push(new GreenBug);
+            if (allEnemies.length < MAXIMUM_ENEMIES) {
+                allEnemies.push(new GreenBug);
+            }
         }
     }, spawnTimer);
 };
