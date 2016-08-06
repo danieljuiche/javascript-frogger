@@ -95,13 +95,13 @@ Player.prototype.handleInput = function (allowedKeys) {
     // Checks which key was pressed and performs action
     switch (allowedKeys) {
         case ("left"):
-            if (this.x > 0) {            
+            if (this.x > 0) {
                 this.x -= 101;
             }
             break;
         case ("down"):
             if (this.y < 404) {
-                this.y += 83;  
+                this.y += 83;
             }
             break;
         case ("right"):
@@ -125,7 +125,7 @@ Player.prototype.handleInput = function (allowedKeys) {
 
     // Resets the player once he/she reaches the water and updates the score,
     // scoreboard and generates a new level if required.
-    if (this.y === -11) {
+    if (this.y === -22) {
         this.resetPosition();
         score += 100;
         levelCounter += 1;
@@ -145,7 +145,7 @@ Player.prototype.handleInput = function (allowedKeys) {
 // Function which resets the player to the starting position
 Player.prototype.resetPosition = function() {
     this.x = 303;
-    this.y = 404;
+    this.y = 404-11;
 }
 
 // Collectible constructor
@@ -241,28 +241,29 @@ var allPowerUps = [];
 var checkCollisions = function () {
     if (!GOD_MODE) {
         forEach(allEnemies, function (bug) {
-        if (bug.y + 11 === player.y && bug.x + 83 > player.x && bug.x < player.x + 83) {
-            // Resets player position, applies appropriate penalties and updates the scoreboard
-            player.resetPosition();
-            lives -= 1;
-            updateScoreboard(score,lives,level);
+            //(player.y <= bug.y && player.y >= bug.y - 66 && bug.x + 83 > player.x && bug.x < player.x + 83) 
+            if (player.y < bug.y + 63 && player.y > bug.y - 77 && player.x < bug.x + 70 && player.x > bug.x - 70) {
+                // Resets player position, applies appropriate penalties and updates the scoreboard
+                player.resetPosition();
+                lives -= 1;
+                updateScoreboard(score,lives,level);
 
-            // Restarts the game if player has no lives left
-            if (lives === 0) {
-                alert("Game Over!");
-                resetGame();
+                // Restarts the game if player has no lives left
+                if (lives === 0) {
+                    alert("Game Over!");
+                    resetGame();
+                }
+
+                // Reinstantiates the number of enemies based on the current level
+                respawnEnemies(false);
             }
-
-            // Reinstantiates the number of enemies based on the current level
-            respawnEnemies(false);
-        }
         });
     }
 
     // Checks to see if player has touched a collectible
     // Activates any collectible effedts, and updates the scoreboard if required
     forEach(allPowerUps, function (collectibles) {
-        if (collectibles.y + 11 === player.y && collectibles.x + 83 > player.x && collectibles.x < player.x + 83) {
+        if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
             collectibles.effect();
             updateScoreboard(score,lives,level);
             allPowerUps.splice(allPowerUps.indexOf(collectibles),1);

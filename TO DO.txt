@@ -1,0 +1,11 @@
+Completed:
+- Fixed collision hit boxes to work properly on vertical moving bugs as well
+
+To Do List:
+- Fix bug spawning after power up is used
+- Spawn different types of enemies randomly
+- Add additional enemy types
+  * Fast bugs
+  * Reverse bugs
+  * Vanishing bugs? (Invisible cloak for 1 second?)
+  * Giant bugs (take up larger sections)
