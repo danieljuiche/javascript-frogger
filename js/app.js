@@ -34,13 +34,11 @@ var enemyList = [
         name: "Red Bug",
         spawn_rate: 100,
         level: 0,
-        sprite: 'images/enemy-bug-red.png'
     },
     {
         name: "Green Bug",
         spawn_rate: 50,
         level: 3,
-        sprite: 'images/enemy-bug-green.png'
     }
 ];
 
@@ -64,7 +62,7 @@ var Enemy = function() {
 // Update the enemy's position, required method for game
 // Parameter: dt, a time delta between ticks
 Enemy.prototype.update = function(dt) {
-    // Reduces enemy movement if being slowed
+    // Moves the bug
     horizontalMovement.call(this,dt);
     // Removes the bug once it has crossed the screen and generates a new bug
     enemyRefresh.call(this);
@@ -73,6 +71,20 @@ Enemy.prototype.update = function(dt) {
 // Draw the enemy on the screen, required method for game
 Enemy.prototype.render = function() {
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+// Subclass of Enemy
+var RedBug = function () {
+    Enemy.call(this);
+    this.sprite = 'images/enemy-bug-red.png';
+};
+RedBug.prototype = Object.create(Enemy.prototype);
+RedBug.prototype.constructor = Enemy;
+RedBug.prototype.update = function (dt) {
+    // Moves the bug
+    horizontalMovement.call(this,dt);
+    // Removes the bug once it has crossed the screen and generates a new bug
+    enemyRefresh.call(this);
 };
 
 // Subclass of Enemy
@@ -116,7 +128,7 @@ Player.prototype.handleInput = function (allowedKeys) {
             }
             break;
         case ("down"):
-            if (this.y < 404) {
+            if (this.y < 393) {
                 this.y += 83;
             }
             break;
@@ -332,7 +344,7 @@ var randomEnemyGenerator = function () {
 var spawnEnemy = function (spawn) {
     switch(spawn["name"]) {
                 case "Red Bug":
-                    var addItem = new Enemy;
+                    var addItem = new RedBug;
                     break;
                 case "Green Bug":
                     var addItem = new GreenBug;
