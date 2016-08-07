@@ -28,6 +28,22 @@ var collected = [];
 // Developers playground options
 var GOD_MODE = false;
 
+// Defines container for all possible types of enemies
+var enemyList = [
+    {
+        name: "Red Bug",
+        spawn_rate: 100,
+        level: 0,
+        sprite: 'images/enemy-bug-red.png'
+    },
+    {
+        name: "Green Bug",
+        spawn_rate: 50,
+        level: 3,
+        sprite: 'images/enemy-bug-green.png'
+    }
+];
+
 // Enemies our player must avoid
 var Enemy = function() {
     this.sprite = 'images/enemy-bug-red.png';
@@ -105,7 +121,7 @@ Player.prototype.handleInput = function (allowedKeys) {
             }
             break;
         case ("right"):
-            if (this.x < 707) {            
+            if (this.x < 606) {            
                 this.x += 101;
             }
             break;
@@ -273,6 +289,7 @@ var checkCollisions = function () {
 
 // Delares a variable to store status effect timer
 var slowTimer;
+
 // This function is called by main and determines if a global slowing effect is being applied
 var checkStatusEffects = function () {
     if (slowingEffectFlag) {
@@ -291,8 +308,7 @@ var checkStatusEffects = function () {
 var levelGenerator = function () {
     // Create a new instance of an enemy
     if (allEnemies.length < MAXIMUM_ENEMIES) {
-        var addBug = new GreenBug;
-        allEnemies.push(addBug);  
+        spawnEnemy(randomEnemyGenerator()); 
     }
 
     // Spawns collectibles
@@ -300,6 +316,30 @@ var levelGenerator = function () {
 
     // Increases the level
     level += 1;
+};
+
+// Helper function that returns an enemy object
+var randomEnemyGenerator = function () {
+    var number = Math.floor(Math.random() * 100);
+    var generatedList = enemyList.filter( function (enemy) {
+        return ((number < enemy["spawn_rate"]) && (level >= enemy["level"]));
+    });
+    number = Math.floor(Math.random() * generatedList.length);
+    return generatedList[number];
+};
+
+// Helper function which an enemy object as the argument and adds it to the game
+var spawnEnemy = function (spawn) {
+    switch(spawn["name"]) {
+                case "Red Bug":
+                    var addItem = new Enemy;
+                    break;
+                case "Green Bug":
+                    var addItem = new GreenBug;
+                    break;
+                default:
+            }
+    allEnemies.push(addItem);
 };
 
 // Function to respawn enemies, accepts boolean for argument. True for instant respawn of bugs.
@@ -313,7 +353,7 @@ var respawnEnemies = function (instant) {
     setTimeout(function () {
         for (var i = 0; i < level; i++) {
             if (allEnemies.length < MAXIMUM_ENEMIES) {
-                allEnemies.push(new GreenBug);
+                spawnEnemy(randomEnemyGenerator());
             }
         }
     }, spawnTimer);
@@ -432,8 +472,7 @@ var resetGame = function() {
 var enemyRefresh = function () {
     if (this.x > 808) {
         allEnemies.splice(allEnemies.indexOf(this),1);
-        var addBug = new GreenBug;
-        allEnemies.push(addBug);
+        spawnEnemy(randomEnemyGenerator());
     }
 };
 

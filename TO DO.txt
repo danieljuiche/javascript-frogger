@@ -1,9 +1,10 @@
 Completed:
+- Fixed player from moving off screen (Aug 06)
+- Spawn different types of enemies randomly (Aug 06)
 - Fix bug spawning after Ruby Gem power up is used (Aug 06)
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
-- Spawn different types of enemies randomly
 - Add additional enemy types
   * Fast bugs
   * Reverse bugs
