@@ -25,7 +25,6 @@ var slowingEffectFlag = false;
 var slowingEffectTimer = 0;
 var collected = [];
 
-
 // Developers playground options
 var GOD_MODE = false;
 
@@ -346,7 +345,7 @@ var obstacle = new Obstacle;
 
 // Declare array containers to store instances of enemies and powerups
 var allEnemies = [];
-var allPowerUps = [];
+var allCollectibles = [];
 var allObstacles = [];
 
 // This function is called by main
@@ -375,11 +374,11 @@ var checkCollisions = function () {
 
     // Checks to see if player has touched a collectible
     // Activates any collectible effedts, and updates the scoreboard if required
-    forEach(allPowerUps, function (collectibles) {
+    forEach(allCollectibles, function (collectibles) {
         if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
             collectibles.effect();
             updateScoreboard(score,lives,level);
-            allPowerUps.splice(allPowerUps.indexOf(collectibles),1);
+            allCollectibles.splice(allCollectibles.indexOf(collectibles),1);
         }
     });
 };
@@ -428,13 +427,29 @@ var randomObstacleGenerator = function () {
 
 // Helper function that spawns an obstacle
 var spawnObstacle = function (spawn) {
+    var obstacleFlag = false;
+    var collectibleFlag = false;
     switch(spawn["name"]) {
                 case "Rock":
                     var addItem = new Obstacle;
+                    allObstacles.forEach(function (obstacle) {
+                        if (obstacle.x === addItem.x && obstacle.y === addItem.y) {
+                            console.log("OVERLAPPING OBSTACLES");
+                            obstacleFlag = true;
+                        }
+                    });
+                    allCollectibles.forEach(function (collectible) {
+                        if (collectible.x === addItem.x && collectible.y === addItem.y) {
+                            console.log("OVERLAPPING COLLECTIBLES");
+                            collectibleFlag = true;
+                        }
+                    });
                     break;
                 default:
             }
-    allObstacles.push(addItem);
+    if (!obstacleFlag && !collectibleFlag) {
+        allObstacles.push(addItem);        
+    }
 };
 
 // Helper function that returns an enemy object
@@ -535,7 +550,7 @@ var collectibleSpawn = function () {
             }
 
             // Sets item flag to false if a collectible already exists or if spawn location is occupied already
-            forEach(allPowerUps, function (powerup) {
+            forEach(allCollectibles, function (powerup) {
                 if (powerup.name === addItem.name || addItem.x === powerup.x && addItem.y === powerup.y) {
                     addItemFlag = false;
                 }
@@ -543,7 +558,7 @@ var collectibleSpawn = function () {
 
             // Adds the instance of the collectible
             if (addItemFlag) {
-                allPowerUps.push(addItem);
+                allCollectibles.push(addItem);
             }
         }
     });

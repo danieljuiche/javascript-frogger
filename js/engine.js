@@ -150,7 +150,7 @@ var Engine = (function(global) {
             enemy.render();
         });
         player.render();
-        allPowerUps.forEach(function(powerup) {
+        allCollectibles.forEach(function(powerup) {
             powerup.render();
         });
         allObstacles.forEach(function(obstacle) {
