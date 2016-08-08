@@ -38,7 +38,7 @@ var enemyList = [
     {
         name: "Green Bug",
         spawn_rate: 50,
-        level: 3,
+        level: 2,
     }
 ];
 
@@ -47,8 +47,8 @@ var obstacleList = [
     {
         name: "Rock",
         spawn_rate: 100,
-        level: 0,
-        max_counts: 5
+        level: 3,
+        max_count: 6,
     }
 ];
 
@@ -333,7 +333,7 @@ Heart.prototype.effect = function () {
 // Obstacle constructor
 var Obstacle = function () {
     this.sprite = 'images/Rock.png';
-    this.x = Math.floor(Math.random()*5) * 101;
+    this.x = Math.floor(Math.random()*7) * 101;
     this.y = 61 + Math.floor(Math.random()*3)*83; 
 }
 
@@ -409,10 +409,19 @@ var levelGenerator = function () {
 
     // Spawns collectibles
     collectibleSpawn();
-    spawnObstacle(randomObstacleGenerator());
 
     // Increases the level
     level += 1;
+
+    // Respawns obstacles
+    if (level >= obstacleList[0]["level"]) {
+        allObstacles = [];
+        spawnObstacle(randomObstacleGenerator(), obstacleList[0]["max_count"]);
+        if (obstacleList[0]["spawn_rate"] < 100) {
+            obstacleList[0]["spawn_rate"] += 5;
+        }
+
+    }
 };
 
 // Helper function that returns an obstacle object
@@ -426,7 +435,7 @@ var randomObstacleGenerator = function () {
 };
 
 // Helper function that spawns an obstacle
-var spawnObstacle = function (spawn) {
+var spawnObstacle = function (spawn, count) {
     var obstacleFlag = false;
     var collectibleFlag = false;
     switch(spawn["name"]) {
@@ -434,13 +443,11 @@ var spawnObstacle = function (spawn) {
                     var addItem = new Obstacle;
                     allObstacles.forEach(function (obstacle) {
                         if (obstacle.x === addItem.x && obstacle.y === addItem.y) {
-                            console.log("OVERLAPPING OBSTACLES");
                             obstacleFlag = true;
                         }
                     });
                     allCollectibles.forEach(function (collectible) {
                         if (collectible.x === addItem.x && collectible.y === addItem.y) {
-                            console.log("OVERLAPPING COLLECTIBLES");
                             collectibleFlag = true;
                         }
                     });
@@ -449,6 +456,10 @@ var spawnObstacle = function (spawn) {
             }
     if (!obstacleFlag && !collectibleFlag) {
         allObstacles.push(addItem);        
+    }
+    if (count > 1) {
+        count -= 1;
+        spawnObstacle(spawn,count);
     }
 };
 
