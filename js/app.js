@@ -25,10 +25,11 @@ var slowingEffectFlag = false;
 var slowingEffectTimer = 0;
 var collected = [];
 
+
 // Developers playground options
 var GOD_MODE = false;
 
-// Defines container for all possible types of enemies
+// Container for all possible types of enemies
 var enemyList = [
     {
         name: "Red Bug",
@@ -39,6 +40,16 @@ var enemyList = [
         name: "Green Bug",
         spawn_rate: 50,
         level: 3,
+    }
+];
+
+// Container for all possible types of obstacles
+var obstacleList = [
+    {
+        name: "Rock",
+        spawn_rate: 100,
+        level: 0,
+        max_counts: 5
     }
 ];
 
@@ -118,27 +129,87 @@ Player.prototype.render = function (){
     ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
 };
 
+// Checks to see if the player is moving onto any obstacles
+Player.prototype.allowableSpace = function (direction) {
+    var obstacleFlagLeft = false;
+    var obstacleFlagRight = false;
+    var obstacleFlagUp = false;
+    var obstacleFlagDown = false;
+
+    allObstacles.forEach( function (location) {
+        if ((location.y === player.y) && (location.x === (player.x - 101))) {
+            obstacleFlagLeft = true;
+        };
+        if ((location.y === player.y) && (location.x === (player.x + 101))) {
+            obstacleFlagRight = true;
+        };
+        if ((location.y === player.y - 83) && (location.x === player.x)) {
+            obstacleFlagUp = true;
+        }
+        if ((location.y === player.y + 83) && (location.x === player.x)) {
+            obstacleFlagDown = true;
+        }
+    });
+
+    switch(direction) {
+        case ("left"):
+            if (obstacleFlagLeft) {
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;
+        case ("right"):
+            if (obstacleFlagRight) {
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;
+        case ("up"):
+            if (obstacleFlagUp) {
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;
+        case ("down"):
+            if (obstacleFlagDown) {
+                return false;
+            }
+            else {
+                return true;
+            }
+            break;    
+        default:
+            return true;
+    }
+};
+
 // Method to move the player
 Player.prototype.handleInput = function (allowedKeys) {
     // Checks which key was pressed and performs action
     switch (allowedKeys) {
         case ("left"):
-            if (this.x > 0) {
+            if (this.x > 0 && this.allowableSpace(allowedKeys)) {
                 this.x -= 101;
             }
             break;
         case ("down"):
-            if (this.y < 393) {
+            if (this.y < 393 && this.allowableSpace(allowedKeys)) {
                 this.y += 83;
             }
             break;
         case ("right"):
-            if (this.x < 606) {            
+            if (this.x < 606 && this.allowableSpace(allowedKeys)) {            
                 this.x += 101;
             }
             break;
         case ("up"):
-            if (this.y > 0) {
+            if (this.y > 0 && this.allowableSpace(allowedKeys)) {
                 this.y -= 83;
             }
             break;
@@ -173,7 +244,7 @@ Player.prototype.handleInput = function (allowedKeys) {
 // Function which resets the player to the starting position
 Player.prototype.resetPosition = function() {
     this.x = 303;
-    this.y = 404-11;
+    this.y = 393;
 }
 
 // Collectible constructor
@@ -260,9 +331,23 @@ Heart.prototype.effect = function () {
     }
 };
 
+// Obstacle constructor
+var Obstacle = function () {
+    this.sprite = 'images/Rock.png';
+    this.x = Math.floor(Math.random()*5) * 101;
+    this.y = 61 + Math.floor(Math.random()*3)*83; 
+}
+
+Obstacle.prototype.render = function() {
+    ctx.drawImage(Resources.get(this.sprite), this.x, this.y);
+};
+
+var obstacle = new Obstacle;
+
 // Declare array containers to store instances of enemies and powerups
 var allEnemies = [];
 var allPowerUps = [];
+var allObstacles = [];
 
 // This function is called by main
 // It checks to see if any part of the player sprite overlaps with a enemy bug or powerup
@@ -325,9 +410,31 @@ var levelGenerator = function () {
 
     // Spawns collectibles
     collectibleSpawn();
+    spawnObstacle(randomObstacleGenerator());
 
     // Increases the level
     level += 1;
+};
+
+// Helper function that returns an obstacle object
+var randomObstacleGenerator = function () {
+    var number = Math.floor(Math.random() * 100);
+    var generatedList = obstacleList.filter( function (obstacle) {
+        return ((number < obstacle["spawn_rate"]) && (level >= obstacle["level"]));
+    });
+    number = Math.floor(Math.random() * generatedList.length);
+    return generatedList[number];
+};
+
+// Helper function that spawns an obstacle
+var spawnObstacle = function (spawn) {
+    switch(spawn["name"]) {
+                case "Rock":
+                    var addItem = new Obstacle;
+                    break;
+                default:
+            }
+    allObstacles.push(addItem);
 };
 
 // Helper function that returns an enemy object

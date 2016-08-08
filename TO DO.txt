@@ -1,15 +1,28 @@
 Completed:
+- Add obstacles such as rocks
+  * Restrict player movement onto the rock (Aug 08)
+  * Spawning the rock (Aug 08)
 - Fixed player from moving off screen (Aug 06)
 - Spawn different types of enemies randomly (Aug 06)
 - Fix bug spawning after Ruby Gem power up is used (Aug 06)
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
+- Add game explanations & features
+- Adjust powerups
+  * Green gem worth more?
+  * Add player shrink size?
+  * Add invunlerability?
 - Add additional enemy types
   * Fast bugs
   * Reverse bugs
   * Vanishing bugs? (Invisible cloak for 1 second?)
   * Giant bugs (take up larger sections)
 - Add obstacles such as rocks
+  * Making sure the rock doesn't spawn in the same place
+  * Making sure the rock doesn't spawn on top of a power up
+  * Making a maximum amount of rocks that can spawn
+  * Randomly different amounts of rocks
 - Add keys?
 - Add different character selections
+- Add semi-transparent blue visual for when bugs are slowed

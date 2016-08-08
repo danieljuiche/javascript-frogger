@@ -153,6 +153,9 @@ var Engine = (function(global) {
         allPowerUps.forEach(function(powerup) {
             powerup.render();
         });
+        allObstacles.forEach(function(obstacle) {
+            obstacle.render();
+        });
     }
 
     /* This function does nothing but it could have been a good place to
@@ -178,7 +181,8 @@ var Engine = (function(global) {
         'images/gem-green.png',
         'images/gem-orange.png',
         'images/red-heart.png',
-        'images/gem-ruby.png'   
+        'images/gem-ruby.png',
+        'images/Rock.png'  
     ]);
     Resources.onReady(init);
 
