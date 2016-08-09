@@ -7,11 +7,11 @@ var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var MAX_BUG_SPEED = 500; // Maximum bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 25;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
-var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
-var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
+var ORANGE_GEM_CHANCE = 25; // Percent chance to spawn a orange gem
+var GREEN_GEM_CHANCE = 50;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
@@ -33,12 +33,12 @@ var enemyList = [
     {
         name: "Red Bug",
         spawn_rate: 100,
-        level: 5
+        level: 0
     },
     {
         name: "Bug Red",
         spawn_rate: 100,
-        level: 0
+        level: 5
     },
     {
         name: "Green Bug",
@@ -51,7 +51,7 @@ var enemyList = [
 var obstacleList = [
     {
         name: "Rock",
-        spawn_rate: 50,
+        spawn_rate: 30,
         level: 3,
         max_count: 6
     }
