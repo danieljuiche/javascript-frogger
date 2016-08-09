@@ -37,7 +37,7 @@ var enemyList = [
     },
     {
         name: "Bug Red",
-        spawn_rate: 100,
+        spawn_rate: 60,
         level: 5
     },
     {
