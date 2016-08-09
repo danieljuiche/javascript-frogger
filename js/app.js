@@ -12,7 +12,7 @@ var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 10; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 10;  // Percent chance to spawn a green gem
-var RUBY_GEM_CHANCE = 100; // Percent chance to spawn a ruby gem
+var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
 
@@ -33,12 +33,17 @@ var enemyList = [
     {
         name: "Red Bug",
         spawn_rate: 100,
-        level: 0,
+        level: 5
+    },
+    {
+        name: "Bug Red",
+        spawn_rate: 100,
+        level: 0
     },
     {
         name: "Green Bug",
         spawn_rate: 50,
-        level: 2,
+        level: 2
     }
 ];
 
@@ -46,9 +51,9 @@ var enemyList = [
 var obstacleList = [
     {
         name: "Rock",
-        spawn_rate: 100,
+        spawn_rate: 50,
         level: 3,
-        max_count: 6,
+        max_count: 6
     }
 ];
 
@@ -59,6 +64,7 @@ var Enemy = function() {
     // This randomly generates the starting row of the bug sets the initial position
     this.x = -101;
     this.y = 61 + Math.floor(Math.random()*3)*83;
+    this.direction = "right";
 
     // Speed at which bug moves is a formula based on the sum of variables.
     // A minimum bug speed, a random number, and the current level.    
@@ -91,6 +97,22 @@ var RedBug = function () {
 RedBug.prototype = Object.create(Enemy.prototype);
 RedBug.prototype.constructor = Enemy;
 RedBug.prototype.update = function (dt) {
+    // Moves the bug
+    horizontalMovement.call(this,dt);
+    // Removes the bug once it has crossed the screen and generates a new bug
+    enemyRefresh.call(this);
+};
+
+// Subclass of RedBug
+var BugRed = function () {
+    RedBug.call(this);
+    this.sprite = 'images/enemy-bug-red-reversed.png';
+    this.x = 707;
+    this.direction = "left";
+}
+BugRed.prototype = Object.create(RedBug.prototype);
+BugRed.prototype.constructor = RedBug;
+BugRed.prototype.update = function (dt) {
     // Moves the bug
     horizontalMovement.call(this,dt);
     // Removes the bug once it has crossed the screen and generates a new bug
@@ -420,7 +442,6 @@ var levelGenerator = function () {
         if (obstacleList[0]["spawn_rate"] < 100) {
             obstacleList[0]["spawn_rate"] += 5;
         }
-
     }
 };
 
@@ -436,30 +457,32 @@ var randomObstacleGenerator = function () {
 
 // Helper function that spawns an obstacle
 var spawnObstacle = function (spawn, count) {
-    var obstacleFlag = false;
-    var collectibleFlag = false;
-    switch(spawn["name"]) {
-                case "Rock":
-                    var addItem = new Obstacle;
-                    allObstacles.forEach(function (obstacle) {
-                        if (obstacle.x === addItem.x && obstacle.y === addItem.y) {
-                            obstacleFlag = true;
-                        }
-                    });
-                    allCollectibles.forEach(function (collectible) {
-                        if (collectible.x === addItem.x && collectible.y === addItem.y) {
-                            collectibleFlag = true;
-                        }
-                    });
-                    break;
-                default:
-            }
-    if (!obstacleFlag && !collectibleFlag) {
-        allObstacles.push(addItem);        
+    if (!(spawn === undefined)) {
+        var obstacleFlag = false;
+        var collectibleFlag = false;
+        switch(spawn["name"]) {
+                    case "Rock":
+                        var addItem = new Obstacle;
+                        allObstacles.forEach(function (obstacle) {
+                            if (obstacle.x === addItem.x && obstacle.y === addItem.y) {
+                                obstacleFlag = true;
+                            }
+                        });
+                        allCollectibles.forEach(function (collectible) {
+                            if (collectible.x === addItem.x && collectible.y === addItem.y) {
+                                collectibleFlag = true;
+                            }
+                        });
+                        break;
+                    default:
+                }
+        if (!obstacleFlag && !collectibleFlag) {
+            allObstacles.push(addItem);        
+        }
     }
     if (count > 1) {
         count -= 1;
-        spawnObstacle(spawn,count);
+        spawnObstacle(randomObstacleGenerator(), count);
     }
 };
 
@@ -482,6 +505,9 @@ var spawnEnemy = function (spawn) {
                 case "Green Bug":
                     var addItem = new GreenBug;
                     break;
+                case "Bug Red":
+                    var addItem = new BugRed;
+                    break;                
                 default:
             }
     allEnemies.push(addItem);
@@ -615,19 +641,23 @@ var resetGame = function() {
 
 // Function to remove the bug once it has crossed the screen and generates a new bug
 var enemyRefresh = function () {
-    if (this.x > 808) {
+    if ((this.x < -101 && this.direction === "left") || (this.x > 808 && this.direction === "right")) {
         allEnemies.splice(allEnemies.indexOf(this),1);
         spawnEnemy(randomEnemyGenerator());
     }
 };
 
-// Updates the horizontal movement of enemies if required
+// Updates the horizontal movement of enemies if required. 
 var horizontalMovement = function (dt) {
+    var directionFlag = 1;
+    if (this.direction === "left") {
+        directionFlag = -1;
+    }
     if (slowingEffectTimer > 0) {
-        this.x += this.speed * dt * (100 - BLUE_GEM_SLOW) / 100;
+        this.x += (this.speed * dt * (100 - BLUE_GEM_SLOW) / 100) * directionFlag;
     }
     else {
-        this.x += this.speed * dt;
+        this.x += (this.speed * dt) * directionFlag;
     }
 };
 

@@ -1,5 +1,9 @@
 Completed:
+- Add additional enemy types
+ * Fast bugs (Aug 09)
+- Add game explanations & features (Aug 09)
 - Add obstacles such as rocks
+  * Randomly different amounts of rocks (Aug 08)
   * Making a maximum amount of rocks that can spawn (Aug 08)
   * Making sure the rock doesn't spawn in the same place (Aug 08)
   * Making sure the rock doesn't spawn on top of a power up (Aug 08)
@@ -11,9 +15,7 @@ Completed:
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
-- Add game explanations & features
 - Adjust powerups
-  * Green gem worth more?
   * Add player shrink size?
   * Add invunlerability?
 - Add additional enemy types
@@ -21,9 +23,7 @@ To Do List:
   * Reverse bugs
   * Vanishing bugs? (Invisible cloak for 1 second?)
   * Giant bugs (take up larger sections)
-- Add obstacles such as rocks
-
-  * Randomly different amounts of rocks
 - Add keys?
 - Add different character selections
 - Add semi-transparent blue visual for when bugs are slowed
+- Game needs to restart when player dies
