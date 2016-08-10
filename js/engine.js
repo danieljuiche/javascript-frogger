@@ -176,6 +176,8 @@ var Engine = (function(global) {
         'images/grass-block.png',
         'images/enemy-bug-red.png',
         'images/enemy-bug-green.png',
+        'images/enemy-bug-green-reversed.png',
+        'images/enemy-bug-red-reversed.png',
         'images/char-boy.png',
         'images/gem-blue.png',
         'images/gem-green.png',
@@ -183,7 +185,8 @@ var Engine = (function(global) {
         'images/red-heart.png',
         'images/gem-ruby.png',
         'images/Rock.png',
-        'images/enemy-bug-red-reversed.png' 
+        'images/enemy-bug-red-reversed.png',
+        'images/enemy-bug-green-reversed.png',
     ]);
     Resources.onReady(init);
 

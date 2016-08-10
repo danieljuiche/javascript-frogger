@@ -1,6 +1,7 @@
 Completed:
 - Add additional enemy types
- * Fast bugs (Aug 09)
+  * Reverse bugs (Aug 10)
+  * Fast bugs (Aug 09)
 - Add game explanations & features (Aug 09)
 - Add obstacles such as rocks
   * Randomly different amounts of rocks (Aug 08)
@@ -20,7 +21,6 @@ To Do List:
   * Add invunlerability?
 - Add additional enemy types
   * Fast bugs
-  * Reverse bugs
   * Vanishing bugs? (Invisible cloak for 1 second?)
   * Giant bugs (take up larger sections)
 - Add keys?

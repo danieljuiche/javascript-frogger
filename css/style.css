@@ -1,3 +1,10 @@
+h1 {
+    margin-top: 0px;
+    margin-bottom: 0px;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
 ul {
     list-style-type: none;
     margin: 0;
@@ -19,6 +26,15 @@ li {
     width: 22%;
 }
 
+.title {
+    margin-top: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    margin-bottom: 20px;
+    width: 505px;
+    border-radius: 10px;
+    background-color: white;
+}
 
 #level {
 	background-color: #337ab7;
@@ -36,6 +52,10 @@ li {
 }
 
 body {
+    margin: 0;
+    border-style: solid;
+    border-color: #82C3FF;
+    border-width: 8px;
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #5cb85c;
@@ -49,6 +69,10 @@ canvas {
     text-align: center;
 }
 
+html {
+    background-color: white;
+}
+
 .scoreboard {
 	display: inline-block;
 	margin: auto;
@@ -59,5 +83,5 @@ canvas {
 	margin: auto;
 	display: inline-block;
 	height: auto;
-	width: 707px
+	width: 707px;
 }

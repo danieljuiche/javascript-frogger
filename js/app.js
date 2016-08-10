@@ -7,7 +7,7 @@ var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var MAX_BUG_SPEED = 500; // Maximum bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 25;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 25; // Percent chance to spawn a orange gem
@@ -23,6 +23,8 @@ var lives = STARTING_LIVES;
 var levelCounter = 0;
 var slowingEffectFlag = false;
 var slowingEffectTimer = 0;
+var slowingEffectCounter = 1;
+var slowingEffectRatio = 0;
 var collected = [];
 
 // Developers playground options
@@ -38,12 +40,17 @@ var enemyList = [
     {
         name: "Bug Red",
         spawn_rate: 60,
-        level: 5
+        level: 2
     },
     {
         name: "Green Bug",
         spawn_rate: 50,
-        level: 2
+        level: 1
+    },
+    {
+        name: "Bug Green",
+        spawn_rate: 25,
+        level: 3
     }
 ];
 
@@ -112,12 +119,6 @@ var BugRed = function () {
 }
 BugRed.prototype = Object.create(RedBug.prototype);
 BugRed.prototype.constructor = RedBug;
-BugRed.prototype.update = function (dt) {
-    // Moves the bug
-    horizontalMovement.call(this,dt);
-    // Removes the bug once it has crossed the screen and generates a new bug
-    enemyRefresh.call(this);
-};
 
 // Subclass of Enemy
 var GreenBug = function () {
@@ -135,6 +136,16 @@ GreenBug.prototype.update = function (dt) {
     // Removes the bug once it has crossed the screen and generates a new bug
     enemyRefresh.call(this);
 };
+
+// Subclass of GreenBug
+var BugGreen = function () {
+    GreenBug.call(this);
+    this.sprite = 'images/enemy-bug-green-reversed.png';
+    this.x = 707;
+    this.direction = "left";
+}
+BugGreen.prototype = Object.create(GreenBug.prototype);
+BugGreen.prototype.constructor = GreenBug;
 
 // Player constructor
 var Player = function() {
@@ -292,7 +303,10 @@ BlueGem.prototype.effect = function () {
     if (slowingEffectTimer === 0) {
         slowingEffectFlag = true;  
     }
+    document.body.style.background = "rgba(130,195,255,1)";
+    slowingEffectCounter = 1;
     slowingEffectTimer += SLOW_TIMER;
+    slowingEffectRatio = 1 / (slowingEffectTimer / 1000);
 };
 
 // Subclass of collectible
@@ -410,14 +424,20 @@ var slowTimer;
 
 // This function is called by main and determines if a global slowing effect is being applied
 var checkStatusEffects = function () {
+    console.log(slowingEffectTimer);
     if (slowingEffectFlag) {
         slowingEffectFlag = false;
         slowTimer = setInterval( function() {
             slowingEffectTimer -= 1000;
+            console.log("COUNTER"+slowingEffectCounter);
+            console.log("RATIO"+slowingEffectRatio);
+            slowingEffectCounter -= slowingEffectRatio;
+            document.body.style.background = "rgba(130,195,255,"+ slowingEffectCounter +")";
         }, 1000);
     }
 
     if (slowingEffectTimer === 0) {
+        document.body.style.background = "rgba(130,195,255,0)";
         clearInterval(slowTimer);
     }
 };
@@ -507,6 +527,9 @@ var spawnEnemy = function (spawn) {
                     break;
                 case "Bug Red":
                     var addItem = new BugRed;
+                    break;
+                case "Bug Green":
+                    var addItem = new BugGreen;
                     break;                
                 default:
             }
