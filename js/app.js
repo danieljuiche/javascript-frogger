@@ -7,7 +7,7 @@ var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var MAX_BUG_SPEED = 500; // Maximum bug speed
 var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 100;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 25;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
 var ORANGE_GEM_CHANCE = 25; // Percent chance to spawn a orange gem
@@ -424,13 +424,10 @@ var slowTimer;
 
 // This function is called by main and determines if a global slowing effect is being applied
 var checkStatusEffects = function () {
-    console.log(slowingEffectTimer);
     if (slowingEffectFlag) {
         slowingEffectFlag = false;
         slowTimer = setInterval( function() {
             slowingEffectTimer -= 1000;
-            console.log("COUNTER"+slowingEffectCounter);
-            console.log("RATIO"+slowingEffectRatio);
             slowingEffectCounter -= slowingEffectRatio;
             document.body.style.background = "rgba(130,195,255,"+ slowingEffectCounter +")";
         }, 1000);
@@ -656,9 +653,15 @@ var updateScoreboard = function (score, lives, level) {
 // Resets the game and updates the scoreboard
 var resetGame = function() {
     score = 0;
-    level = 1;
+    level = 0;
     levelCounter = 0;
     lives = 3;
+    allEnemies = [];
+    allObstacles = [];
+    allCollectibles = [];
+    collected = [];
+    slowingEffectTimer = 0;
+    levelGenerator();
     updateScoreboard(score,lives,level);
 };
 

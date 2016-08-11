@@ -1,4 +1,5 @@
 Completed:
+- Add semi-transparent blue visual for when bugs are slowed (Aug 10)
 - Add additional enemy types
   * Reverse bugs (Aug 10)
   * Fast bugs (Aug 09)
@@ -25,5 +26,4 @@ To Do List:
   * Giant bugs (take up larger sections)
 - Add keys?
 - Add different character selections
-- Add semi-transparent blue visual for when bugs are slowed
 - Game needs to restart when player dies
