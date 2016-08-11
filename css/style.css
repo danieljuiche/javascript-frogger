@@ -56,7 +56,7 @@ body {
     margin: 0;
     border-style: solid;
     border-color: #82C3FF;
-    border-width: 8px;
+    border-width: 0px;
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #5cb85c;
@@ -68,10 +68,6 @@ canvas {
     margin-right: auto;
     display: block;
     text-align: center;
-}
-
-body {
-    background-color: black;
 }
 
 .scoreboard {
@@ -88,8 +84,28 @@ body {
 
 .header-container {
 	margin: auto;
+    margin-top: 30px;
 	display: inline-block;
 	height: auto;
 	width: 713px;
     background-color: white;
+    border-radius: 8px;
 }
+
+#top-border, #bottom-border, #left-border, #right-border {
+    background: rgba(130,195,255,1);
+    position: fixed;
+    }
+    #left-border, #right-border {
+        top: 0; bottom: 0;
+        width: 10px;
+    }
+        #left-border { left: 0; }
+        #right-border { right: 0; }
+        
+    #top-border, #bottom-border {
+        left: 0; right: 0;
+        height: 10px;
+        }
+        #top-border { top: 0; }
+        #bottom-border { bottom: 0; }
