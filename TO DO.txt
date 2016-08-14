@@ -1,4 +1,5 @@
 Completed:
+- Added Fast bugs (Aug 13)
 - Added vanishing bugs (Aug 13)
 - Add semi-transparent blue visual for when bugs are slowed (Aug 10)
 - Add additional enemy types
@@ -19,7 +20,6 @@ Completed:
 
 To Do List:
 - Add additional enemy types
-  * Fast bugs
   * Giant bugs (take up larger sections)
 - Add keys to unlock character selections
 - Add different character selections
@@ -32,3 +32,4 @@ To Do List:
 - Adjust powerups
   * Add player shrink size?
   * Add invunlerability?
+- Change layout to side panels beside the canvas

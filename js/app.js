@@ -4,7 +4,7 @@ var STARTING_LIVES = 3; // Starting player lives
 var MAXIMUM_LIVES = 5; // Maximum lives a player can have
 var MAXIMUM_ENEMIES = 5; // Maximum enemies on the screen
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
-var STANDARD_BUG_SPEED = 300;  // Standard bug speed variance
+var STANDARD_BUG_SPEED = 250;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
 var BLUE_GEM_CHANCE = 25;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
@@ -34,12 +34,12 @@ var enemyList = [
     {
         name: "Red Bug",
         spawn_rate: 100,
-        level: 4
+        level: 0
     },
     {
         name: "Bug Red",
-        spawn_rate: 60,
-        level: 2
+        spawn_rate: 50,
+        level: 8
     },
     {
         name: "Green Bug",
@@ -48,18 +48,28 @@ var enemyList = [
     },
     {
         name: "Bug Green",
-        spawn_rate: 25,
-        level: 3
+        spawn_rate: 50,
+        level: 10
     },
     {
         name: "Purple Bug",
         spawn_rate: 50,
-        level: 2
+        level: 4
     },
     {
         name: "Bug Purple",
-        spawn_rate: 100,
-        level: 0
+        spawn_rate: 50,
+        level: 12
+    },
+    {
+        name: "Yellow Bug",
+        spawn_rate: 50,
+        level: 6
+    },
+    {
+        name: "Bug Yellow",
+        spawn_rate: 50,
+        level: 14
     }
 ];
 
@@ -67,7 +77,7 @@ var enemyList = [
 var obstacleList = [
     {
         name: "Rock",
-        spawn_rate: 30,
+        spawn_rate: 15,
         level: 3,
         max_count: 6
     }
@@ -262,6 +272,47 @@ var BugPurple = function () {
 BugPurple.prototype = Object.create(PurpleBug.prototype);
 BugPurple.prototype.constructor = PurpleBug;
 
+var YellowBug = function () {
+    Enemy.call(this);
+    this.sprite = 'images/enemy-bug-yellow.png';
+    this.speed = 105;
+    setTimeout(function () {
+        this.speed = 0;
+        setTimeout(function () {
+            this.sprite = 'images/enemy-bug-yellow-transition.png';
+            setTimeout(function () {
+                this.sprite = 'images/enemy-bug-yellow-speed.png';
+                this.speed = 1000;
+            }.bind(this), 500);
+        }.bind(this), 500);
+    }.bind(this), 1000);
+};
+YellowBug.prototype = Object.create(Enemy.prototype);
+YellowBug.prototype.constructor = Enemy;
+YellowBug.prototype.update = function (dt) {
+    horizontalMovement.call(this,dt);
+    enemyRefresh.call(this);  
+}
+
+var BugYellow = function () {
+    YellowBug.call(this);
+    this.sprite = 'images/enemy-bug-yellow-reversed.png';
+    this.direction = "left";
+    this.x = 707;
+    setTimeout(function () {
+        this.speed = 0;
+        setTimeout(function () {
+            this.sprite = 'images/enemy-bug-yellow-transition-reversed.png';
+            setTimeout(function () {
+                this.sprite = 'images/enemy-bug-yellow-speed-reversed.png';
+                this.speed = 1000;
+            }.bind(this), 500);
+        }.bind(this), 500);
+    }.bind(this), 1000);
+}
+BugYellow.prototype = Object.create(YellowBug.prototype);
+BugYellow.prototype.constructor = YellowBug;
+
 // Player constructor
 var Player = function() {
     // The image/sprite for our player
@@ -373,6 +424,7 @@ Player.prototype.handleInput = function (allowedKeys) {
     // scoreboard and generates a new level if required.
     if (this.y === -22) {
         this.resetPosition();
+        respawnObstacles();
         score += 100;
         levelCounter += 1;
         // Checks if the next level has been reached. If it has, calls the levelGenerator function.
@@ -508,6 +560,7 @@ var checkCollisions = function () {
             if (player.y < bug.y + 63 && player.y > bug.y - 77 && player.x < bug.x + 70 && player.x > bug.x - 70) {
                 // Resets player position, applies appropriate penalties and updates the scoreboard
                 player.resetPosition();
+                respawnObstacles();
                 lives -= 1;
                 updateScoreboard(score,lives,level);
 
@@ -567,14 +620,18 @@ var levelGenerator = function () {
     // Increases the level
     level += 1;
 
+    if (obstacleList[0]["spawn_rate"] < 80) {
+        obstacleList[0]["spawn_rate"] += 5;
+    }
+
+};
+
+var respawnObstacles = function () {
     // Respawns obstacles
     if (level >= obstacleList[0]["level"]) {
         allObstacles = [];
         spawnObstacle(randomObstacleGenerator(), obstacleList[0]["max_count"]);
-        if (obstacleList[0]["spawn_rate"] < 100) {
-            obstacleList[0]["spawn_rate"] += 5;
-        }
-    }
+    }  
 };
 
 // Helper function that returns an obstacle object
@@ -632,26 +689,32 @@ var randomEnemyGenerator = function () {
 var spawnEnemy = function (spawn) {
     switch(spawn["name"]) {
                 case "Red Bug":
-                    var addItem = new RedBug;
+                    var addBug = new RedBug;
                     break;
                 case "Green Bug":
-                    var addItem = new GreenBug;
+                    var addBug = new GreenBug;
                     break;
                 case "Bug Red":
-                    var addItem = new BugRed;
+                    var addBug = new BugRed;
                     break;
                 case "Bug Green":
-                    var addItem = new BugGreen;
+                    var addBug = new BugGreen;
                     break;
                 case "Purple Bug":
-                    var addItem = new PurpleBug;
+                    var addBug = new PurpleBug;
                     break;
                 case "Bug Purple":
-                    var addItem = new BugPurple;
+                    var addBug = new BugPurple;
+                    break;
+                case "Yellow Bug":
+                    var addBug = new YellowBug;
+                    break;
+                case "Bug Yellow":
+                    var addBug = new BugYellow;
                     break;
                 default:
             }
-    allEnemies.push(addItem);
+    allEnemies.push(addBug);
 };
 
 // Function to respawn enemies, accepts boolean for argument. True for instant respawn of bugs.
