@@ -23,10 +23,13 @@ var Engine = (function(global) {
         win = global.window,
         canvas = doc.createElement('canvas'),
         ctx = canvas.getContext('2d'),
-        lastTime;
+        lastTime,
+        insertLoc = document.getElementsByClassName("header-container");
+
     canvas.width = 707;
     canvas.height = 606;
-    doc.body.appendChild(canvas);
+
+    insertLoc[0].appendChild(canvas);
 
     /* This function serves as the kickoff point for the game loop itself
      * and handles properly calling the update and render methods.
@@ -175,18 +178,24 @@ var Engine = (function(global) {
         'images/water-block.png',
         'images/grass-block.png',
         'images/enemy-bug-red.png',
+        'images/enemy-bug-red-reversed.png',
         'images/enemy-bug-green.png',
         'images/enemy-bug-green-reversed.png',
-        'images/enemy-bug-red-reversed.png',
-        'images/char-boy.png',
+        'images/enemy-bug-purple.png',
+        'images/enemy-bug-purple-reversed.png',
+        'images/enemy-bug-vanish.png',
+        'images/char-spot.png',
+        'images/char-horn-girl.png',
+        'images/char-pink.png',
+        'images/char-princess.png',
+        'images/char-miao.png',
         'images/gem-blue.png',
         'images/gem-green.png',
         'images/gem-orange.png',
         'images/red-heart.png',
         'images/gem-ruby.png',
         'images/Rock.png',
-        'images/enemy-bug-red-reversed.png',
-        'images/enemy-bug-green-reversed.png',
+
     ]);
     Resources.onReady(init);
 

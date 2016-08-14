@@ -1,4 +1,5 @@
 Completed:
+- Added vanishing bugs (Aug 13)
 - Add semi-transparent blue visual for when bugs are slowed (Aug 10)
 - Add additional enemy types
   * Reverse bugs (Aug 10)
@@ -17,13 +18,17 @@ Completed:
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
+- Add additional enemy types
+  * Fast bugs
+  * Giant bugs (take up larger sections)
+- Add keys to unlock character selections
+- Add different character selections
+  * Normal effect for boy, armed with bug splat (Starting character)
+  * Cat girl likes to scavange and has 15% chance increased powerup drop rate (Available after picking up 10 power ups)
+  * Horn girl is an master swords man, her sword can cut through rocks? Maybe bugs move slower for her too (Collect 5 keys)
+  * Pink hair girl is crazy and can become invulnerable for 3 seconds upon picking up star powerup. However she has to travel to specific spot on the river. (Available after crossing the river 10 times)
+  * Princess likes gems and jewels so the score bonus for her is amplified 3x (Unlocked after reaching a score of 20000)
+- Game needs to restart when player dies
 - Adjust powerups
   * Add player shrink size?
   * Add invunlerability?
-- Add additional enemy types
-  * Fast bugs
-  * Vanishing bugs? (Invisible cloak for 1 second?)
-  * Giant bugs (take up larger sections)
-- Add keys?
-- Add different character selections
-- Game needs to restart when player dies

@@ -109,3 +109,23 @@ canvas {
         }
         #top-border { top: 0; }
         #bottom-border { bottom: 0; }
+
+.character-container {
+    margin: auto;
+    margin-bottom: -30px;
+    display: block;
+    height: auto;
+    width: 713px;
+    background-color: black;
+    border-radius: 8px;
+}
+
+.character-row {
+    margin: 0px;
+    display: inline;
+}
+
+.character-container li {
+    margin: 0px;
+    display: inline;
+}
