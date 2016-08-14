@@ -252,7 +252,6 @@ var vanishingCounter = 0;
 var vanishingFlag = false;
 setInterval(function () {
     vanishingCounter += 1;
-    console.log(vanishingCounter);
     if (vanishingCounter === 4) {
         vanishingFlag = true;
         vanishingCounter = 0;
@@ -863,6 +862,28 @@ var rowGenerator = function() {
 // Helper function to help randomly place objects on different columns
 var columnGenerator = function() {
     return Math.floor(Math.random()*5)*101;
+};
+
+// Accepts character name and changes current player sprite
+var changeCharacter = function (characterName) {
+    switch (characterName) {
+        case ("Spot"):
+            player.sprite = 'images/char-spot.png';
+            break;
+        case ("Miao"):
+            player.sprite = 'images/char-miao.png';
+            break;
+        case ("Pink"):
+            player.sprite = 'images/char-pink.png';
+            break;
+        case ("Horn Girl"):
+            player.sprite = 'images/char-horn-girl.png';
+            break;
+        case ("Princess"):
+            player.sprite = 'images/char-princess.png';
+            break;
+        default:
+    }
 };
 
 // This listens for key presses and sends the keys to the Player.handleInput() method.

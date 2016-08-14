@@ -11,30 +11,46 @@
 	<div id="top-border"></div>
 	<div id="bottom-border"></div>
 
-	<div class="header-container">
-		<div class="title">
-			<h1>Javascript Frogger Game</h1>
-		</div>
-		<div class="scoreboard">
-			<ul>
-				<li id="level">Level: 1</li>
-				<li id="score">Score: 0</li>
-				<li id="lives">Lives: 3</li>
-				<li id="bugsplat">Bug Splat: 0</li>
-			</ul>
+	<div class="main-container">
+		<div class="header-container">
+			<div class="title">
+				<h1>Javascript Frogger Game</h1>
+			</div>
+			<div class="scoreboard">
+				<ul>
+					<li id="level">Level: 1</li>
+					<li id="score">Score: 0</li>
+					<li id="lives">Lives: 3</li>
+					<li id="bugsplat">Bug Splat: 0</li>
+				</ul>
+			</div>
 		</div>
 	</div>
 	<div class="character-container">
 		<div class="character-row">
 			<ul>
-				<li id="spot"><img src="images/char-spot-cropped.png"></li>
-				<li id="miao"><img src="images/char-miao-cropped.png"></li>
-				<li id="pink"><img src="images/char-pink-cropped.png"></li>
-				<li id="horn-girl"><img src="images/char-horn-girl-cropped.png"></li>
-				<li id="princess"><img src="images/char-princess-cropped.png"></li>
+				<li id="spot">
+					<img src="images/char-spot-cropped.png">
+					<button onclick="changeCharacter('Spot')">Spot</button>
+				</li>
+				<li id="miao">
+					<img src="images/char-miao-cropped.png">
+					<button onclick="changeCharacter('Miao')">Miao</button>
+				</li>
+				<li id="pink">
+					<img src="images/char-pink-cropped.png">
+					<button onclick="changeCharacter('Pink')">Pink</button>
+				</li>
+				<li id="horn-girl">
+					<img src="images/char-horn-girl-cropped.png">
+					<button onclick="changeCharacter('Horn Girl')">Horn Girl</button>
+				</li>
+				<li id="princess">
+					<img src="images/char-princess-cropped.png">
+					<button onclick="changeCharacter('Princess')">Princess</button>
+				</li>
 			</ul>
 		</div>
-		<div class="character-hotkey"></div>
 	</div>
   <script src="js/resources.js"></script>
   <script src="js/app.js"></script>

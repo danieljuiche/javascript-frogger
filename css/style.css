@@ -83,8 +83,8 @@ canvas {
 }
 
 .header-container {
+    vertical-align: top;
 	margin: auto;
-    margin-top: 30px;
 	display: inline-block;
 	height: auto;
 	width: 713px;
@@ -112,20 +112,43 @@ canvas {
 
 .character-container {
     margin: auto;
-    margin-bottom: -30px;
-    display: block;
+    margin-top: 30px;
+    margin-left: 20px;
+    padding-left: 10px;
+    padding-right: 10px;
+    display: inline-block;
     height: auto;
-    width: 713px;
-    background-color: black;
+    width: 101px;
+    background-color: white;
     border-radius: 8px;
-}
-
-.character-row {
-    margin: 0px;
-    display: inline;
 }
 
 .character-container li {
     margin: 0px;
-    display: inline;
+    width: 101px;
+    display: block;
+}
+
+.character-container img {
+    margin: 0px;
+    display: block;
+}
+
+.character-container button {
+    width: 101px;
+    border-radius: 8px;
+    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+}
+
+.main-container {
+    background-color: white;
+    vertical-align: top;
+    padding-left: 15px;
+    padding-right: 15px;
+    display: inline-block;
+    margin: auto;
+    margin-top: 30px;
+    width: 713px;
+    height: 713px;
+    border-radius: 8px;
 }
