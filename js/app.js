@@ -533,7 +533,7 @@ RubyGem.prototype.constructor = Collectible;
 RubyGem.prototype.effect = function () {
     if (countArray(collected,this["name"]) < 3) {
         collected.push(this["name"]); 
-    }    
+    }
 }
 
 // Subclass of collectible

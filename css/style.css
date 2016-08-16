@@ -202,8 +202,51 @@ canvas {
     width: 1200px;
     height: 715px;
     border-radius: 10px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
 }
 
 button {
     font-weight: bold;
+}
+
+
+.info-container {
+    width: 1210px;
+    height: 160px;
+    margin: auto;
+    margin-top: 7px;
+}
+
+.info-updates, .current-effects {
+    margin: auto;
+    text-align: center;
+    vertical-align: top;
+    width: 49%;
+    height: 150px;
+    display: inline-block;
+    background-color: white;
+    border-radius: 10px;
+    border-style: solid;
+    border-width: 3px;
+    border-color: black;
+}
+
+.info-updates h1 {
+    line-height: 150px;
+    padding: 0px;
+    color: blue;
+}
+
+.current-effects h2 {
+    margin: 0px;
+    font-size: 32px;
+    line-height: 80px;
+}
+
+.current-effects h3 {
+    margin: 0px;
+    line-height: 50px;
+    font-style: italic;
 }
