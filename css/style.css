@@ -118,19 +118,29 @@ canvas {
     padding-right: 10px;
     display: inline-block;
     height: auto;
-    width: 101px;
+    width: 150px;
     background-color: white;
     border-radius: 8px;
 }
 
-.character-container li {
-    margin: 0px;
-    width: 101px;
+.character-container h2 {
+    font-size: 28px;
+    text-align: center;
+    margin: auto;
+    margin-top: 30px;
     display: block;
 }
 
+.character-container li {
+    visibility: hidden;
+    margin: auto;
+    width: 150px;
+    display: block;
+    text-align: center;
+}
+
 .character-container img {
-    margin: 0px;
+    margin: auto;
     display: block;
 }
 

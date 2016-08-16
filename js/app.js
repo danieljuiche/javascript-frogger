@@ -14,7 +14,7 @@ var GREEN_GEM_CHANCE = 50;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
-var KEY_CHANCE = 10; // Percent chance to collect a key
+var KEY_CHANCE = 25; // Percent chance to collect a key
 
 // Initial settings for the game
 var score = 0;
@@ -436,6 +436,11 @@ Player.prototype.handleInput = function (allowedKeys) {
         score += 100;
         updateHighscore();
         levelCounter += 1;
+        riverCrossingCounter += 1;
+        if (riverCrossingCounter >= 10) {
+            showCharacters("pink");
+        }
+
         // Checks if the next level has been reached. If it has, calls the levelGenerator function.
         if (levelCounter === TO_NEXT_LEVEL) {
             levelGenerator();
@@ -547,6 +552,10 @@ Key.prototype = Object.create(Collectible.prototype);
 Key.prototype.constructor = Collectible;
 Key.prototype.effect = function () {
     collectedKeys += 1;
+
+    if (collectedKeys >= 5) {
+        showCharacters("horn-girl");
+    }
 }
 
 // Obstacle constructor
@@ -598,6 +607,9 @@ var checkCollisions = function () {
     forEach(allCollectibles, function (collectibles) {
         if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
             collectibleCounter += 1;
+            if (collectibleCounter >= 10) {
+                showCharacters("miao");
+            }
             collectibles.effect();
             updateScoreboard(score,lives,level);
             allCollectibles.splice(allCollectibles.indexOf(collectibles),1);
@@ -837,6 +849,9 @@ var updateHighscore = function (score) {
     if (score > highScore) {
         highScore = score;
     }
+    if (highScore > 7000) {
+        showCharacters("princess");
+    }
 };
 
 // Resets the game and updates the scoreboard
@@ -916,12 +931,18 @@ var changeCharacter = function (characterName) {
             }
             break;
         case ("Princess"):
-            if (highScore >= 0) {
+            if (highScore >= 7000) {
                 player.sprite = 'images/char-princess.png';
             }
             break;
         default:
     }
+};
+
+// Helper function to show characters once they've been unlocked
+var showCharacters = function (name) {
+    var element = document.getElementById(name);
+    element.style.visibility = "visible";
 };
 
 // This listens for key presses and sends the keys to the Player.handleInput() method.
@@ -951,3 +972,6 @@ levelGenerator();
 
 // Instantiates our player
 var player = new Player;
+
+// Default character
+showCharacters("spot");
