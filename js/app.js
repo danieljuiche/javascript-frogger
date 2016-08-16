@@ -27,9 +27,13 @@ var slowingEffectCounter = 1;
 var slowingEffectRatio = 0;
 var collected = [];
 var collectibleCounter = 0;
-var collectedKeys = 0;
 var highScore = 0;
 var riverCrossingCounter = 0;
+var rubyGemCounter = 0;
+var blueGemCounter = 0;
+var greenGemCounter = 0;
+var orangeGemCounter = 0;
+var collectedKeys = 0;
 
 // Developers playground options
 var GOD_MODE = false;
@@ -434,7 +438,7 @@ Player.prototype.handleInput = function (allowedKeys) {
         this.resetPosition();
         respawnObstacles();
         score += 100;
-        updateHighscore();
+        updateHighscore(score);
         levelCounter += 1;
         riverCrossingCounter += 1;
         if (riverCrossingCounter >= 10) {
@@ -450,7 +454,7 @@ Player.prototype.handleInput = function (allowedKeys) {
             collectibleSpawn();
         }
         // Update the scoreboard.
-        updateScoreboard(score,lives,level);
+        updateScoreDisplay(score,lives,level,highScore);
     }
 }
 
@@ -475,6 +479,7 @@ Collectible.prototype.render = function() {
 var BlueGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-blue.png';
+    this.name = "Blue Gem";
 }
 
 BlueGem.prototype = Object.create(Collectible.prototype);
@@ -493,6 +498,7 @@ BlueGem.prototype.effect = function () {
 var GreenGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-green.png';
+    this.name = "Green Gem";
 }
 
 GreenGem.prototype = Object.create(Collectible.prototype);
@@ -505,6 +511,7 @@ GreenGem.prototype.effect = function () {
 var OrangeGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-orange.png';
+    this.name = "Orange Gem";
 }
 
 OrangeGem.prototype = Object.create(Collectible.prototype);
@@ -517,6 +524,7 @@ OrangeGem.prototype.effect = function () {
 var RubyGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-ruby.png';
+    this.name = "Ruby Gem";
 }
 
 RubyGem.prototype = Object.create(Collectible.prototype);
@@ -531,6 +539,7 @@ RubyGem.prototype.effect = function () {
 var Heart = function () {
     Collectible.call(this);
     this.sprite = 'images/red-heart.png';
+    this.name = "Heart";
 }
 
 // Subclass of collectible
@@ -546,6 +555,7 @@ Heart.prototype.effect = function () {
 var Key = function () {
     Collectible.call(this);
     this.sprite = 'images/yellow-key.png';
+    this.name = "Key";
 }
 
 Key.prototype = Object.create(Collectible.prototype);
@@ -587,7 +597,7 @@ var checkCollisions = function () {
                 player.resetPosition();
                 respawnObstacles();
                 lives -= 1;
-                updateScoreboard(score,lives,level);
+                updateScoreDisplay(score,lives,level,highScore);
 
                 // Restarts the game if player has no lives left
                 if (lives === 0) {
@@ -611,11 +621,34 @@ var checkCollisions = function () {
                 showCharacters("miao");
             }
             collectibles.effect();
-            updateScoreboard(score,lives,level);
+            updateScoreDisplay(score,lives,level,highScore);
             allCollectibles.splice(allCollectibles.indexOf(collectibles),1);
             updateHighscore();
+            exists(collectibles);
+            updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
         }
     });
+};
+
+var exists = function (collectible) {
+    if (collectible.name === "Ruby Gem") {
+        rubyGemCounter += 1;
+    }
+    else if (collectible.name === "Blue Gem") {
+        blueGemCounter += 1;
+    }
+    else if (collectible.name === "Green Gem") {
+        greenGemCounter += 1;
+    }
+    else if (collectible.name === "Orange Gem") {
+        orangeGemCounter += 1;
+    }
+    else if (collectible.name === "Blue Gem") {
+        collectedKeys += 1;
+    }
+    else {
+
+    }
 };
 
 // Delares a variable to store status effect timer
@@ -833,15 +866,29 @@ var countArray = function (array, exists) {
 }
 
 // Function which updates the player scoreboard
-var updateScoreboard = function (score, lives, level) {
+var updateScoreDisplay = function (score, lives, level, highscore) {
     var currentScore = document.getElementById("score");
     var currentLives = document.getElementById("lives");
     var currentLevel = document.getElementById("level");
-    var curretBugSplat = document.getElementById("bugsplat");
+    var curretHighScore = document.getElementById("highscore");
     currentLives.innerHTML = "Lives: " + lives;
     currentScore.innerHTML = "Score: " + score;
     currentLevel.innerHTML = "Level: " + level;
-    curretBugSplat.innerHTML = "Bug Splat: " + countArray (collected, "rubygem");
+    curretHighScore.innerHTML = "High Score: " + highscore;
+};
+
+// Function which updates the collectibles board
+var updateCollectibleDisplay = function (ruby, blue, green, orange, keys) {
+    var currentRubyGemCounter = document.getElementById("ruby-gem-counter");
+    var currentBlueGemCounter = document.getElementById("blue-gem-counter");
+    var currentGreenGemCounter = document.getElementById("green-gem-counter");
+    var currentOrangeGemCounter = document.getElementById("orange-gem-counter");
+    var currentKeyCounter = document.getElementById("keys-counter");
+    currentRubyGemCounter.innerHTML = "Ruby Gem: " + ruby;
+    currentBlueGemCounter.innerHTML = "Blue Gem: " + blue;
+    currentGreenGemCounter.innerHTML = "Green Gem: " + green;
+    currentOrangeGemCounter.innerHTML = "Orange Gem: " + orange;
+    currentKeyCounter.innerHTML = "Keys: " + keys;
 };
 
 // Function which updates player highscore
@@ -864,9 +911,15 @@ var resetGame = function() {
     allObstacles = [];
     allCollectibles = [];
     collected = [];
+    rubyGemCounter = 0;
+    blueGemCounter = 0;
+    greenGemCounter = 0;
+    orangeGemCounter = 0;
+    collectedKeys = 0;
     slowingEffectTimer = 0;
     levelGenerator();
-    updateScoreboard(score,lives,level);
+    updateScoreDisplay(score,lives,level,highScore);
+    updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
 };
 
 // Function to remove the bug once it has crossed the screen and generates a new bug

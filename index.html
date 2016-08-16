@@ -11,77 +11,76 @@
 	<div id="top-border"></div>
 	<div id="bottom-border"></div>
 
-	<div class="collectible-container">
-		<div class="collectible-row">
-			<ul>
-				<h2>Collectible</h2>
-				<li id="ruby-gem">
-					<img src="images/gem-ruby-cropped.png">
-					<button>Ruby Gem</button>
-				</li>
-				<li id="blue-gem">
-					<img src="images/gem-blue-cropped.png">
-					<button>Blue Gem</button>
-				</li>
-				<li id="green-gem">
-					<img src="images/gem-green-cropped.png">
-					<button>Green Gem</button>
-				</li>
-				<li id="orange-gem">
-					<img src="images/gem-orange-cropped.png">
-					<button>Orange Gem</button>
-				</li>
-				<li id="keys">
-					<img src="images/yellow-key-cropped.png">
-					<button>Keys</button>
-				</li>
-			</ul>
-		</div>
-	</div>
-
-
-	<div class="main-container">
-		<div class="header-container">
-			<div class="title">
-				<h1>Javascript Frogger Game</h1>
-			</div>
-			<div class="scoreboard">
+		<div class="collectible-container">
+			<div class="collectible-row">
 				<ul>
-					<li id="level">Level: 1</li>
-					<li id="score">Score: 0</li>
-					<li id="lives">Lives: 3</li>
-					<li id="bugsplat">Bug Splat: 0</li>
+					<h2>Collectible</h2>
+					<li id="ruby-gem">
+						<img src="images/gem-ruby-cropped.png">
+						<h3 id="ruby-gem-counter">Ruby Gem: 0</h3>
+					</li>
+					<li id="blue-gem">
+						<img src="images/gem-blue-cropped.png">
+						<h3 id="blue-gem-counter">Blue Gem: 0</h3>
+					</li>
+					<li id="green-gem">
+						<img src="images/gem-green-cropped.png">
+						<h3 id="green-gem-counter">Green Gem: 0</h3>
+					</li>
+					<li id="orange-gem">
+						<img src="images/gem-orange-cropped.png">
+						<h3 id="orange-gem-counter">Orange Gem: 0</h3>
+					</li>
+					<li id="keys">
+						<img src="images/yellow-key-cropped.png">
+						<h3 id="keys-counter">Keys: 0</h3>
+					</li>
 				</ul>
 			</div>
 		</div>
-	</div>
-	<div class="character-container">
-		<div class="character-row">
-			<ul>
-				<h2>Characters</h2>
-				<li id="spot">
-					<img src="images/char-spot-cropped.png">
-					<button onclick="changeCharacter('Spot')">Spot</button>
-				</li>
-				<li id="miao">
-					<img src="images/char-miao-cropped.png">
-					<button onclick="changeCharacter('Miao')">Miao</button>
-				</li>
-				<li id="pink">
-					<img src="images/char-pink-cropped.png">
-					<button onclick="changeCharacter('Pink')">Pink</button>
-				</li>
-				<li id="horn-girl">
-					<img src="images/char-horn-girl-cropped.png">
-					<button onclick="changeCharacter('Horn Girl')">Horn Girl</button>
-				</li>
-				<li id="princess">
-					<img src="images/char-princess-cropped.png">
-					<button onclick="changeCharacter('Princess')">Princess</button>
-				</li>
-			</ul>
+		<div class="main-container">
+			<div class="header-container">
+				<div class="title">
+					<h1>Javascript Frogger Game</h1>
+				</div>
+				<div class="scoreboard">
+					<ul>
+						<li id="level">Level: 1</li>
+						<li id="score">Score: 0</li>
+						<li id="lives">Lives: 3</li>
+						<li id="highscore">High Score: 0</li>
+					</ul>
+				</div>
+			</div>
 		</div>
-	</div>
+		<div class="character-container">
+			<div class="character-row">
+				<ul>
+					<h2>Characters</h2>
+					<li id="spot">
+						<img src="images/char-spot-cropped.png">
+						<button onclick="changeCharacter('Spot')">Spot</button>
+					</li>
+					<li id="miao">
+						<img src="images/char-miao-cropped.png">
+						<button onclick="changeCharacter('Miao')">Miao</button>
+					</li>
+					<li id="pink">
+						<img src="images/char-pink-cropped.png">
+						<button onclick="changeCharacter('Pink')">Pink</button>
+					</li>
+					<li id="horn-girl">
+						<img src="images/char-horn-girl-cropped.png">
+						<button onclick="changeCharacter('Horn Girl')">Horn Girl</button>
+					</li>
+					<li id="princess">
+						<img src="images/char-princess-cropped.png">
+						<button onclick="changeCharacter('Princess')">Princess</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+
   <script src="js/resources.js"></script>
   <script src="js/app.js"></script>
   <script src="js/engine.js"></script>

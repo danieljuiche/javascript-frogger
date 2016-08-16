@@ -47,8 +47,7 @@ li {
 #lives {
 	background-color: #d9534f;
 }
-
-#bugsplat {
+#highscore {
     background-color: #f0ad4e;
 }
 
@@ -135,6 +134,7 @@ canvas {
 .character-container li, .collectible-container li {
     visibility: visible;
     margin: auto;
+    padding: 0px;
     width: 150px;
     display: block;
     text-align: center;
@@ -168,41 +168,27 @@ canvas {
     border-radius: 8px;
 }
 
-/*.collectible-container {
-    margin: auto;
-    margin-top: 30px;
-    margin-left: 20px;
-    padding-left: 10px;
-    padding-right: 10px;
-    display: inline-block;
-    height: auto;
-    width: 150px;
-    background-color: white;
-    border-radius: 8px;
+.collectible-row h3 {
+    margin: 0px;
+    color: black;
 }
 
-.collectible-container h2 {
-    font-size: 28px;
-    text-align: center;
-    margin: auto;
-    margin-top: 30px;
-    display: block;
+#ruby-gem h3{
+    color: #EE316B;
 }
 
-.collectible-container li {
-    margin: auto;
-    width: 150px;
-    display: block;
-    text-align: center;
+#blue-gem h3 {
+    color: #6F8FF7;
 }
 
-.collectible-container img {
-    margin: auto;
-    display: block;
+#green-gem h3 {
+    color: #34FA6C;
 }
 
-.collectible-container button {
-    width: 101px;
-    border-radius: 8px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-}*/
+#orange-gem h3 {
+    color: #FDD360;
+}
+
+#keys h3 {
+    color: #D0CC57;
+}
