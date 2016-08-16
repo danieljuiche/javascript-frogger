@@ -1,5 +1,5 @@
 // Constants which can be tweaked
-var TO_NEXT_LEVEL = 3; // Determines how soon the next level is reached
+var TO_NEXT_LEVEL = 2; // Determines how soon the next level is reached
 var STARTING_LIVES = 3; // Starting player lives
 var MAXIMUM_LIVES = 5; // Maximum lives a player can have
 var MAXIMUM_ENEMIES = 5; // Maximum enemies on the screen
@@ -48,7 +48,7 @@ var enemyList = [
     {
         name: "Bug Red",
         spawn_rate: 50,
-        level: 8
+        level: 7
     },
     {
         name: "Green Bug",
@@ -58,7 +58,7 @@ var enemyList = [
     {
         name: "Bug Green",
         spawn_rate: 50,
-        level: 10
+        level: 8
     },
     {
         name: "Purple Bug",
@@ -68,7 +68,7 @@ var enemyList = [
     {
         name: "Bug Purple",
         spawn_rate: 50,
-        level: 12
+        level: 9
     },
     {
         name: "Yellow Bug",
@@ -78,7 +78,7 @@ var enemyList = [
     {
         name: "Bug Yellow",
         spawn_rate: 50,
-        level: 14
+        level: 10
     }
 ];
 
@@ -692,7 +692,6 @@ var levelGenerator = function () {
     if (obstacleList[0]["spawn_rate"] < 80) {
         obstacleList[0]["spawn_rate"] += 5;
     }
-
 };
 
 var respawnObstacles = function () {
@@ -901,7 +900,7 @@ var updateHighscore = function (score) {
     if (score > highScore) {
         highScore = score;
     }
-    if (highScore > 7000) {
+    if (highScore > 6000) {
         showCharacters("princess");
     }
 };
@@ -989,7 +988,7 @@ var changeCharacter = function (characterName) {
             }
             break;
         case ("Princess"):
-            if (highScore >= 7000) {
+            if (highScore >= 6000) {
                 player.sprite = 'images/char-princess.png';
             }
             break;
