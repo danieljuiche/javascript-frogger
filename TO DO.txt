@@ -20,6 +20,7 @@ Completed:
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
+- Refresh powerups upon crossing the river
 - Add additional enemy types
   * Giant bugs (take up larger sections)
 - Add keys to unlock character selections
