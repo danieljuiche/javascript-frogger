@@ -200,6 +200,7 @@ var Engine = (function(global) {
         'images/gem-orange.png',
         'images/red-heart.png',
         'images/gem-ruby.png',
+        'images/key.png',
         'images/Rock.png',
 
     ]);

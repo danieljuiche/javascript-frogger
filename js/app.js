@@ -14,6 +14,7 @@ var GREEN_GEM_CHANCE = 50;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
+var KEY_CHANCE = 10; // Percent chance to collect a key
 
 // Initial settings for the game
 var score = 0;
@@ -25,6 +26,10 @@ var slowingEffectTimer = 0;
 var slowingEffectCounter = 1;
 var slowingEffectRatio = 0;
 var collected = [];
+var collectibleCounter = 0;
+var collectedKeys = 0;
+var highScore = 0;
+var riverCrossingCounter = 0;
 
 // Developers playground options
 var GOD_MODE = false;
@@ -128,6 +133,10 @@ var collectibleList = [
         {
             "Name": "Heart",
             "Rate": HEART_CHANCE
+        },
+        {
+            "Name": "Key",
+            "Rate": KEY_CHANCE
         }
      ];
 
@@ -425,6 +434,7 @@ Player.prototype.handleInput = function (allowedKeys) {
         this.resetPosition();
         respawnObstacles();
         score += 100;
+        updateHighscore();
         levelCounter += 1;
         // Checks if the next level has been reached. If it has, calls the levelGenerator function.
         if (levelCounter === TO_NEXT_LEVEL) {
@@ -532,6 +542,19 @@ Heart.prototype.effect = function () {
     }
 };
 
+// Subclass of collectible
+var Key = function () {
+    Collectible.call(this);
+    this.sprite = 'images/key.png';
+    this.name = "key"
+}
+
+Key.prototype = Object.create(Collectible.prototype);
+Key.prototype.constructor = Collectible;
+Key.prototype.effect = function () {
+    collectedKeys += 1;
+}
+
 // Obstacle constructor
 var Obstacle = function () {
     this.sprite = 'images/Rock.png';
@@ -566,6 +589,7 @@ var checkCollisions = function () {
                 // Restarts the game if player has no lives left
                 if (lives === 0) {
                     alert("Game Over!");
+                    updateHighscore();
                     resetGame();
                 }
 
@@ -579,9 +603,11 @@ var checkCollisions = function () {
     // Activates any collectible effedts, and updates the scoreboard if required
     forEach(allCollectibles, function (collectibles) {
         if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
+            collectibleCounter += 1;
             collectibles.effect();
             updateScoreboard(score,lives,level);
             allCollectibles.splice(allCollectibles.indexOf(collectibles),1);
+            updateHighscore();
         }
     });
 };
@@ -755,6 +781,9 @@ var collectibleSpawn = function () {
                 case "Heart":
                     var addItem = new Heart;
                     break;
+                case "Key":
+                    var addItem = new Key;
+                    break;
                 default:
             }
 
@@ -807,6 +836,13 @@ var updateScoreboard = function (score, lives, level) {
     currentScore.innerHTML = "Score: " + score;
     currentLevel.innerHTML = "Level: " + level;
     curretBugSplat.innerHTML = "Bug Splat: " + countArray (collected, "rubygem");
+};
+
+// Function which updates player highscore
+var updateHighscore = function (score) {
+    if (score > highScore) {
+        highScore = score;
+    }
 };
 
 // Resets the game and updates the scoreboard
@@ -871,16 +907,24 @@ var changeCharacter = function (characterName) {
             player.sprite = 'images/char-spot.png';
             break;
         case ("Miao"):
-            player.sprite = 'images/char-miao.png';
+            if (collectibleCounter >= 0) {
+                player.sprite = 'images/char-miao.png';
+            }
             break;
         case ("Pink"):
-            player.sprite = 'images/char-pink.png';
+            if (riverCrossingCounter >= 0) {
+                player.sprite = 'images/char-pink.png';
+            }
             break;
         case ("Horn Girl"):
-            player.sprite = 'images/char-horn-girl.png';
+            if (collectedKeys >= 0) {
+                player.sprite = 'images/char-horn-girl.png';                
+            }
             break;
         case ("Princess"):
-            player.sprite = 'images/char-princess.png';
+            if (highScore >= 0) {
+                player.sprite = 'images/char-princess.png';
+            }
             break;
         default:
     }
