@@ -6,15 +6,15 @@ var MAXIMUM_ENEMIES = 5; // Maximum enemies on the screen
 var MIN_BUG_SPEED = 50; // Minimum starting bug speed
 var STANDARD_BUG_SPEED = 250;  // Standard bug speed variance
 var SPEED_INCREASE = 30;  // Speed increase per level
-var BLUE_GEM_CHANCE = 25;  // Percent chance to spawn a blue gem
+var BLUE_GEM_CHANCE = 15;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
-var ORANGE_GEM_CHANCE = 25; // Percent chance to spawn a orange gem
-var GREEN_GEM_CHANCE = 50;  // Percent chance to spawn a green gem
+var ORANGE_GEM_CHANCE = 15; // Percent chance to spawn a orange gem
+var GREEN_GEM_CHANCE = 25;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
-var KEY_CHANCE = 25; // Percent chance to collect a key
+var KEY_CHANCE = 15; // Percent chance to collect a key
 
 // Initial settings for the game
 var score = 0;
