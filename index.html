@@ -6,11 +6,7 @@
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
-	<div id="left-border"></div>
-	<div id="right-border"></div>
-	<div id="top-border"></div>
-	<div id="bottom-border"></div>
-
+	<div class="body-container">
 		<div class="collectible-container">
 			<div class="collectible-row">
 				<ul>
@@ -61,13 +57,13 @@
 						<img src="images/char-spot-cropped.png">
 						<button onclick="changeCharacter('Spot')">Spot</button>
 					</li>
-					<li id="miao">
-						<img src="images/char-miao-cropped.png">
-						<button onclick="changeCharacter('Miao')">Miao</button>
-					</li>
 					<li id="pink">
 						<img src="images/char-pink-cropped.png">
 						<button onclick="changeCharacter('Pink')">Pink</button>
+					</li>
+					<li id="miao">
+						<img src="images/char-miao-cropped.png">
+						<button onclick="changeCharacter('Miao')">Miao</button>
 					</li>
 					<li id="horn-girl">
 						<img src="images/char-horn-girl-cropped.png">
@@ -80,6 +76,12 @@
 				</ul>
 			</div>
 		</div>
+	</div>
+
+	<div id="left-border"></div>
+	<div id="right-border"></div>
+	<div id="top-border"></div>
+	<div id="bottom-border"></div>
 
   <script src="js/resources.js"></script>
   <script src="js/app.js"></script>

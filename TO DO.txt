@@ -1,4 +1,7 @@
 Completed:
+- Changed layout (Aug 16)
+- Refresh powerups upon crossing the river & losing life (Aug 16)
+- Add keys to unlock character selections (Aug 16)
 - Change layout to side panels beside the canvas (Aug 14)
 - Added Fast bugs (Aug 13)
 - Added vanishing bugs (Aug 13)
@@ -20,10 +23,8 @@ Completed:
 - Fixed collision hit boxes to work properly on vertical moving bugs as well (Aug 06)
 
 To Do List:
-- Refresh powerups upon crossing the river
 - Add additional enemy types
   * Giant bugs (take up larger sections)
-- Add keys to unlock character selections
 - Add different character selections
   * Normal effect for boy, armed with bug splat (Starting character)
   * Cat girl likes to scavange and has 15% chance increased powerup drop rate (Available after picking up 10 power ups)

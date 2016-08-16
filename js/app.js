@@ -451,6 +451,7 @@ Player.prototype.handleInput = function (allowedKeys) {
             levelCounter = 0;
         }
         else {
+            allCollectibles = [];
             collectibleSpawn();
         }
         // Update the scoreboard.
@@ -598,6 +599,9 @@ var checkCollisions = function () {
                 respawnObstacles();
                 lives -= 1;
                 updateScoreDisplay(score,lives,level,highScore);
+                allCollectibles = [];
+                collectibleSpawn();
+
 
                 // Restarts the game if player has no lives left
                 if (lives === 0) {
@@ -679,6 +683,7 @@ var levelGenerator = function () {
     }
 
     // Spawns collectibles
+    allCollectibles = [];
     collectibleSpawn();
 
     // Increases the level

@@ -51,8 +51,11 @@ li {
     background-color: #f0ad4e;
 }
 
+.scoreboard li {
+    font-weight: bold;    
+}
+
 body {
-    margin: 0;
     border-style: solid;
     border-color: #82C3FF;
     border-width: 0px;
@@ -111,7 +114,6 @@ canvas {
 
 .character-container, .collectible-container {
     margin: auto;
-    margin-top: 30px;
     margin-left: 20px;
     margin-right: 20px;
     padding-left: 10px;
@@ -124,10 +126,10 @@ canvas {
 }
 
 .character-container h2, .collectible-container h2 {
+    margin: auto;
+    margin-top: 15px;
     font-size: 28px;
     text-align: center;
-    margin: auto;
-    margin-top: 30px;
     display: block;
 }
 
@@ -135,6 +137,8 @@ canvas {
     visibility: visible;
     margin: auto;
     padding: 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
     width: 150px;
     display: block;
     text-align: center;
@@ -156,13 +160,11 @@ canvas {
 }
 
 .main-container {
-    background-color: white;
     vertical-align: top;
     padding-left: 15px;
     padding-right: 15px;
     display: inline-block;
     margin: auto;
-    margin-top: 30px;
     width: 713px;
     height: 713px;
     border-radius: 8px;
@@ -191,4 +193,17 @@ canvas {
 
 #keys h3 {
     color: #D0CC57;
+}
+
+.body-container {
+    margin: auto;
+    margin-top: 30px;
+    background-color: white;
+    width: 1200px;
+    height: 715px;
+    border-radius: 10px;
+}
+
+button {
+    font-weight: bold;
 }
