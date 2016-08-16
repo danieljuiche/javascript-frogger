@@ -470,7 +470,6 @@ Collectible.prototype.render = function() {
 var BlueGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-blue.png';
-    this.name = 'bluegem';
 }
 
 BlueGem.prototype = Object.create(Collectible.prototype);
@@ -489,7 +488,6 @@ BlueGem.prototype.effect = function () {
 var GreenGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-green.png';
-    this.name = 'greengem';
 }
 
 GreenGem.prototype = Object.create(Collectible.prototype);
@@ -502,7 +500,6 @@ GreenGem.prototype.effect = function () {
 var OrangeGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-orange.png';
-    this.name = 'orangegem';
 }
 
 OrangeGem.prototype = Object.create(Collectible.prototype);
@@ -515,7 +512,6 @@ OrangeGem.prototype.effect = function () {
 var RubyGem = function () {
     Collectible.call(this);
     this.sprite = 'images/gem-ruby.png';
-    this.name = 'rubygem';
 }
 
 RubyGem.prototype = Object.create(Collectible.prototype);
@@ -530,7 +526,6 @@ RubyGem.prototype.effect = function () {
 var Heart = function () {
     Collectible.call(this);
     this.sprite = 'images/red-heart.png';
-    this.name = 'heart';
 }
 
 // Subclass of collectible
@@ -545,8 +540,7 @@ Heart.prototype.effect = function () {
 // Subclass of collectible
 var Key = function () {
     Collectible.call(this);
-    this.sprite = 'images/key.png';
-    this.name = "key"
+    this.sprite = 'images/yellow-key.png';
 }
 
 Key.prototype = Object.create(Collectible.prototype);
