@@ -444,10 +444,12 @@ Player.prototype.handleInput = function (allowedKeys) {
         this.resetPosition();
         respawnObstacles();
         score += 100;
+        messageUpdater("info-message", "Ahhh, that's refreshing! +100 Score!","Navy"); 
         updateHighscore(score);
         levelCounter += 1;
         riverCrossingCounter += 1;
-        if (riverCrossingCounter >= 10) {
+        if (riverCrossingCounter === 10) {
+            messageUpdater("info-message", "You've unlocked a new character!","Pink"); 
             showCharacters("pink");
         }
 
@@ -499,6 +501,7 @@ BlueGem.prototype.effect = function () {
     slowingEffectCounter = 1;
     slowingEffectTimer += SLOW_TIMER;
     slowingEffectRatio = 1 / (slowingEffectTimer / 1000);
+    messageUpdater("info-message", "A cool breeze blows by...","#6F8FF7"); 
 };
 
 // Subclass of collectible
@@ -511,6 +514,7 @@ var GreenGem = function () {
 GreenGem.prototype = Object.create(Collectible.prototype);
 GreenGem.prototype.constructor = Collectible;
 GreenGem.prototype.effect = function () {
+    messageUpdater("info-message", "+250 Score!","#34FA6C");  
     score += 250;
 };
 
@@ -524,6 +528,7 @@ var OrangeGem = function () {
 OrangeGem.prototype = Object.create(Collectible.prototype);
 OrangeGem.prototype.constructor = Collectible;
 OrangeGem.prototype.effect = function () {
+    messageUpdater("info-message", "+500 Score!","#FDD360");
     score += 500;
 };
 
@@ -537,9 +542,8 @@ var RubyGem = function () {
 RubyGem.prototype = Object.create(Collectible.prototype);
 RubyGem.prototype.constructor = Collectible;
 RubyGem.prototype.effect = function () {
-    if (countArray(collected,this["name"]) < 3) {
-        collected.push(this["name"]); 
-    }
+    messageUpdater("info-message", "+1000 Score!","#EE316B");
+    score += 1000;
 }
 
 // Subclass of collectible
@@ -554,7 +558,11 @@ Heart.prototype = Object.create(Collectible.prototype);
 Heart.prototype.constructor = Collectible;
 Heart.prototype.effect = function () {
     if (lives < MAXIMUM_LIVES) {
-        lives += 1;    
+        lives += 1;
+        messageUpdater("info-message", "This should come in handy. +1 Life!","#D9534F"); 
+    }
+    else {
+        messageUpdater("info-message", "Don't be too greedy now. Afterall, you're just a mere mortal. +100 Score.","#D9534F");        
     }
 };
 
@@ -569,10 +577,18 @@ Key.prototype = Object.create(Collectible.prototype);
 Key.prototype.constructor = Collectible;
 Key.prototype.effect = function () {
     collectedKeys += 1;
-
-    if (collectedKeys >= 5) {
-        showCharacters("horn-girl");
+    if (collectedKeys < 5) {
+        messageUpdater("info-message", "A key! I wonder what this does...","#D0CC57");
     }
+    if (collectedKeys === 5) {
+        showCharacters("horn-girl");
+        messageUpdater("info-message", "You've unlocked a new Character!","#D0CC57");
+    }
+    if (collectedKeys > 5) {
+        messageUpdater("info-message", "+500 Score","#D0CC57");
+        score += 500;
+    }
+
 }
 
 // Obstacle constructor
@@ -607,7 +623,7 @@ var checkCollisions = function () {
                 updateScoreDisplay(score,lives,level,highScore);
                 allCollectibles = [];
                 collectibleSpawn();
-
+                messageUpdater("info-message", "Ouch!","red");
 
                 // Restarts the game if player has no lives left
                 if (lives === 0) {
@@ -635,7 +651,8 @@ var checkCollisions = function () {
 
             console.log(collectibleList);
             
-            if (collectibleCounter >= 10) {
+            if (collectibleCounter === 10) {
+                messageUpdater("info-message", "You've unlocked a new character!", "Black"); 
                 showCharacters("miao");
             }
             collectibles.effect();
@@ -873,16 +890,6 @@ var forEach = function (collection,callback) {
     }
 };
 
-var countArray = function (array, exists) {
-    var counter = 0;
-    forEach(array, function (element) {
-        if (element === exists) {
-            counter += 1;
-        }
-    });
-    return counter;
-}
-
 // Function which updates the player scoreboard
 var updateScoreDisplay = function (score, lives, level, highscore) {
     var currentScore = document.getElementById("score");
@@ -992,24 +999,29 @@ var changeCharacter = function (characterName) {
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
+            messageUpdater("effect-message", "None. You are just a little boy","black");
             break;
         case ("Miao"):
             player.sprite = 'images/char-miao.png';
             collectibleRateAdjust("increase", 15);
+            messageUpdater("effect-message", "+15% Powerup Spawn Rate. Nice!","red");
             break;
         case ("Pink"):
             if (riverCrossingCounter >= 0) {
                 player.sprite = 'images/char-pink.png';
+                messageUpdater("effect-message", "None. To be determined!","black");
             }
             break;
         case ("Horn Girl"):
             if (collectedKeys >= 0) {
-                player.sprite = 'images/char-horn-girl.png';                
+                player.sprite = 'images/char-horn-girl.png';
+                messageUpdater("effect-message", "None. To be determined!","black");            
             }
             break;
         case ("Princess"):
             if (highScore >= 6000) {
                 player.sprite = 'images/char-princess.png';
+                messageUpdater("effect-message", "None. To be determined!","black");
             }
             break;
         default:
@@ -1066,3 +1078,10 @@ var player = new Player;
 
 // Default character
 showCharacters("spot");
+
+// Helper function helps update the current effect messages. Accepts HTML ID, the message, and the color as parameters
+var messageUpdater = function (id, newMessage, colorChange) {
+    var message = document.getElementById(id);
+    message.innerHTML = newMessage;
+    message.style.color = colorChange;
+};
