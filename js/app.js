@@ -119,28 +119,34 @@ var playerList = [
 // Container for all possible types of collectibles
 var collectibleList = [
         {
-            "Name": "BlueGem",
-            "Rate": BLUE_GEM_CHANCE
+            name: "Blue Gem",
+            rate: BLUE_GEM_CHANCE,
+            currentCount: 0
         },
         {
-            "Name": "GreenGem",
-            "Rate": GREEN_GEM_CHANCE
+            name: "Green Gem",
+            rate: GREEN_GEM_CHANCE,
+            currentCount: 0
         },
         {
-            "Name": "OrangeGem",
-            "Rate": ORANGE_GEM_CHANCE
+            name: "Orange Gem",
+            rate: ORANGE_GEM_CHANCE,
+            currentCount: 0
         },
         {
-            "Name": "RubyGem",
-            "Rate": RUBY_GEM_CHANCE
+            name: "Ruby Gem",
+            rate: RUBY_GEM_CHANCE,
+            currentCount: 0
         },
         {
-            "Name": "Heart",
-            "Rate": HEART_CHANCE
+            name: "Heart",
+            rate: HEART_CHANCE,
+            currentCount: 0
         },
         {
-            "Name": "Key",
-            "Rate": KEY_CHANCE
+            name: "Key",
+            rate: KEY_CHANCE,
+            currentCount: 0
         }
      ];
 
@@ -621,6 +627,14 @@ var checkCollisions = function () {
     forEach(allCollectibles, function (collectibles) {
         if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
             collectibleCounter += 1;
+            
+            // Increases the current count for the collectible picked up
+            collectibleList.filter(function (listItem) {
+                return listItem.name === collectibles.name;
+            })[0].currentCount += 1;
+
+            console.log(collectibleList);
+            
             if (collectibleCounter >= 10) {
                 showCharacters("miao");
             }
@@ -807,18 +821,18 @@ var collectibleSpawn = function () {
     // Checks to see if a collectible will spawn
     forEach(collectibleList, function (collectible) {
         var collectibleSpawn = Math.floor(Math.random()*100);
-        if (collectibleSpawn < collectible["Rate"]) {
-            switch(collectible["Name"]) {
-                case "BlueGem":
+        if (collectibleSpawn < collectible.rate) {
+            switch(collectible.name) {
+                case "Blue Gem":
                     var addItem = new BlueGem;
                     break;
-                case "GreenGem":
+                case "Green Gem":
                     var addItem = new GreenGem;
                     break;
-                case "OrangeGem":
+                case "Orange Gem":
                     var addItem = new OrangeGem;
                     break;
-                case "RubyGem":
+                case "Ruby Gem":
                     var addItem = new RubyGem;
                     break;
                 case "Heart":
@@ -921,6 +935,9 @@ var resetGame = function() {
     orangeGemCounter = 0;
     collectedKeys = 0;
     slowingEffectTimer = 0;
+    forEach(collectibleList, function (collectible) {
+        collectible.currentCount = 0;
+    });
     levelGenerator();
     updateScoreDisplay(score,lives,level,highScore);
     updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
@@ -968,14 +985,17 @@ var columnGenerator = function() {
 
 // Accepts character name and changes current player sprite
 var changeCharacter = function (characterName) {
+    if (player.sprite === 'images/char-miao.png') {
+        collectibleRateAdjust("decrease", 15);
+    }
+
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
             break;
         case ("Miao"):
-            if (collectibleCounter >= 0) {
-                player.sprite = 'images/char-miao.png';
-            }
+            player.sprite = 'images/char-miao.png';
+            collectibleRateAdjust("increase", 15);
             break;
         case ("Pink"):
             if (riverCrossingCounter >= 0) {
@@ -995,6 +1015,20 @@ var changeCharacter = function (characterName) {
         default:
     }
 };
+
+var collectibleRateAdjust = function (type, amount) {
+    var flag;
+    if (type === "increase") {
+        flag = 1;
+    }
+    if (type === "decrease") {
+        flag = -1;
+    }
+
+    forEach(collectibleList, function (collectible) {
+        collectible.rate += (amount*flag);
+    });
+}
 
 // Helper function to show characters once they've been unlocked
 var showCharacters = function (name) {
