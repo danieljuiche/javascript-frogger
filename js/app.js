@@ -336,6 +336,8 @@ var Player = function() {
     // The image/sprite for our player
     this.sprite = 'images/char-spot.png';
 
+    this.skillOnCooldown = false;
+
     // Sets the starting position of the player
     this.resetPosition();
 };
@@ -430,9 +432,20 @@ Player.prototype.handleInput = function (allowedKeys) {
             }
             break;
         case ("space"):
-            if (collected.includes("rubygem")) {
-                respawnEnemies(true);
-                collected.splice(collected.indexOf("rubygem"),1);
+            if (!this.skillOnCooldown && player.sprite === 'images/char-spot.png') {
+                allEnemies.splice(Math.floor(Math.random()*allEnemies.length),1);
+                setTimeout(function () {
+
+                if (allEnemies.length < level) {
+                    spawnEnemy(randomEnemyGenerator());
+                }
+
+                }.bind(this), 1000);                
+                messageUpdater("info-message","BUG SPLAT!","Green");
+                this.skillOnCooldown = true;
+                setTimeout(function () {
+                    this.skillOnCooldown = false;
+                }.bind(this), 15000);
             }
             break;
         default:
@@ -614,7 +627,6 @@ var allObstacles = [];
 var checkCollisions = function () {
     if (!GOD_MODE) {
         forEach(allEnemies, function (bug) {
-            //(player.y <= bug.y && player.y >= bug.y - 66 && bug.x + 83 > player.x && bug.x < player.x + 83) 
             if (player.y < bug.y + 63 && player.y > bug.y - 77 && player.x < bug.x + 70 && player.x > bug.x - 70) {
                 // Resets player position, applies appropriate penalties and updates the scoreboard
                 player.resetPosition();
@@ -648,8 +660,6 @@ var checkCollisions = function () {
             collectibleList.filter(function (listItem) {
                 return listItem.name === collectibles.name;
             })[0].currentCount += 1;
-
-            console.log(collectibleList);
             
             if (collectibleCounter === 10) {
                 messageUpdater("info-message", "You've unlocked a new character!", "Black"); 
@@ -708,6 +718,8 @@ var checkStatusEffects = function () {
 
 // Generates a bug when the player reaches the water enough times
 var levelGenerator = function () {
+    // Increases the level
+    level += 1;
     // Create a new instance of an enemy
     if (allEnemies.length < MAXIMUM_ENEMIES) {
         spawnEnemy(randomEnemyGenerator()); 
@@ -716,9 +728,6 @@ var levelGenerator = function () {
     // Spawns collectibles
     allCollectibles = [];
     collectibleSpawn();
-
-    // Increases the level
-    level += 1;
 
     if (obstacleList[0]["spawn_rate"] < 80) {
         obstacleList[0]["spawn_rate"] += 5;
@@ -813,7 +822,9 @@ var spawnEnemy = function (spawn) {
                     break;
                 default:
             }
-    allEnemies.push(addBug);
+    if (level === 0 || allEnemies.length < level) {
+        allEnemies.push(addBug);
+    }
 };
 
 // Function to respawn enemies, accepts boolean for argument. True for instant respawn of bugs.

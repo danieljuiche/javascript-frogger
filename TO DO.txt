@@ -1,4 +1,8 @@
 Completed:
+- Added info message updates (Aug 17)
+- Add different character selections
+  * Normal effect for boy, armed with bug splat (Starting character) (Aug 17)
+  * Cat girl likes to scavange and has 15% chance increased powerup drop rate (Available after picking up 10 power ups) (Aug 17)
 - Changed layout (Aug 16)
 - Refresh powerups upon crossing the river & losing life (Aug 16)
 - Add keys to unlock character selections (Aug 16)
@@ -26,11 +30,12 @@ To Do List:
 - Add additional enemy types
   * Giant bugs (take up larger sections)
 - Add different character selections
-  * Normal effect for boy, armed with bug splat (Starting character)
-  * Cat girl likes to scavange and has 15% chance increased powerup drop rate (Available after picking up 10 power ups)
   * Horn girl is an master swords man, her sword can cut through rocks? Maybe bugs move slower for her too (Collect 5 keys)
   * Pink hair girl is crazy and can become invulnerable for 3 seconds upon picking up star powerup. However she has to travel to specific spot on the river. (Available after crossing the river 10 times)
-  * Princess likes gems and jewels so the score bonus for her is amplified 3x (Unlocked after reaching a score of 10000)
+  * Princess likes gems and jewels so the score bonus for her is amplified 3x (Unlocked after reaching a score of 7000)
+  * Maybe Spot can kill one bug every 30 seconds?
+  * Pink haird girl gains invulnerability after collecting enough ruby gems? Maybe press spacebar to activate
+- Add feature to Level Up Characters
 - Adjust powerups
   * Add player shrink size?
   * Add invunlerability?
