@@ -720,6 +720,7 @@ var checkStatusEffects = function () {
 var levelGenerator = function () {
     // Increases the level
     level += 1;
+    
     // Create a new instance of an enemy
     if (allEnemies.length < MAXIMUM_ENEMIES) {
         spawnEnemy(randomEnemyGenerator()); 
