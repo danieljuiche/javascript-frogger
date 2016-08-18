@@ -127,8 +127,8 @@ canvas {
 
 .character-container h2, .collectible-container h2 {
     margin: auto;
-    margin-top: 15px;
-    font-size: 28px;
+    margin-top: 25px;
+    font-size: 27px;
     text-align: center;
     display: block;
 }
@@ -200,7 +200,7 @@ canvas {
     margin-top: 30px;
     background-color: white;
     width: 1200px;
-    height: 715px;
+    height: 730px;
     border-radius: 10px;
     border-style: solid;
     border-width: 3px;
@@ -249,4 +249,8 @@ button {
     margin: 0px;
     line-height: 50px;
     font-style: italic;
+}
+
+#info-message {
+    font-size: 24px;
 }

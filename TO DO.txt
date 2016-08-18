@@ -1,4 +1,7 @@
 Completed:
+- Add different character selections
+  * Pink hair girl is crazy and can become invulnerable for 3 seconds upon picking up star powerup. (Aug 18)
+- Fixed rock sprite overlapping with bug sprites (Aug 17)
 - Added info message updates (Aug 17)
 - Add different character selections
   * Normal effect for boy, armed with bug splat (Starting character) (Aug 17)
@@ -30,11 +33,10 @@ To Do List:
 - Add additional enemy types
   * Giant bugs (take up larger sections)
 - Add different character selections
-  * Horn girl is an master swords man, her sword can cut through rocks? Maybe bugs move slower for her too (Collect 5 keys)
   * Pink hair girl is crazy and can become invulnerable for 3 seconds upon picking up star powerup. However she has to travel to specific spot on the river. (Available after crossing the river 10 times)
+  * Horn girl is an master swords man, her sword can cut through rocks? Maybe bugs move slower for her too (Collect 5 keys)
   * Princess likes gems and jewels so the score bonus for her is amplified 3x (Unlocked after reaching a score of 7000)
   * Maybe Spot can kill one bug every 30 seconds?
-  * Pink haird girl gains invulnerability after collecting enough ruby gems? Maybe press spacebar to activate
 - Add feature to Level Up Characters
 - Adjust powerups
   * Add player shrink size?

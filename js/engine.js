@@ -83,7 +83,7 @@ var Engine = (function(global) {
     function update(dt) {
         updateEntities(dt);
         checkCollisions();
-        checkStatusEffects();
+        checkSlowingEffects();
     }
 
     /* This is called by the update function and loops through all of the
@@ -193,6 +193,7 @@ var Engine = (function(global) {
         'images/char-spot.png',
         'images/char-horn-girl.png',
         'images/char-pink.png',
+        'images/char-pink-immunity.png',
         'images/char-princess.png',
         'images/char-miao.png',
         'images/gem-blue.png',
@@ -202,6 +203,7 @@ var Engine = (function(global) {
         'images/gem-ruby.png',
         'images/yellow-key.png',
         'images/Rock.png',
+        'images/yellow-star.png',
     ]);
     Resources.onReady(init);
 

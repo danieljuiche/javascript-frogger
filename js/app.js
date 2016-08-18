@@ -9,6 +9,7 @@ var SPEED_INCREASE = 30;  // Speed increase per level
 var BLUE_GEM_CHANCE = 15;  // Percent chance to spawn a blue gem
 var BLUE_GEM_SLOW = 50; // Percent enemy slow speed upon picking up a blue gem.
 var SLOW_TIMER = 3000; // Milliseconds to slow
+var IMMUNITY_TIMER = 3000; // Milliseconds to be immune
 var ORANGE_GEM_CHANCE = 15; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 25;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
@@ -35,8 +36,10 @@ var greenGemCounter = 0;
 var orangeGemCounter = 0;
 var collectedKeys = 0;
 
+var characterLockFlag = false;
+
 // Developers playground options
-var GOD_MODE = false;
+var godMode = false;
 
 // Container for all possible types of enemies
 var enemyList = [
@@ -435,17 +438,35 @@ Player.prototype.handleInput = function (allowedKeys) {
             if (!this.skillOnCooldown && player.sprite === 'images/char-spot.png') {
                 allEnemies.splice(Math.floor(Math.random()*allEnemies.length),1);
                 setTimeout(function () {
-
-                if (allEnemies.length < level) {
-                    spawnEnemy(randomEnemyGenerator());
-                }
-
+                    if (allEnemies.length < level) {
+                        spawnEnemy(randomEnemyGenerator());
+                    }
                 }.bind(this), 1000);                
                 messageUpdater("info-message","BUG SPLAT!","Green");
                 this.skillOnCooldown = true;
                 setTimeout(function () {
                     this.skillOnCooldown = false;
                 }.bind(this), 15000);
+            }
+            else if (player.sprite === 'images/char-pink.png') {
+                forEachObjectInArray(collectibleList, "name", "Ruby Gem", function (object) {
+                    if (object["currentCount"] >= 3) {
+                        characterLockFlag = true;
+                        godMode = true;
+                        object["currentCount"] -= 3;
+                        rubyGemCounter -= 3;
+                        updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
+                        player.sprite = 'images/char-pink-immunity.png';
+                        messageUpdater("info-message","Adrenaline! I'm not afraid of anything!","Pink");
+
+                        setTimeout(function () {
+                            messageUpdater("info-message","The effects of adrenaline have worn off...","Grey");
+                            player.sprite = 'images/char-pink.png';
+                            godMode = false;
+                            characterLockFlag = false;
+                        },3000);
+                    }
+                })
             }
             break;
         default:
@@ -625,7 +646,7 @@ var allObstacles = [];
 // This function is called by main
 // It checks to see if any part of the player sprite overlaps with a enemy bug or powerup
 var checkCollisions = function () {
-    if (!GOD_MODE) {
+    if (!godMode) {
         forEach(allEnemies, function (bug) {
             if (player.y < bug.y + 63 && player.y > bug.y - 77 && player.x < bug.x + 70 && player.x > bug.x - 70) {
                 // Resets player position, applies appropriate penalties and updates the scoreboard
@@ -655,12 +676,11 @@ var checkCollisions = function () {
     forEach(allCollectibles, function (collectibles) {
         if (player.y < collectibles.y + 63 && player.y > collectibles.y - 77 && player.x < collectibles.x + 70 && player.x > collectibles.x - 70) {
             collectibleCounter += 1;
-            
-            // Increases the current count for the collectible picked up
-            collectibleList.filter(function (listItem) {
-                return listItem.name === collectibles.name;
-            })[0].currentCount += 1;
-            
+
+            forEachObjectInArray(collectibleList, "name", collectibles["name"], function (object) {
+               object["currentCount"] += 1;
+            });
+
             if (collectibleCounter === 10) {
                 messageUpdater("info-message", "You've unlocked a new character!", "Black"); 
                 showCharacters("miao");
@@ -671,6 +691,15 @@ var checkCollisions = function () {
             updateHighscore();
             exists(collectibles);
             updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
+        }
+    });
+};
+
+// Helper function which accepts an array of objects, the property of the object to search for, the value to match the property of the object, and the callback function to be applied to the object 
+var forEachObjectInArray = function (collection, property, value, callback) {
+    forEach(collection, function (object) {
+        if (object[property] === value) {
+            callback(object);
         }
     });
 };
@@ -700,7 +729,7 @@ var exists = function (collectible) {
 var slowTimer;
 
 // This function is called by main and determines if a global slowing effect is being applied
-var checkStatusEffects = function () {
+var checkSlowingEffects = function () {
     if (slowingEffectFlag) {
         slowingEffectFlag = false;
         slowTimer = setInterval( function() {
@@ -720,7 +749,7 @@ var checkStatusEffects = function () {
 var levelGenerator = function () {
     // Increases the level
     level += 1;
-    
+
     // Create a new instance of an enemy
     if (allEnemies.length < MAXIMUM_ENEMIES) {
         spawnEnemy(randomEnemyGenerator()); 
