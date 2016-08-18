@@ -16,6 +16,7 @@ var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
 var KEY_CHANCE = 15; // Percent chance to collect a key
+var STAR_CHANCE = 100; // Percent chance to spawn a star
 
 // Initial settings for the game
 var score = 0;
@@ -35,6 +36,7 @@ var blueGemCounter = 0;
 var greenGemCounter = 0;
 var orangeGemCounter = 0;
 var collectedKeys = 0;
+var collectedStars = 0;
 
 var characterLockFlag = false;
 
@@ -149,6 +151,11 @@ var collectibleList = [
         {
             name: "Key",
             rate: KEY_CHANCE,
+            currentCount: 0
+        },
+        {
+            name: "Star",
+            rate: STAR_CHANCE,
             currentCount: 0
         }
      ];
@@ -622,7 +629,23 @@ Key.prototype.effect = function () {
         messageUpdater("info-message", "+500 Score","#D0CC57");
         score += 500;
     }
+}
 
+// Subclass of collectible
+var Star = function () {
+    Collectible.call(this);
+    this.sprite = 'images/yellow-star.png';
+};
+
+Star.prototype = Object.create(Collectible.prototype);
+Star.prototype.constructor = Collectible;
+Star.prototype.effect = function () {
+    collectedStars += 1;
+
+    forEachObjectInArray(collectibleList, "name", "Star", function (object) {
+        object["currentCount"] += 1;
+    });
+    messageUpdater("info-message", "A star containing powerful energy!","#F2DF11");
 }
 
 // Obstacle constructor
@@ -690,7 +713,7 @@ var checkCollisions = function () {
             allCollectibles.splice(allCollectibles.indexOf(collectibles),1);
             updateHighscore();
             exists(collectibles);
-            updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
+            updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
         }
     });
 };
@@ -899,6 +922,9 @@ var collectibleSpawn = function () {
                 case "Key":
                     var addItem = new Key;
                     break;
+                case "Star":
+                    var addItem = new Star;
+                    break;
                 default:
             }
 
@@ -944,17 +970,19 @@ var updateScoreDisplay = function (score, lives, level, highscore) {
 };
 
 // Function which updates the collectibles board
-var updateCollectibleDisplay = function (ruby, blue, green, orange, keys) {
+var updateCollectibleDisplay = function (ruby, blue, green, orange, keys, stars) {
     var currentRubyGemCounter = document.getElementById("ruby-gem-counter");
     var currentBlueGemCounter = document.getElementById("blue-gem-counter");
     var currentGreenGemCounter = document.getElementById("green-gem-counter");
-    var currentOrangeGemCounter = document.getElementById("orange-gem-counter");
+    /*var currentOrangeGemCounter = document.getElementById("orange-gem-counter");*/
     var currentKeyCounter = document.getElementById("keys-counter");
+    var currentStarCounter = document.getElementById("yellow-star-counter");
     currentRubyGemCounter.innerHTML = "Ruby Gem: " + ruby;
     currentBlueGemCounter.innerHTML = "Blue Gem: " + blue;
     currentGreenGemCounter.innerHTML = "Green Gem: " + green;
-    currentOrangeGemCounter.innerHTML = "Orange Gem: " + orange;
+    /*currentOrangeGemCounter.innerHTML = "Orange Gem: " + orange;*/
     currentKeyCounter.innerHTML = "Keys: " + keys;
+    currentStarCounter.innerHTML = "Power Ups: " + stars;
 };
 
 // Function which updates player highscore
@@ -988,7 +1016,7 @@ var resetGame = function() {
     });
     levelGenerator();
     updateScoreDisplay(score,lives,level,highScore);
-    updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
+    updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
 };
 
 // Function to remove the bug once it has crossed the screen and generates a new bug

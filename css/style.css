@@ -187,12 +187,16 @@ canvas {
     color: #34FA6C;
 }
 
-#orange-gem h3 {
+/*#orange-gem h3 {
     color: #FDD360;
-}
+}*/
 
 #keys h3 {
     color: #D0CC57;
+}
+
+#star h3 {
+    color: #F2DF11;
 }
 
 .body-container {
