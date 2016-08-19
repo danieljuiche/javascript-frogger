@@ -16,7 +16,7 @@ var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
 var HEART_CHANCE = 10; // Percent chance to spawn an extra life
 var KEY_CHANCE = 15; // Percent chance to collect a key
-var STAR_CHANCE = 100; // Percent chance to spawn a star
+var STAR_CHANCE = 50; // Percent chance to spawn a star
 
 // Initial settings for the game
 var score = 0;
@@ -443,27 +443,26 @@ Player.prototype.handleInput = function (allowedKeys) {
             }
             break;
         case ("space"):
-            if (!this.skillOnCooldown && player.sprite === 'images/char-spot.png') {
-                allEnemies.splice(Math.floor(Math.random()*allEnemies.length),1);
-                setTimeout(function () {
-                    if (allEnemies.length < level) {
-                        spawnEnemy(randomEnemyGenerator());
+            if (player.sprite === 'images/char-spot.png') {
+                forEachObjectInArray(collectibleList, "name", "Star", function (object) {
+                    if (object["currentCount"] >= 3) {
+                        object["currentCount"] -= 3;
+                        collectedStars -= 3;
+                        allEnemies = [];
+                        respawnEnemies(false);
+                        updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
+                        messageUpdater("info-message","*SQUISH* Ewww!!","Green");
                     }
-                }.bind(this), 1000);                
-                messageUpdater("info-message","*SQUISH* Ewww!!","Green");
-                this.skillOnCooldown = true;
-                setTimeout(function () {
-                    this.skillOnCooldown = false;
-                }.bind(this), 15000);
+                });
             }
-            else if (player.sprite === 'images/char-pink.png') {
-                forEachObjectInArray(collectibleList, "name", "Ruby Gem", function (object) {
+            if (player.sprite === 'images/char-pink.png') {
+                forEachObjectInArray(collectibleList, "name", "Star", function (object) {
                     if (object["currentCount"] >= 3) {
                         characterLockFlag = true;
                         godMode = true;
                         object["currentCount"] -= 3;
-                        rubyGemCounter -= 3;
-                        updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys);
+                        collectedStars -= 3;
+                        updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
                         player.sprite = 'images/char-pink-immunity.png';
                         messageUpdater("info-message","Adrenaline! I'm not afraid of anything!","Pink");
 
@@ -475,6 +474,23 @@ Player.prototype.handleInput = function (allowedKeys) {
                         },3000);
                     }
                 })
+            }
+            if (player.sprite === 'images/char-horn-girl.png') {
+                forEachObjectInArray(collectibleList, "name", "Star", function (object) {
+                    if (object["currentCount"] >= 3) {
+                        object["currentCount"] -= 3;
+                        collectedStars -= 3;
+                        updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
+                        if (slowingEffectTimer === 0) {
+                            slowingEffectFlag = true;  
+                        }
+                        document.body.style.background = "rgba(130,195,255,1)";
+                        slowingEffectCounter = 1;
+                        slowingEffectTimer += SLOW_TIMER;
+                        slowingEffectRatio = 1 / (slowingEffectTimer / 1000);
+                        messageUpdater("info-message", "A cool breeze blows by...","#6F8FF7");
+                    }
+                });
             }
             break;
         default:
@@ -536,14 +552,8 @@ var BlueGem = function () {
 BlueGem.prototype = Object.create(Collectible.prototype);
 BlueGem.prototype.constructor = Collectible;
 BlueGem.prototype.effect = function () {
-    if (slowingEffectTimer === 0) {
-        slowingEffectFlag = true;  
-    }
-    document.body.style.background = "rgba(130,195,255,1)";
-    slowingEffectCounter = 1;
-    slowingEffectTimer += SLOW_TIMER;
-    slowingEffectRatio = 1 / (slowingEffectTimer / 1000);
-    messageUpdater("info-message", "A cool breeze blows by...","#6F8FF7"); 
+    score += (100 * scoreMultiplier);
+    messageUpdater("info-message", "+" + (100 * scoreMultiplier) + " Score!","#34FA6C");
 };
 
 // Subclass of collectible
@@ -570,7 +580,7 @@ var OrangeGem = function () {
 OrangeGem.prototype = Object.create(Collectible.prototype);
 OrangeGem.prototype.constructor = Collectible;
 OrangeGem.prototype.effect = function () {
-    score += (500 * scoreMultiplier);
+    score += (300 * scoreMultiplier);
     messageUpdater("info-message", "+" + (500 * scoreMultiplier) + " Score!","#FDD360");
 };
 
@@ -584,7 +594,7 @@ var RubyGem = function () {
 RubyGem.prototype = Object.create(Collectible.prototype);
 RubyGem.prototype.constructor = Collectible;
 RubyGem.prototype.effect = function () {
-    score += (1000 * scoreMultiplier);
+    score += (500 * scoreMultiplier);
     messageUpdater("info-message", "+" + (1000 * scoreMultiplier) + " Score!","#EE316B");
 }
 
@@ -886,7 +896,7 @@ var spawnEnemy = function (spawn) {
 var respawnEnemies = function (instant) {
     allEnemies = [];
     var spawnTimer = 0;
-    if (instant) {
+    if (!instant) {
         spawnTimer = CLEAR_TIMER;
     }
 
@@ -1081,7 +1091,7 @@ var changeCharacter = function (characterName) {
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
-            messageUpdater("effect-message", "Active: Kill a random bug every 15 seconds.","black");
+            messageUpdater("effect-message", "Bug Splat: Clears the screen of icky bugs!","black");
             break;
         case ("Miao"):
             player.sprite = 'images/char-miao.png';
@@ -1089,23 +1099,17 @@ var changeCharacter = function (characterName) {
             messageUpdater("effect-message", "Passive: +15% Powerup Spawn Rate. Nice!","red");
             break;
         case ("Pink"):
-            if (riverCrossingCounter >= 0) {
-                player.sprite = 'images/char-pink.png';
-                messageUpdater("effect-message", "Active: Immune to bugs for three seconds.","pink");
-            }
+            player.sprite = 'images/char-pink.png';
+            messageUpdater("effect-message", "Adrenaline Shot: Immune to bugs for three seconds.","pink");
             break;
         case ("Horn Girl"):
-            if (collectedKeys >= 0) {
-                player.sprite = 'images/char-horn-girl.png';
-                messageUpdater("effect-message", "Active: Applies bug spray to all bugs on screen.","green");            
-            }
+            player.sprite = 'images/char-horn-girl.png';
+            messageUpdater("effect-message", "Heightened Senses: Everything seems to move slower...","blue");            
             break;
         case ("Princess"):
-            if (highScore >= 6000) {
-                player.sprite = 'images/char-princess.png';
-                scoreMultiplier = 2;
-                messageUpdater("effect-message", "Passive: 2X Score Multiplier all across the board!","#F2DF11");
-            }
+            player.sprite = 'images/char-princess.png';
+            scoreMultiplier = 2;
+            messageUpdater("effect-message", "Passive: 2X Score Multiplier all across the board!","#F2DF11");
             break;
         default:
     }
