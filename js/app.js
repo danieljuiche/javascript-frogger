@@ -37,6 +37,7 @@ var greenGemCounter = 0;
 var orangeGemCounter = 0;
 var collectedKeys = 0;
 var collectedStars = 0;
+var scoreMultiplier = 1;
 
 var characterLockFlag = false;
 
@@ -484,8 +485,8 @@ Player.prototype.handleInput = function (allowedKeys) {
     if (this.y === -22) {
         this.resetPosition();
         respawnObstacles();
-        score += 100;
-        messageUpdater("info-message", "Ahhh, that's refreshing! +100 Score!","Navy"); 
+        score += (100 * scoreMultiplier);
+        messageUpdater("info-message", "Ahhh, that's refreshing! +" + (100 * scoreMultiplier) +" Score!","Navy"); 
         updateHighscore(score);
         levelCounter += 1;
         riverCrossingCounter += 1;
@@ -555,8 +556,8 @@ var GreenGem = function () {
 GreenGem.prototype = Object.create(Collectible.prototype);
 GreenGem.prototype.constructor = Collectible;
 GreenGem.prototype.effect = function () {
-    messageUpdater("info-message", "+250 Score!","#34FA6C");  
-    score += 250;
+    score += (250 * scoreMultiplier);
+    messageUpdater("info-message", "+" + (250 * scoreMultiplier) + " Score!","#34FA6C");
 };
 
 // Subclass of collectible
@@ -569,8 +570,8 @@ var OrangeGem = function () {
 OrangeGem.prototype = Object.create(Collectible.prototype);
 OrangeGem.prototype.constructor = Collectible;
 OrangeGem.prototype.effect = function () {
-    messageUpdater("info-message", "+500 Score!","#FDD360");
-    score += 500;
+    score += (500 * scoreMultiplier);
+    messageUpdater("info-message", "+" + (500 * scoreMultiplier) + " Score!","#FDD360");
 };
 
 // Subclass of collectible
@@ -583,8 +584,8 @@ var RubyGem = function () {
 RubyGem.prototype = Object.create(Collectible.prototype);
 RubyGem.prototype.constructor = Collectible;
 RubyGem.prototype.effect = function () {
-    messageUpdater("info-message", "+1000 Score!","#EE316B");
-    score += 1000;
+    score += (1000 * scoreMultiplier);
+    messageUpdater("info-message", "+" + (1000 * scoreMultiplier) + " Score!","#EE316B");
 }
 
 // Subclass of collectible
@@ -603,7 +604,8 @@ Heart.prototype.effect = function () {
         messageUpdater("info-message", "This should come in handy. +1 Life!","#D9534F"); 
     }
     else {
-        messageUpdater("info-message", "Don't be too greedy now. Afterall, you're just a mere mortal. +100 Score.","#D9534F");        
+        score += (350 * scoreMultiplier);
+        messageUpdater("info-message", "Don't be too greedy now. Afterall, you're just a mere mortal. +" + (350 * scoreMultiplier) + " Score.","#D9534F");        
     }
 };
 
@@ -626,8 +628,8 @@ Key.prototype.effect = function () {
         messageUpdater("info-message", "You've unlocked a new Character!","#D0CC57");
     }
     if (collectedKeys > 5) {
-        messageUpdater("info-message", "+500 Score","#D0CC57");
-        score += 500;
+        score += (500 * scoreMultiplier);
+        messageUpdater("info-message", "+" + (500 * scoreMultiplier) + " Score!","#D0CC57");
     }
 }
 
@@ -1072,6 +1074,10 @@ var changeCharacter = function (characterName) {
         collectibleRateAdjust("decrease", 15);
     }
 
+    if (player.sprite === 'images/char-princess.png') {
+        scoreMultiplier = 1;
+    }
+
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
@@ -1097,6 +1103,7 @@ var changeCharacter = function (characterName) {
         case ("Princess"):
             if (highScore >= 6000) {
                 player.sprite = 'images/char-princess.png';
+                scoreMultiplier = 2;
                 messageUpdater("effect-message", "Passive: 2X Score Multiplier all across the board!","#F2DF11");
             }
             break;

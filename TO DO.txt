@@ -1,4 +1,5 @@
 Completed:
+- Implemented score multiplier for Princess character (Aug 18)
 - Disallow powerups to spawn on rocks (Aug 18)
 - Add different character selections
   * Pink hair girl is crazy and can become invulnerable for 3 seconds upon picking up star powerup. (Aug 18)
@@ -35,7 +36,6 @@ To Do List:
   * Giant bugs (take up larger sections)
 - Add different character selections
   * Horn girl is an master swords man, her sword can cut through rocks? Maybe bugs move slower for her too (Collect 5 keys) Move blue gem skills over to her.
-  * Princess likes gems and jewels so the score bonus for her is amplified 3x (Unlocked after reaching a score of 7000)
 - Add feature to Level Up Characters
 - Fix obstacle and powerups to spawn even when space is occupied, find a way to move it to another spot?
 - Adjust powerups
