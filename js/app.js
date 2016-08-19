@@ -449,7 +449,7 @@ Player.prototype.handleInput = function (allowedKeys) {
                         spawnEnemy(randomEnemyGenerator());
                     }
                 }.bind(this), 1000);                
-                messageUpdater("info-message","BUG SPLAT!","Green");
+                messageUpdater("info-message","*SQUISH* Ewww!!","Green");
                 this.skillOnCooldown = true;
                 setTimeout(function () {
                     this.skillOnCooldown = false;
@@ -942,6 +942,12 @@ var collectibleSpawn = function () {
                 }
             });
 
+            forEach(allObstacles, function (obstacle) {
+                if (addItem.x === obstacle.x && addItem.y === obstacle.y) {
+                    addItemFlag = false;
+                }
+            });
+
             // Adds the instance of the collectible
             if (addItemFlag) {
                 allCollectibles.push(addItem);
@@ -1010,6 +1016,7 @@ var resetGame = function() {
     greenGemCounter = 0;
     orangeGemCounter = 0;
     collectedKeys = 0;
+    collectedStars = 0;
     slowingEffectTimer = 0;
     forEach(collectibleList, function (collectible) {
         collectible.currentCount = 0;
@@ -1068,29 +1075,29 @@ var changeCharacter = function (characterName) {
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
-            messageUpdater("effect-message", "None. You are just a little boy","black");
+            messageUpdater("effect-message", "Active: Kill a random bug every 15 seconds.","black");
             break;
         case ("Miao"):
             player.sprite = 'images/char-miao.png';
             collectibleRateAdjust("increase", 15);
-            messageUpdater("effect-message", "+15% Powerup Spawn Rate. Nice!","red");
+            messageUpdater("effect-message", "Passive: +15% Powerup Spawn Rate. Nice!","red");
             break;
         case ("Pink"):
             if (riverCrossingCounter >= 0) {
                 player.sprite = 'images/char-pink.png';
-                messageUpdater("effect-message", "None. To be determined!","black");
+                messageUpdater("effect-message", "Active: Immune to bugs for three seconds.","pink");
             }
             break;
         case ("Horn Girl"):
             if (collectedKeys >= 0) {
                 player.sprite = 'images/char-horn-girl.png';
-                messageUpdater("effect-message", "None. To be determined!","black");            
+                messageUpdater("effect-message", "Active: Applies bug spray to all bugs on screen.","green");            
             }
             break;
         case ("Princess"):
             if (highScore >= 6000) {
                 player.sprite = 'images/char-princess.png';
-                messageUpdater("effect-message", "None. To be determined!","black");
+                messageUpdater("effect-message", "Passive: 2X Score Multiplier all across the board!","#F2DF11");
             }
             break;
         default:
