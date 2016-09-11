@@ -61,7 +61,7 @@ body {
     border-width: 0px;
     text-align: center;
     font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
-    color: #5cb85c;
+    color: #5F9EA0;
 }
 
 canvas {
@@ -208,7 +208,7 @@ canvas {
     border-radius: 10px;
     border-style: solid;
     border-width: 3px;
-    border-color: black;
+    border-color: #4682B4;
 }
 
 button {
@@ -234,7 +234,11 @@ button {
     border-radius: 10px;
     border-style: solid;
     border-width: 3px;
-    border-color: black;
+    border-color: #20B2AA;
+}
+
+.current-effects {
+    border-color: #66CDAA;
 }
 
 .info-updates h1 {
