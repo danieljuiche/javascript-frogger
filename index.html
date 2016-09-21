@@ -59,23 +59,23 @@
 					<h2>Characters</h2>
 					<li id="spot">
 						<img src="images/char-spot-cropped.png">
-						<button onclick="changeCharacter('Spot')">Spot</button>
+						<button id="btn-spot" class="btn blue" onclick="changeCharacter('Spot')">Spot</button>
 					</li>
 					<li id="pink">
 						<img src="images/char-pink-cropped.png">
-						<button onclick="changeCharacter('Pink')">Pink</button>
+						<button id="btn-pink" class="btn red" onclick="changeCharacter('Pink')">Pink</button>
 					</li>
 					<li id="miao">
 						<img src="images/char-miao-cropped.png">
-						<button onclick="changeCharacter('Miao')">Miao</button>
+						<button id="btn-miao" class="btn green" onclick="changeCharacter('Miao')">Miao</button>
 					</li>
 					<li id="horn-girl">
 						<img src="images/char-horn-girl-cropped.png">
-						<button onclick="changeCharacter('Horn Girl')">Horn Girl</button>
+						<button id="btn-horn-girl" class="btn purple" onclick="changeCharacter('Horn Girl')">Horn Girl</button>
 					</li>
 					<li id="princess">
 						<img src="images/char-princess-cropped.png">
-						<button onclick="changeCharacter('Princess')">Princess</button>
+						<button id="btn-princess" class="btn orange" onclick="changeCharacter('Princess')">Princess</button>
 					</li>
 				</ul>
 			</div>
@@ -87,7 +87,7 @@
 			<h1 id="info-message"></h1>
 		</div>
 		<div class="current-effects">
-			<h2>Current Character Effects:</h2>
+			<h2>Current Character Effects</h2>
 			<h3 id="effect-message">Bug Splat: Clears the screen of icky bugs!</h3>
 		</div>
 	</div>
@@ -96,6 +96,8 @@
 	<div id="top-border"></div>
 	<div id="bottom-border"></div>
 
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-2.2.4.min.js" integrity="sha256-BbhdlvQf/xTY9gja0Dq3HiwQF8LaCRTXxZKRutelT44=" crossorigin="anonymous"></script>
   <script src="js/resources.js"></script>
   <script src="js/app.js"></script>
   <script src="js/engine.js"></script>

@@ -1,3 +1,6 @@
+/* Google Fonts */
+@import url(http://fonts.googleapis.com/css?family=Open+Sans);
+
 h1 {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -145,7 +148,7 @@ canvas {
 }
 
 .character-container li {
-    visibility: hidden;
+    /*visibility: hidden;*/
 }
 
 .character-container img, .collectible-container img {
@@ -153,10 +156,81 @@ canvas {
     display: block;
 }
 
-.character-container button, .collectible-container button {
+.btn {
+    font-family: "Open Sans", "sans-serif";
+    font-size: 13px;
     width: 101px;
-    border-radius: 8px;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
+    padding: 5px;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    border-radius: 5px;
+    transition: .3s;
+    -webkit-transition: .3s;
+    -moz-transition: .3s;
+    -o-transition: .3s;
+    background-color: white;
+    outline: none;
+}
+
+.blue {
+    color: #55acee;
+    border-width: 2px;
+    border-color: #55acee;
+    border-style: solid;
+}
+
+.blue-active, .blue:hover {
+    color: #fff;
+    background-color: #55acee;
+}
+
+.green {
+    color: #2ecc71;
+    border-width: 2px;
+    border-color: #2ecc71;
+    border-style: solid;
+}
+
+.green-active, .green:hover {
+    color: #fff;
+    background-color: #2ecc71;
+}
+
+.red {
+    color: #e74c3c;
+    border-width: 2px;
+    border-color: #e74c3c;
+    border-style: solid;
+}
+
+.red-active, .red:hover {
+    color: #fff;
+    background-color: #e74c3c;
+}
+
+.purple {
+    color: #9b59b6;
+    border-width: 2px;
+    border-color: #9b59b6;
+    border-style: solid;
+}
+
+.purple-active, .purple:hover {
+    color: #fff;
+    background-color: #9b59b6;
+}
+
+.orange {
+    color: #e67e22;
+    border-width: 2px;
+    border-color: #e67e22;
+    border-style: solid;
+}
+
+.orange-active, .orange:hover {
+    color: #fff;
+    background-color: #e67e22;
 }
 
 .main-container {
@@ -172,7 +246,8 @@ canvas {
 
 .collectible-row h3 {
     margin: 0px;
-    color: black;
+    padding: 5px;
+    font-size: 13px;
 }
 
 #ruby-gem h3{
@@ -187,10 +262,6 @@ canvas {
     color: #34FA6C;
 }
 
-/*#orange-gem h3 {
-    color: #FDD360;
-}*/
-
 #keys h3 {
     color: #D0CC57;
 }
@@ -204,17 +275,12 @@ canvas {
     margin-top: 30px;
     background-color: white;
     width: 1200px;
-    height: 730px;
+    height: 800px;
     border-radius: 10px;
     border-style: solid;
     border-width: 3px;
     border-color: #4682B4;
 }
-
-button {
-    font-weight: bold;
-}
-
 
 .info-container {
     width: 1210px;
