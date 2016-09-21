@@ -1,6 +1,11 @@
 /* Google Fonts */
 @import url(http://fonts.googleapis.com/css?family=Open+Sans);
 
+* {
+    font-family: "Open Sans", "sans-serif", "Helvetica Neue",Helvetica,Arial,sans-serif;
+    font-weight: bold;
+}
+
 h1 {
     margin-top: 0px;
     margin-bottom: 0px;
@@ -63,7 +68,6 @@ body {
     border-color: #82C3FF;
     border-width: 0px;
     text-align: center;
-    font-family: "Helvetica Neue",Helvetica,Arial,sans-serif;
     color: #5F9EA0;
 }
 
@@ -90,6 +94,7 @@ canvas {
 .header-container {
     vertical-align: top;
 	margin: auto;
+    margin-top: 24px;
 	display: inline-block;
 	height: auto;
 	width: 713px;
@@ -157,7 +162,6 @@ canvas {
 }
 
 .btn {
-    font-family: "Open Sans", "sans-serif";
     font-size: 13px;
     width: 101px;
     padding: 5px;
@@ -246,7 +250,7 @@ canvas {
 
 .collectible-row h3 {
     margin: 0px;
-    padding: 5px;
+    padding: 7px;
     font-size: 13px;
 }
 
@@ -314,17 +318,27 @@ canvas {
 }
 
 .current-effects h2 {
+    padding-top: 10px;
+    padding-bottom: 10px;
     margin: 0px;
     font-size: 32px;
-    line-height: 80px;
+    line-height: 1.5;
 }
 
 .current-effects h3 {
     margin: 0px;
-    line-height: 50px;
+    line-height: 1.7;
     font-style: italic;
 }
 
 #info-message {
     font-size: 24px;
+}
+
+#active-passive {
+    color: red;
+}
+
+#effect-message {
+    color: #55acee;
 }

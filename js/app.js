@@ -1,8 +1,3 @@
-$(document).ready(function () {
-
-
-});
-
 // Constants which can be tweaked
 var TO_NEXT_LEVEL = 2; // Determines how soon the next level is reached
 var STARTING_LIVES = 3; // Starting player lives
@@ -450,9 +445,9 @@ Player.prototype.handleInput = function (allowedKeys) {
         case ("space"):
             if (player.sprite === 'images/char-spot.png') {
                 forEachObjectInArray(collectibleList, "name", "Star", function (object) {
-                    if (object["currentCount"] >= 3) {
-                        object["currentCount"] -= 3;
-                        collectedStars -= 3;
+                    if (object["currentCount"] >= 2) {
+                        object["currentCount"] -= 2;
+                        collectedStars -= 2;
                         allEnemies = [];
                         respawnEnemies(false);
                         updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
@@ -476,15 +471,15 @@ Player.prototype.handleInput = function (allowedKeys) {
                             player.sprite = 'images/char-pink.png';
                             godMode = false;
                             characterLockFlag = false;
-                        },3000);
+                        },5000);
                     }
                 })
             }
             if (player.sprite === 'images/char-horn-girl.png') {
                 forEachObjectInArray(collectibleList, "name", "Star", function (object) {
-                    if (object["currentCount"] >= 3) {
-                        object["currentCount"] -= 3;
-                        collectedStars -= 3;
+                    if (object["currentCount"] >= 1) {
+                        object["currentCount"] -= 1;
+                        collectedStars -= 1;
                         updateCollectibleDisplay(rubyGemCounter,blueGemCounter,greenGemCounter,orangeGemCounter,collectedKeys,collectedStars);
                         if (slowingEffectTimer === 0) {
                             slowingEffectFlag = true;  
@@ -1096,25 +1091,30 @@ var changeCharacter = function (characterName) {
     switch (characterName) {
         case ("Spot"):
             player.sprite = 'images/char-spot.png';
-            messageUpdater("effect-message", "Bug Splat: Clears the screen of icky bugs!","black");
+            messageUpdater("active-passive", "Active [Cost: 2]", "red");
+            messageUpdater("effect-message", "Bug Splat: Clears the screen of icky bugs!","#55acee");
             break;
         case ("Miao"):
             player.sprite = 'images/char-miao.png';
             collectibleRateAdjust("increase", 15);
-            messageUpdater("effect-message", "Passive: +15% Powerup Spawn Rate. Nice!","red");
+            messageUpdater("active-passive", "Passive", "#5E5B52");
+            messageUpdater("effect-message", "Hoarder: +15% Powerup Spawn Rate. Nice!","#2ecc71");
             break;
         case ("Pink"):
             player.sprite = 'images/char-pink.png';
-            messageUpdater("effect-message", "Adrenaline Shot: Immune to bugs for three seconds.","pink");
+            messageUpdater("active-passive", "Active [Cost: 3]", "red");
+            messageUpdater("effect-message", "Adrenaline Shot: Immune to bugs for three seconds.","#e74c3c");
             break;
         case ("Horn Girl"):
             player.sprite = 'images/char-horn-girl.png';
-            messageUpdater("effect-message", "Heightened Senses: Everything seems to move slower...","blue");            
+            messageUpdater("active-passive", "Active [Cost: 1]", "red");         
+            messageUpdater("effect-message", "Heightened Senses: Everything seems to move slower...","#9b59b6");            
             break;
         case ("Princess"):
             player.sprite = 'images/char-princess.png';
             scoreMultiplier = 2;
-            messageUpdater("effect-message", "Passive: 2X Score Multiplier all across the board!","#F2DF11");
+            messageUpdater("active-passive", "Passive", "#5E5B52");
+            messageUpdater("effect-message", "Entitlement: 2X Score Multiplier all across the board!","#e67e22");
             break;
         default:
     }
