@@ -342,3 +342,14 @@ canvas {
 #effect-message {
     color: #55acee;
 }
+
+#btn-info {
+    font-size: 30px;
+    margin-top: -35px;
+    margin-right: 50px;
+    float: right;
+}
+
+.fa {
+    color: black;
+}
