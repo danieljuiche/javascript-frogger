@@ -73,10 +73,10 @@ body {
 
 canvas {
 	margin-top: -35px;
-    margin-left: auto;
-    margin-right: auto;
-    display: block;
-    text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  display: block;
+  text-align: center;
 }
 
 .scoreboard {
@@ -93,11 +93,10 @@ canvas {
 
 .header-container {
     vertical-align: top;
-	margin: auto;
-    margin-top: 24px;
-	display: inline-block;
-	height: auto;
-	width: 713px;
+		margin: auto;
+		display: inline-block;
+		height: auto;
+		width: 713px;
     background-color: white;
     border-radius: 8px;
 }
@@ -122,8 +121,6 @@ canvas {
 
 .character-container, .collectible-container {
     margin: auto;
-    margin-left: 20px;
-    margin-right: 20px;
     padding-left: 10px;
     padding-right: 10px;
     display: inline-block;
@@ -133,9 +130,19 @@ canvas {
     border-radius: 8px;
 }
 
+.character-container {
+	float: right;
+	margin-right: 28px;
+}
+
+.collectible-container {
+	float: left;
+	margin-left: 28px;
+}
+
 .character-container h2, .collectible-container h2 {
     margin: auto;
-    margin-top: 25px;
+    margin-top: 20px;
     font-size: 27px;
     text-align: center;
     display: block;
@@ -158,13 +165,15 @@ canvas {
 
 .character-container img, .collectible-container img {
     margin: auto;
+    width: 90px;
+    height: auto;
     display: block;
 }
 
 .btn {
     font-size: 13px;
     width: 101px;
-    padding: 5px;
+    padding: 7px;
     text-decoration: none;
     font-weight: bold;
     cursor: pointer;
@@ -239,8 +248,7 @@ canvas {
 
 .main-container {
     vertical-align: top;
-    padding-left: 15px;
-    padding-right: 15px;
+    padding: 0px;
     display: inline-block;
     margin: auto;
     width: 713px;
@@ -249,9 +257,13 @@ canvas {
 }
 
 .collectible-row h3 {
+		display: inline-block;
     margin: 0px;
     padding: 7px;
     font-size: 13px;
+    border-top-style: solid;
+    border-bottom-style: solid;
+    border-width: 2px;
 }
 
 #ruby-gem h3{
@@ -276,10 +288,10 @@ canvas {
 
 .body-container {
     margin: auto;
-    margin-top: 30px;
+    margin-top: 25px;
     background-color: white;
-    width: 1200px;
-    height: 800px;
+    width: 1150px;
+    height: 750px;
     border-radius: 10px;
     border-style: solid;
     border-width: 3px;
@@ -287,7 +299,7 @@ canvas {
 }
 
 .info-container {
-    width: 1210px;
+    width: 1164px;
     height: 160px;
     margin: auto;
     margin-top: 7px;
