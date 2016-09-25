@@ -3,6 +3,8 @@ $(document).ready(function() {
 	var $overlayContent = $('<div id="overlay-content"></div>');
 	var $overlayTitle = $('<h1>About</h1>');
 	var $exitButton = $('<div><a id="btn-exit" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></a></i></div>')
+	var $socialMedia = $('<div id="social-container"></div>')
+	var $faceBookButton = $('<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 
 	var w = $("html").css("width");
   var h = $("html").css("height");
@@ -40,16 +42,17 @@ $(document).ready(function() {
 	// Overlay title
 	$overlayContent.append($overlayTitle);
 	$overlayTitle.css({
-		"color": "#505A5B",
-		"margin-top": "7px"
+		"color": "#283044",
+		"margin-top": "24px",
+		"padding": "0px"
 	});
 
 	// Exit button for overlay
 	$overlayContent.append($exitButton);
 	$exitButton.css({
 		"float": "right",
-		"margin-top": "-65px",
-		"margin-right": "12px",
+		"margin-top": "-62px",
+		"margin-right": "11px",
 		"margin-bottom": "0px",
 		"margin-left": "0px",
 		"font-size": "24px"
@@ -61,16 +64,19 @@ $(document).ready(function() {
 
 	$overlayContent.append("<p>Use the arrow keys to move your character around. Cross the river, collect items and unlock new characters!</p>");
 
-	$overlayContent.append("<p>Click <a href='#'>here</a> to watch the introduction.</p>");
+	$overlayContent.append("<p>Click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a> to watch the introduction.</p>");
 
 	$overlayContent.append('<p>*Note* This game works best on a 1920 x 1080 screen. \
 	If you are playing on a smaller screen please adjust your window resolution by holding down the &lt;CTRL&gt; key \
 	and scrolling downwards on the &lt;MOUSEWHEEL&gt;');
 
-	$overlayContent.append('<p>Please help out by sending any errors and bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>.')
+	$overlayContent.append('<p>Please help out by sending any comments, suggestions or bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>.');
 
 	$overlayContent.append('<p>If you enjoyed the game, please consider donating! Every dollar is very much appreciated.</p>');
-	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>')
+	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>');
+
+	$overlayContent.append($socialMedia);
+	$socialMedia.append($faceBookButton);
 
 	// CSS for content in overlay
 	$overlayContent.children().each(function () {
@@ -81,9 +87,15 @@ $(document).ready(function() {
 			"margin-bottom": "1.5em",
 			"text-align": "left",
 			display: "block",
-			color: "black",
+			color: "#8B786D",
 			"font-size": "1em"
 		});
+	});
+
+	// CSS for social media containers
+	$('#social-container').css({
+		"margin": "auto",
+		"margin-top": "15px"
 	});
 
 	// Shows & hides overlay
