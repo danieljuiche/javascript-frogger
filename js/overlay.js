@@ -1,18 +1,26 @@
 $(document).ready(function() {
+
 	var $overlay = $('<div id="overlay"></div>');
 	var $overlayContent = $('<div id="overlay-content"></div>');
 	var $overlayTitle = $('<h1>About</h1>');
 	var $exitButton = $('<div><a id="btn-exit" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></a></i></div>')
 	var $socialMedia = $('<div id="social-container"></div>')
-	var $faceBookButton = $('<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=450&layout=standard&action=like&size=small&show_faces=true&share=true&height=80&appId" width="450" height="80" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+	var $faceBookButton = $('<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=104&layout=button_count&action=like&show_faces=false&share=true&height=46&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 
-	var w = $("html").css("width");
-  var h = $("html").css("height");
+	// Function that updates overlay size
+	var resizeOverlay = function () {
+		var w = $("html").css("width");
+	  var h = $("html").css("height");
+		$overlay.css({
+			width: w,
+			height: h
+		});
+	};
+
   // Define overlay
 	$("body").append($overlay);
+	resizeOverlay();
 	$overlay.css({
-		width: w,
-		height: h,
 		display: "none",
 		background: "rgba(0,0,0,0.7)",
 		position: "absolute",
@@ -60,34 +68,37 @@ $(document).ready(function() {
 
 	// Overlay Content
 	$overlayContent.append("<p>This frogger game was made as the final project for Udacity's\
-	<a href='https://www.udacity.com/course/object-oriented-javascript--ud015'>Object-Oriented Javascript</a> course.</p>");
+	<a href='https://www.udacity.com/course/object-oriented-javascript--ud015'>Object-Oriented Javascript</a> course. \
+	I am very excited to share it with you all and I hope you will enjoy the game as much as I did making it!</p>");
 
-	$overlayContent.append("<p>Use the arrow keys to move your character around. Cross the river, collect items and unlock new characters!</p>");
+	$overlayContent.append("<p>Use the &lt;ARROW KEYS&gt; to move your character around. Cross the river, collect items \
+	and unlock new characters! If you need to watch the introduction again, click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a>.</p>");
 
-	$overlayContent.append("<p>Click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a> to watch the introduction.</p>");
+	$overlayContent.append('<p>*Note* This game works best on a 1920 x 1080 screen. You may adjust your \
+	browser resolution by holding down the &lt;CTRL&gt; key and scrolling upwards or downwards with the \
+	&lt;MOUSEWHEEL&gt;');
 
-	$overlayContent.append('<p>*Note* This game works best on a 1920 x 1080 screen. \
-	If you are playing on a smaller screen please adjust your window resolution by holding down the &lt;CTRL&gt; key \
-	and scrolling downwards on the &lt;MOUSEWHEEL&gt;');
+	$overlayContent.append('<p>Please send any comments, suggestions or bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>. \
+		I would very much like to hear your input! You can also find me via any of the social media platforms below.');
 
-	$overlayContent.append('<p>Please help out by sending any comments, suggestions or bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>.');
-
-	$overlayContent.append('<p>If you enjoyed the game, please consider donating! Every dollar is very much appreciated.</p>');
+	$overlayContent.append('<p>Donations are always welcome and greatly appreciated!</p>');
 	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>');
 
+	// Social media container
 	$overlayContent.append($socialMedia);
 	$socialMedia.append($faceBookButton);
+	$socialMedia.append('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download danieljuiche/javascript-frogger on GitHub">Download</a>');
 
 	// CSS for content in overlay
 	$overlayContent.children().each(function () {
 		$("p").css({
-			width: "75%",
-			margin: "auto",
+			"width": "75%",
+			"margin": "auto",
 			"margin-top": "1.5em",
 			"margin-bottom": "1.5em",
 			"text-align": "left",
-			display: "block",
-			color: "#8B786D",
+			"display": "block",
+			"color": "#8B786D",
 			"font-size": "1em"
 		});
 	});
@@ -95,14 +106,28 @@ $(document).ready(function() {
 	// CSS for social media containers
 	$('#social-container').css({
 		"margin": "auto",
-		"margin-top": "15px"
+		"margin-top": "15px",
+		"width": "75%",
 	});
+
+	// Facebook button
+	$('#btn-facebook').css({
+		"display": "block"
+	});
+
+	// Github button script
+	$('body').append('<script async defer src="https://buttons.github.io/buttons.js"></script>');
 
 	// Shows & hides overlay
 	$("#btn-info, #btn-exit, #overlay").click(function(event) {
 		event.preventDefault();
+		resizeOverlay();
+
 		$overlay.toggle();
 		$overlayContent.toggle();
 	});
 
+	$(window).resize(function() {
+		resizeOverlay();
+	});
 });
