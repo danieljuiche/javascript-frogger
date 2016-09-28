@@ -2,40 +2,50 @@ Javascript Frogger Game
 
 == Introduction ==
 
-This is a frogger game made for the final project of an Object-Oriented JavaScript course offered by Udacity (https://www.udacity.com/course/object-oriented-javascript--ud015).
+This is a frogger game made for the final project of an Object-Oriented JavaScript course offered by Udacity (https://www.udacity.com/course/object-oriented-javascript--ud015). I am very excited to share it with you all and I hope you will enjoy the game as much as I did making it!
+
+== Story ==
+
+Our main character, Spot, was playing by the river with his friends when he got lost! Give spot a hand by navigating him towards the cool river water. Watch out for obstacles such as heavy rocks and scary bugs!
 
 == Installation Instructions ==
 
-Test the game here at https://htmlpreview.github.io/?https://github.com/danieljuiche/javascript-frogger/blob/master/index.html
-
-Otherwise, download the repository as a ZIP file. Extract the contents > Right-Click the index.html file and open with your favorite browser to play!
+Click on the "Clone or Download" link and download the repository as a ZIP file. Extract the contents and "right-click" on the index.html file and open with your favorite browser (preferably Google Chrome) to play!
 
 == How to Play == 
 
-Spot has been playing PokemonGo for way too long and forgot to hydrate himself! Help Spot by using the arrow keys to navigate him to the cool river water. Watch out for obstacles such as heavy rocks and scary bugs!
+Arrow Keys : Moves the character around.
 
-Arrow Keys : Moves the player
-
-Spacebar: Clears the screen (if you have a Bug Splat powerup).
+Spacebar: Certain characters have active skills. Each skill is different and you must possess the required amount of star power to activate.
 
 == Collectibles ==
 
-Blue Gem = Picking up a blue gem applies a chilling effect to the bugs. Winter is coming!
+Blue Gem = A common gemstone, collect these to add 100 points!
 
-Ruby Gem = Picks up a Bug Splat powerup
+Green Gem = A uncommon gemstone, collect these for an extra 250 points!
 
-Green Gem = Green is the color of cash. Collect these for more points!
+Ruby Gem = A rare gemstone, I wonder who dropped this here? Adds 1000 points!
 
-Yellow Gem = Yellow is the color of gold. Collect these for even more points!
+Heart = Gives you an extra life (upwards to a maximum of 5).
 
-Heart = Gives you an extra life (upwards to a maximum of 5)
+Star = Mysterious and powerful energy. Collect these to use character skills!
+
+Key = ???
 
 == Obstacles ==
 
-Rock = A big rock. You can't move through these
+Rock = A big rock. Super heavy and impassable. You cannot move over these.
 
 == Enemies == 
 
 Red Bug = Your standard evil bug, roughly the same size as you. Avoid at all costs!
 
-Green Bug = Evil sewer bugs. THey have augmented sense of direction.
+Green Bug = Evil sewer bugs. They have augmented sense of direction.
+
+Purple Bugs = Sneaky little buggers. Like ninjas, they can vanish for a peroid of time.
+
+Yellow Bugs = These bugs have absorbed star power and are able to super charge themselves.
+
+== Current Issues ==
+
+1. The orange gem should be removed from the game
