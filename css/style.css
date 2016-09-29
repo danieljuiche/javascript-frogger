@@ -366,3 +366,27 @@ canvas {
 a, a:hover, a:visited {
     color: #78A1BB;
 }
+
+#fb-likes {
+    width: 130px;
+    height: 20px;
+    display: inline-block;
+}
+
+#fb-follow {
+    padding-left: 7px;
+    height: 20px;
+    display: inline-block;
+}
+
+.container {
+    display: block;
+    margin-top: 0px;
+    padding-top: 3px;
+    padding-bottom: 3px;
+}
+
+iframe {
+    padding-left: 3px;
+    padding-right: 3px;
+}

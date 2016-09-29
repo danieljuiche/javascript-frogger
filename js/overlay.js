@@ -4,8 +4,14 @@ $(document).ready(function() {
 	var $overlayContent = $('<div id="overlay-content"></div>');
 	var $overlayTitle = $('<h1>About</h1>');
 	var $exitButton = $('<div><a id="btn-exit" href="#"><i class="fa fa-times-circle-o" aria-hidden="true"></a></i></div>')
-	var $socialMedia = $('<div id="social-container"></div>')
-	var $faceBookButton = $('<iframe src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=104&layout=button_count&action=like&show_faces=false&share=true&height=46&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+	var $socialMedia = $('<div id="social-container"></div>');
+	var $facebookContainer = $('<div class="container"></div>');
+	var $gitHubContainer = $('<div class="container"></div>');
+	var $gitHubStar = $('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger" data-icon="octicon-star" data-count-href="/danieljuiche/javascript-frogger/stargazers" data-count-api="/repos/danieljuiche/javascript-frogger#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star danieljuiche/javascript-frogger on GitHub">Star</a>');
+	var $gitHubFork = $('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger/fork" data-icon="octicon-repo-forked" aria-label="Fork danieljuiche/javascript-frogger on GitHub">Fork</a>');
+	var $gitHubFollow = $('<a class="github-button" href="https://github.com/danieljuiche" aria-label="Follow @danieljuiche on GitHub">Follow @danieljuiche</a>');
+	var $facebookLikes = $('<iframe id="fb-likes" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=104&layout=button_count&action=like&show_faces=false&share=true&height=46&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+	var $facebookFollow = $('<iframe id="fb-follow" src="https://www.facebook.com/plugins/follow.php?href=https%3A%2F%2Fwww.facebook.com%2Fdaniel.juiche&width=64&height=65&layout=button&size=small&show_faces=false&appId" width="64" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 
 	// Function that updates overlay size
 	var resizeOverlay = function () {
@@ -81,21 +87,30 @@ $(document).ready(function() {
 	$overlayContent.append('<p>Please send any comments, suggestions or bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>. \
 		I would very much like to hear your input! You can also find me via any of the social media platforms below.');
 
+	// Adds social media container
+	$overlayContent.append($socialMedia);
+
+	// Add facebook container to social media container
+	$socialMedia.append($facebookContainer);
+	$facebookContainer.append($facebookLikes);
+	$facebookContainer.append($facebookFollow);
+
+	// Add github container to social media container
+	$socialMedia.append($gitHubContainer);
+	$gitHubContainer.append($gitHubStar);
+	$gitHubContainer.append($gitHubFork);
+	$gitHubContainer.append($gitHubFollow);
+
 	$overlayContent.append('<p>Donations are always welcome and greatly appreciated!</p>');
 	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>');
-
-	// Social media container
-	$overlayContent.append($socialMedia);
-	$socialMedia.append($faceBookButton);
-	$socialMedia.append('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger/archive/master.zip" data-icon="octicon-cloud-download" data-style="mega" aria-label="Download danieljuiche/javascript-frogger on GitHub">Download</a>');
 
 	// CSS for content in overlay
 	$overlayContent.children().each(function () {
 		$("p").css({
 			"width": "75%",
 			"margin": "auto",
-			"margin-top": "1.5em",
-			"margin-bottom": "1.5em",
+			"margin-top": "1.2em",
+			"margin-bottom": "1.2em",
 			"text-align": "left",
 			"display": "block",
 			"color": "#8B786D",
@@ -110,15 +125,10 @@ $(document).ready(function() {
 		"width": "75%",
 	});
 
-	// Facebook button
-	$('#btn-facebook').css({
-		"display": "block"
-	});
-
 	// Github button script
 	$('body').append('<script async defer src="https://buttons.github.io/buttons.js"></script>');
 
-	// Shows & hides overlay
+	// Shows & hides overlay when help, exit, or anywhere outside the overlay content is clicked
 	$("#btn-info, #btn-exit, #overlay").click(function(event) {
 		event.preventDefault();
 		resizeOverlay();
@@ -127,7 +137,16 @@ $(document).ready(function() {
 		$overlayContent.toggle();
 	});
 
+	// Resizes the overlay when window is resized
 	$(window).resize(function() {
 		resizeOverlay();
+	});
+
+	// Short-cut for viewing help menu
+	$(window).keypress(function(event) {
+		if (event.key === "h") {
+			$overlay.toggle();
+			$overlayContent.toggle();
+		}
 	});
 });
