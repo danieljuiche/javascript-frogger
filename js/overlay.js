@@ -12,6 +12,8 @@ $(document).ready(function() {
 	var $gitHubFollow = $('<a class="github-button" href="https://github.com/danieljuiche" aria-label="Follow @danieljuiche on GitHub">Follow @danieljuiche</a>');
 	var $facebookLikes = $('<iframe id="fb-likes" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=104&layout=button_count&action=like&show_faces=false&share=true&height=46&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 	var $facebookFollow = $('<iframe id="fb-follow" src="https://www.facebook.com/plugins/follow.php?href=https%3A%2F%2Fwww.facebook.com%2Fdaniel.juiche&width=64&height=65&layout=button&size=small&show_faces=false&appId" width="64" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+	var $linkedinContainer = $('<div class="container"></div>');
+	var $linkedinProfile = $('<a id="linkedin-profile" href="https://www.linkedin.com/in/danieljuiche"><i class="fa fa-linkedin-square" aria-hidden="true"></i> Daniel Lin</a>')
 
 	// Function that updates overlay size
 	var resizeOverlay = function () {
@@ -100,6 +102,31 @@ $(document).ready(function() {
 	$gitHubContainer.append($gitHubStar);
 	$gitHubContainer.append($gitHubFork);
 	$gitHubContainer.append($gitHubFollow);
+
+	// Add linkedin container to social media container
+	$socialMedia.append($linkedinContainer);
+	$linkedinContainer.append($linkedinProfile);
+
+	// Adjust linkedin button
+	$(".fa-linkedin-square").css({
+		"margin-top": "3px",
+		"font-size": "16px",
+		"color": "rgba(26,133,188,1)"
+	});
+
+	$("#linkedin-profile").css({
+		"color": "#000",
+		"border-style": "solid",
+		"border-color": "#000",
+		"border-width": "1px",
+		"padding-left": "5px",
+		"padding-right": "5px",
+		"height": "20px",
+		"box-sizing": "border-box",
+		"font-size": "12px",
+		"text-decoration": "none"
+	});
+
 
 	$overlayContent.append('<p>Donations are always welcome and greatly appreciated!</p>');
 	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>');
