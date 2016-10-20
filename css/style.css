@@ -157,7 +157,7 @@ canvas {
 }
 
 .character-container li {
-    /*visibility: hidden;*/
+    visibility: hidden;
 }
 
 .character-container img, .collectible-container img {
@@ -321,9 +321,13 @@ canvas {
 }
 
 .info-updates h1 {
-    line-height: 150px;
+    width: 400px;
+    margin: auto;
     padding: 0px;
     color: blue;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
 }
 
 .current-effects h2 {

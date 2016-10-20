@@ -59,7 +59,7 @@ $(document).ready(function() {
 	$overlayContent.append($overlayTitle);
 	$overlayTitle.css({
 		"color": "#283044",
-		"margin-top": "24px",
+		"margin-top": "36px",
 		"padding": "0px"
 	});
 
@@ -75,19 +75,22 @@ $(document).ready(function() {
 	});
 
 	// Overlay Content
-	$overlayContent.append("<p>This frogger game was made as the final project for Udacity's\
+	$overlayContent.append("<h3>Introduction</h3>");
+	$overlayContent.append("<h5>This frogger game was made as the final project for Udacity's\
 	<a href='https://www.udacity.com/course/object-oriented-javascript--ud015'>Object-Oriented Javascript</a> course. \
-	I am very excited to share it with you all and I hope you will enjoy the game as much as I did making it!</p>");
+	I am very excited to share it with you all and I hope you will enjoy the game as much as I did making it!</h5>");
 
-	$overlayContent.append("<p>Use the &lt;ARROW KEYS&gt; to move your character around. Cross the river, collect items \
-	and unlock new characters! If you need to watch the introduction again, click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a>.</p>");
+	$overlayContent.append("<h3>Gameplay</h3>");
+	$overlayContent.append("<h5>Use the &lt;ARROW KEYS&gt; to move your character around. Cross the river, collect items \
+	and unlock new characters! If you need to watch the introduction again, click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a>.</h5>");
 
-	$overlayContent.append('<p>*Note* This game works best on a 1920 x 1080 screen. You may adjust your \
+	$overlayContent.append('<h5>*Note* This game works best on a 1920 x 1080 screen. You may adjust your \
 	browser resolution by holding down the &lt;CTRL&gt; key and scrolling upwards or downwards with the \
-	&lt;MOUSEWHEEL&gt;');
+	&lt;MOUSEWHEEL&gt;</h5>');
 
-	$overlayContent.append('<p>Please send any comments, suggestions or bug reports to <a href="mailto:munie.l2p@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>. \
-		I would very much like to hear your input! You can also find me via any of the social media platforms below.');
+	$overlayContent.append("<h3>Misc</h3>");
+	$overlayContent.append('<h5>Please send any comments, suggestions or bug reports to <a href="mailto:daniel.juiche@gmail.com?Subject=Bug%20Report" target="_top">munie.l2p@gmail.com</a>. \
+		I would very much like to hear your input! You can also find me via any of the social media platforms below.</h5>');
 
 	// Adds social media container
 	$overlayContent.append($socialMedia);
@@ -127,23 +130,29 @@ $(document).ready(function() {
 		"text-decoration": "none"
 	});
 
-
-	$overlayContent.append('<p>Donations are always welcome and greatly appreciated!</p>');
+	$overlayContent.append("<h3>Donations?</h3>");
+	$overlayContent.append('<h5>Please help support my coffee addiction.</h5>');
 	$overlayContent.append('<a id="donate" class="link" target="_blank" rel="noopener nofollow" href="https://www.paypal.com/cgi-bin/webscr?cmd=_s-xclick&amp;hosted_button_id=6KBWFDB4C3EA4"><img src="https://www.paypalobjects.com/webstatic/en_US/i/btn/png/gold-pill-paypal-26px.png"></a>');
 
 	// CSS for content in overlay
-	$overlayContent.children().each(function () {
-		$("p").css({
+	$overlayContent.children("h3").css({
+			"width": "75%",
+			"margin": "auto",
+			"margin-top": "1em",
+			"margin-bottom": "0.5em",
+			"text-align": "left",
+			"display": "block",
+			"color": "#805341"
+		});
+
+	$overlayContent.children("h5").css({
 			"width": "75%",
 			"margin": "auto",
 			"margin-top": "1.2em",
 			"margin-bottom": "1.2em",
 			"text-align": "left",
 			"display": "block",
-			"color": "#8B786D",
-			"font-size": "1em"
 		});
-	});
 
 	// CSS for social media containers
 	$('#social-container').css({

@@ -1,3 +1,8 @@
+/* Code needs to be tidied up
+	- Constants need to be removed as they are not really constants
+	- Comments need to be added
+ */
+
 // Constants which can be tweaked
 var TO_NEXT_LEVEL = 2; // Determines how soon the next level is reached
 var STARTING_LIVES = 3; // Starting player lives
@@ -14,7 +19,7 @@ var ORANGE_GEM_CHANCE = 15; // Percent chance to spawn a orange gem
 var GREEN_GEM_CHANCE = 25;  // Percent chance to spawn a green gem
 var RUBY_GEM_CHANCE = 10; // Percent chance to spawn a ruby gem
 var CLEAR_TIMER = 750; // Milliseconds to wait before spawning bugs again
-var HEART_CHANCE = 10; // Percent chance to spawn an extra life
+var HEART_CHANCE = 15; // Percent chance to spawn an extra life
 var KEY_CHANCE = 15; // Percent chance to collect a key
 var STAR_CHANCE = 50; // Percent chance to spawn a star
 
@@ -614,8 +619,8 @@ Heart.prototype.effect = function () {
         messageUpdater("info-message", "This should come in handy. +1 Life!","#D9534F"); 
     }
     else {
-        score += (350 * scoreMultiplier);
-        messageUpdater("info-message", "Don't be too greedy now. Afterall, you're just a mere mortal. +" + (350 * scoreMultiplier) + " Score.","#D9534F");        
+        score += (1500 * scoreMultiplier);
+        messageUpdater("info-message", "Don't be too greedy now. Afterall, you're just a mere mortal! +" + (1500 * scoreMultiplier) + " Score.","#D9534F");        
     }
 };
 
