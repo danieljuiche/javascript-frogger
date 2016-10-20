@@ -1,0 +1,55 @@
+#response {
+  width: 200px;
+  color: #5252FD;
+}
+
+#speech1 {
+	width: 500px;
+}
+
+.character-container {
+  position: relative;
+}
+.absolute {
+  height: 151px;
+  left: 175px;
+  position: absolute;
+}
+
+.relative {
+  position: relative;
+  height: 151px;
+}
+.tear {
+  opacity: 0;
+	left: 100px;
+  top: 30px;
+  -webkit-box-sizing: content-box;
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+  width: 0.8em;
+  height: 0.8em;
+  border: none;
+  -webkit-border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  border-radius: 80% 0 55% 50% / 55% 0 80% 50%;
+  font: normal 100%/normal Arial, Helvetica, sans-serif;
+  color: rgba(0,0,0,1);
+  -o-text-overflow: clip;
+  text-overflow: clip;
+  background: #5252FD;
+  -webkit-transform: rotateZ(-45deg)   ;
+  transform: rotateZ(-45deg)   ;
+  position: absolute;
+  z-index: 1;
+}
+
+#sad {
+  display: none;
+  position: absolute;
+  z-index: 0;
+}
+
+#happy {
+  position: absolute;
+  z-index: -1;
+}

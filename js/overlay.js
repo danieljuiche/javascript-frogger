@@ -18,7 +18,7 @@ $(document).ready(function() {
 	// Function that updates overlay size
 	var resizeOverlay = function () {
 		var w = $("html").css("width");
-	  var h = $("html").css("height");
+	  	var h = $("html").css("height");
 		$overlay.css({
 			width: w,
 			height: h

@@ -3,6 +3,10 @@
     font-weight: bold;
 }
 
+html {
+    height: 974px;
+}
+
 h1 {
     margin-top: 0px;
     margin-bottom: 0px;
