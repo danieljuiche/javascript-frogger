@@ -10,7 +10,7 @@ $(document).ready(function() {
 	var $gitHubStar = $('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger" data-icon="octicon-star" data-count-href="/danieljuiche/javascript-frogger/stargazers" data-count-api="/repos/danieljuiche/javascript-frogger#stargazers_count" data-count-aria-label="# stargazers on GitHub" aria-label="Star danieljuiche/javascript-frogger on GitHub">Star</a>');
 	var $gitHubFork = $('<a class="github-button" href="https://github.com/danieljuiche/javascript-frogger/fork" data-icon="octicon-repo-forked" aria-label="Fork danieljuiche/javascript-frogger on GitHub">Fork</a>');
 	var $gitHubFollow = $('<a class="github-button" href="https://github.com/danieljuiche" aria-label="Follow @danieljuiche on GitHub">Follow @danieljuiche</a>');
-	var $facebookLikes = $('<iframe id="fb-likes" src="https://www.facebook.com/plugins/like.php?href=https%3A%2F%2Fd1q58s3xarm9sx.cloudfront.net%2F&width=104&layout=button_count&action=like&show_faces=false&share=true&height=46&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
+	var $facebookLikes = $('<iframe id="fb-likes" src="https://www.facebook.com/plugins/like.php?href=http%3A%2F%2Fdanieljuiche.com%2Fproj%2Ffrogger%2Findex.html&width=104&layout=button&action=like&show_faces=false&share=true&height=65&appId" width="104" height="46" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 	var $facebookFollow = $('<iframe id="fb-follow" src="https://www.facebook.com/plugins/follow.php?href=https%3A%2F%2Fwww.facebook.com%2Fdaniel.juiche&width=64&height=65&layout=button&size=small&show_faces=false&appId" width="64" height="65" style="border:none;overflow:hidden" scrolling="no" frameborder="0" allowTransparency="true"></iframe>');
 	var $linkedinContainer = $('<div class="container"></div>');
 	var $linkedinProfile = $('<a id="linkedin-profile" href="https://www.linkedin.com/in/danieljuiche"><i class="fa fa-linkedin-square" aria-hidden="true"></i> Daniel Lin</a>')
@@ -82,7 +82,7 @@ $(document).ready(function() {
 
 	$overlayContent.append("<h3>Gameplay</h3>");
 	$overlayContent.append("<h5>Use the &lt;ARROW KEYS&gt; to move your character around. Cross the river, collect items \
-	and unlock new characters! If you need to watch the introduction again, click <a href='https://d3to3yv00lc87b.cloudfront.net/'>here</a>.</h5>");
+	and unlock new characters! If you need to watch the introduction again, click <a href='http://danieljuiche.com/proj/frogger/intro1.html'>here</a>.</h5>");
 
 	$overlayContent.append('<h5>*Note* This game works best on a 1920 x 1080 screen. You may adjust your \
 	browser resolution by holding down the &lt;CTRL&gt; key and scrolling upwards or downwards with the \
