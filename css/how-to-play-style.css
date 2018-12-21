@@ -82,6 +82,13 @@ a.button {
     display: block;
 }
 
+a.skip-button {
+    margin-top: 30px;
+    color: green;
+    display: block;
+    width: 150px;
+}
+
 /* Height 677px responsive */
 @media (max-height: 800px) {
     .main h1 {

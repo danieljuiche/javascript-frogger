@@ -54,7 +54,7 @@ a.button {
 }
 
 .choice-container {
-	display: none;
+	/*display: none;*/
 	margin-top: 15px;
 	height: 50px;
 	width: auto;
@@ -71,9 +71,9 @@ a.button {
 	color: green;
 }
 
-.skip {
+/*.skip {
 	display: none;
-}
+}*/
 
 .skip a{
 	margin-top: 100px;

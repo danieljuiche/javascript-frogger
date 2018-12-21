@@ -25,7 +25,7 @@ $(document).ready(function() {
 		});
 	};
 
-  // Define overlay
+  	// Define overlay
 	$("body").append($overlay);
 	resizeOverlay();
 	$overlay.css({

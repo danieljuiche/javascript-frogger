@@ -26,12 +26,12 @@ $(document).ready(function() {
 
   var showChoices = function () {
     $('.choice-container').fadeIn(2000);
-    showSkip();
+    // showSkip();
   };
 
-  var showSkip = function () {
-    $('.skip').slideDown(1500);
-  };
+  // var showSkip = function () {
+  //   $('.skip').slideDown(1500);
+  // };
 
   var speech2 = function () {
     var text = " My name is Spot!";
