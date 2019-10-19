@@ -511,7 +511,7 @@ Player.prototype.handleInput = function (allowedKeys) {
         updateHighscore(score);
         levelCounter += 1;
         riverCrossingCounter += 1;
-        if (riverCrossingCounter === 10) {
+        if (riverCrossingCounter === 6) {
             messageUpdater("info-message", "You've unlocked a new character!","Pink"); 
             showCharacters("pink");
         }
@@ -635,14 +635,14 @@ Key.prototype = Object.create(Collectible.prototype);
 Key.prototype.constructor = Collectible;
 Key.prototype.effect = function () {
     collectedKeys += 1;
-    if (collectedKeys < 5) {
+    if (collectedKeys < 3) {
         messageUpdater("info-message", "A key! I wonder what this does...","#D0CC57");
     }
-    if (collectedKeys === 5) {
+    if (collectedKeys === 3) {
         showCharacters("horn-girl");
         messageUpdater("info-message", "You've unlocked a new Character!","#D0CC57");
     }
-    if (collectedKeys > 5) {
+    if (collectedKeys > 3) {
         score += (500 * scoreMultiplier);
         messageUpdater("info-message", "+" + (500 * scoreMultiplier) + " Score!","#D0CC57");
     }
@@ -721,7 +721,7 @@ var checkCollisions = function () {
                object["currentCount"] += 1;
             });
 
-            if (collectibleCounter === 10) {
+            if (collectibleCounter === 6) {
                 messageUpdater("info-message", "You've unlocked a new character!", "Black"); 
                 showCharacters("miao");
             }
@@ -1013,7 +1013,8 @@ var updateHighscore = function (score) {
     if (score > highScore) {
         highScore = score;
     }
-    if (highScore > 6000) {
+    if (highScore > 3000) {
+        messageUpdater("info-message", "You've unlocked a new character!", "#e67e22"); 
         showCharacters("princess");
     }
 };
