@@ -699,7 +699,7 @@ var checkCollisions = function () {
                 messageUpdater("info-message", "Ouch!","red");
 
                 // Restarts the game if player has no lives left
-                if (lives === 2) {
+                if (lives === 0) {
                     showGameoverOverlay();
                     updateHighscore();
                     resetGame();
