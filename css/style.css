@@ -161,7 +161,11 @@ canvas {
 }
 
 .character-container li {
-    visibility: hidden;
+    display: none;
+}
+
+.character-container #spot {
+    display: block;
 }
 
 .character-container img, .collectible-container img {
