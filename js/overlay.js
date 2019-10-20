@@ -71,15 +71,18 @@ $(document).ready(function() {
 
 	// Overlay Content
 	$overlayContent.append("<h2>How to Play</h2>");
-	$overlayContent.append("<h4>Use the &#8592;, &#8593;, &#8594; &#8595; arrow keys to move your character around. Collect points by crossing the river and collecting items!");
+	$overlayContent.append("<h4>Use the &#8592;, &#8593;, &#8594; &#8595; arrow keys to move your character around. Collect points by crossing the river and collecting items! Avoid touching icky bugs at all costs!");
 
 	$overlayContent.append('<h4>*Note*: This game works best on a <span style="color: red"><u>1920 x 1080</u></span> screen. Please adjust your browser window view for the optimal experience.</h4>');
 
+	$overlayContent.append("<h2>Enemies</h2>");
+	$overlayContent.append("<h4>Bugs behave in a certain way according to their color. It might be worthwhile to take a moment to observe what each type does.</h4>");
+
 	$overlayContent.append("<h2>Unlockable Characters</h2>");
-	$overlayContent.append("<h4>Reaching certain checkpoints in the game will unlock more characters. Each will have their own special powers, click their name on the right to switch to them.");
+	$overlayContent.append("<h4>Reaching certain checkpoints in the game will unlock more characters. Each will have their own special powers, click on their name to switch to them!</h4>");
 
 	$overlayContent.append("<h2>Misc</h2>");
-	$overlayContent.append("<h4>If you want to watch the full gameplay introduction, please click <a href='http://danieljuiche.com/proj/frogger/intro1.html'>here</a>.</h4>");
+	$overlayContent.append("<h4>If you want to watch the full gameplay introduction, please click <a href='http://danieljuiche.com/proj/frogger/intro1.html' target='_blank'>here</a>.</h4>");
 
 	// Adds social media container
 	$overlayContent.append($socialMedia);
@@ -98,8 +101,8 @@ $(document).ready(function() {
 	$overlayContent.children("h2").css({
 		"width": "75%",
 		"margin": "auto",
-		"margin-top": "1em",
-		"margin-bottom": "0.5em",
+		"margin-top": "16px",
+		"margin-bottom": "0px",
 		"text-align": "left",
 		"display": "block",
 		"color": "#805341"
@@ -109,8 +112,8 @@ $(document).ready(function() {
 		"font-size": "18px",
 		"width": "75%",
 		"margin": "auto",
-		"margin-top": "1.2em",
-		"margin-bottom": "1.2em",
+		"margin-top": "6px",
+		"margin-bottom": "12px",
 		"text-align": "left",
 		"display": "block",
 	});

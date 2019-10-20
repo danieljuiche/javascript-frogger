@@ -26,6 +26,9 @@ $(document).ready(function() {
             case "btn-princess":
                 $(this).addClass("orange-active");
                 break;
+            case "restart-btn":
+                $("#btn-spot").addClass("blue-active");
+                break;
             default:
         }
     });
