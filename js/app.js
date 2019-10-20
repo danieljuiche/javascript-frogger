@@ -699,8 +699,8 @@ var checkCollisions = function () {
                 messageUpdater("info-message", "Ouch!","red");
 
                 // Restarts the game if player has no lives left
-                if (lives === 0) {
-                    alert("Game Over!");
+                if (lives === 2) {
+                    showGameoverOverlay();
                     updateHighscore();
                     resetGame();
                 }
@@ -1013,7 +1013,7 @@ var updateHighscore = function (score) {
     if (score > highScore) {
         highScore = score;
     }
-    if (highScore > 100) {
+    if (highScore > 3000) {
         messageUpdater("info-message", "You've unlocked a new character!", "#e67e22"); 
         showCharacters("princess");
     }
@@ -1149,6 +1149,11 @@ var showCharacters = function (name) {
             .fadeIn(300, "linear").fadeOut(300, "linear")
             .fadeIn(550, "linear");
     }
+};
+
+var showGameoverOverlay = function () {
+    $('#gameover-overlay').fadeIn(300, "linear");
+    $('#gameover-overlay-content').fadeIn(300, "linear");
 };
 
 // This listens for key presses and sends the keys to the Player.handleInput() method.

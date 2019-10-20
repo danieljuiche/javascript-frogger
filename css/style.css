@@ -379,16 +379,16 @@ a, a:hover, a:visited {
     color: #78A1BB;
 }
 
-#fb-likes {
-    width: 130px;
-    height: 20px;
-    display: inline-block;
+#overlay-content h4 a{
+    color: red;
 }
 
-#fb-follow {
-    padding-left: 7px;
-    height: 20px;
-    display: inline-block;
+#restart-btn {
+    margin-top: 28px;
+    font-size: 36px;
+    width: auto;
+    background-color: #2ecc71;
+    color: #FFFFFF;
 }
 
 .container {
@@ -397,6 +397,7 @@ a, a:hover, a:visited {
     padding-top: 3px;
     padding-bottom: 3px;
 }
+
 
 iframe {
     padding-left: 3px;

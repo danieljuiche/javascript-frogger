@@ -82,7 +82,7 @@ $(document).ready(function() {
 	$overlayContent.append("<h4>Reaching certain checkpoints in the game will unlock more characters. Each will have their own special powers, click on their name to switch to them!</h4>");
 
 	$overlayContent.append("<h2>Misc</h2>");
-	$overlayContent.append("<h4>If you want to watch the full gameplay introduction, please click <a href='http://danieljuiche.com/proj/frogger/intro1.html'>here</a>.</h4>");
+	$overlayContent.append("<h4>If you want to watch the full gameplay introduction, please click <a href='http://danieljuiche.com/proj/frogger/intro1.html' target='_blank'>here</a>.</h4>");
 
 	// Adds social media container
 	$overlayContent.append($socialMedia);
