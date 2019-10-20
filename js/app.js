@@ -1013,7 +1013,7 @@ var updateHighscore = function (score) {
     if (score > highScore) {
         highScore = score;
     }
-    if (highScore > 3000) {
+    if (highScore > 100) {
         messageUpdater("info-message", "You've unlocked a new character!", "#e67e22"); 
         showCharacters("princess");
     }
@@ -1143,8 +1143,12 @@ var collectibleRateAdjust = function (type, amount) {
 
 // Helper function to show characters once they've been unlocked
 var showCharacters = function (name) {
-    var element = document.getElementById(name);
-    element.style.visibility = "visible";
+    if(!$('#'+name).is(":visible")){
+        // Temporary way to mock pulsate effect
+        $('#'+name).fadeIn(300, "linear").fadeOut(300, "linear")
+            .fadeIn(300, "linear").fadeOut(300, "linear")
+            .fadeIn(550, "linear");
+    }
 };
 
 // This listens for key presses and sends the keys to the Player.handleInput() method.
@@ -1175,43 +1179,9 @@ levelGenerator();
 // Instantiates our player
 var player = new Player;
 
-// Default character
-showCharacters("spot");
-
 // Helper function helps update the current effect messages. Accepts HTML ID, the message, and the color as parameters
 var messageUpdater = function (id, newMessage, colorChange) {
     var message = document.getElementById(id);
     message.innerHTML = newMessage;
     message.style.color = colorChange;
 };
-
-// Initialize with Spot as selected character
-$("#btn-spot").addClass("blue-active");
-
-// Changes button highlighting when user clicks on buttons
-$(".btn").click(function () {
-    var buttonID = $(this).attr("id");
-    $("#btn-spot").removeClass("blue-active");
-    $("#btn-pink").removeClass("red-active");
-    $("#btn-miao").removeClass("green-active");
-    $("#btn-horn-girl").removeClass("purple-active");
-    $("#btn-princess").removeClass("orange-active");
-    switch (buttonID) {
-        case "btn-spot":
-            $(this).addClass("blue-active");
-            break;
-        case "btn-pink":
-            $(this).addClass("red-active");
-            break;
-        case "btn-miao":
-            $(this).addClass("green-active");
-            break;
-        case "btn-horn-girl":
-            $(this).addClass("purple-active");
-            break;
-        case "btn-princess":
-            $(this).addClass("orange-active");
-            break;
-        default:
-    }
-});
